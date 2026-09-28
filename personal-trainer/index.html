@@ -168,93 +168,10 @@
       </div>
     </div>
 
-    <div class="hero-visual" data-tilt>
-      <div class="hv-glow" aria-hidden="true"></div>
-      <svg class="hv-rings" viewBox="0 0 500 500" aria-hidden="true">
-        <circle class="ring-a" cx="250" cy="250" r="238" fill="none"/>
-        <circle class="ring-b" cx="250" cy="250" r="200" fill="none"/>
-        <circle class="ring-c" cx="250" cy="250" r="160" fill="none"/>
-      </svg>
+  </div>
 
-      <div class="hv-object" data-depth="1">
-        <svg class="kettlebell" viewBox="0 0 420 470" role="img" aria-label="Kettlebell de 24 kg com visor digital">
-          <defs>
-            <radialGradient id="kbBody" cx="36%" cy="30%" r="78%">
-              <stop offset="0" stop-color="#3c4657"/>
-              <stop offset=".32" stop-color="#171d28"/>
-              <stop offset=".72" stop-color="#07090d"/>
-              <stop offset="1" stop-color="#020304"/>
-            </radialGradient>
-            <linearGradient id="kbRim" x1="0" y1="0" x2="1" y2=".2">
-              <stop offset="0" stop-color="#c6f432" stop-opacity="0"/>
-              <stop offset=".55" stop-color="#c6f432" stop-opacity=".05"/>
-              <stop offset=".85" stop-color="#c6f432" stop-opacity=".75"/>
-              <stop offset="1" stop-color="#e6ff8a" stop-opacity="1"/>
-            </linearGradient>
-            <linearGradient id="kbHandle" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#efffb0" stop-opacity=".95"/>
-              <stop offset=".4" stop-color="#c6f432" stop-opacity=".9"/>
-              <stop offset="1" stop-color="#4f7a00" stop-opacity=".85"/>
-            </linearGradient>
-            <linearGradient id="kbHandleIn" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#fff" stop-opacity=".75"/>
-              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-            </linearGradient>
-            <filter id="kbBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
-            <filter id="kbSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
-            <filter id="lcdGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <!-- alça translúcida -->
-          <path d="M118 218C100 118 142 44 210 44s110 74 92 174" fill="none" stroke="#c6f432" stroke-opacity=".35" stroke-width="54" stroke-linecap="round" filter="url(#kbBlur)"/>
-          <path d="M118 218C100 118 142 44 210 44s110 74 92 174" fill="none" stroke="url(#kbHandle)" stroke-width="40" stroke-linecap="round"/>
-          <path d="M131 196C122 124 154 66 210 64" fill="none" stroke="url(#kbHandleIn)" stroke-width="5" stroke-linecap="round" opacity=".8"/>
-          <path d="M288 200c6-40-2-82-26-110" fill="none" stroke="#0b1400" stroke-opacity=".35" stroke-width="7" stroke-linecap="round"/>
-          <!-- corpo -->
-          <path d="M137.9 424A140 140 0 1 1 282.1 424Z" fill="url(#kbBody)"/>
-          <path d="M137.9 424A140 140 0 1 1 282.1 424Z" fill="none" stroke="url(#kbRim)" stroke-width="10" filter="url(#kbBlur)" opacity=".7"/>
-          <path d="M137.9 424A140 140 0 1 1 282.1 424Z" fill="none" stroke="url(#kbRim)" stroke-width="2.5"/>
-          <ellipse cx="158" cy="222" rx="54" ry="26" transform="rotate(-32 158 222)" fill="#fff" opacity=".13" filter="url(#kbSoft)"/>
-          <ellipse cx="146" cy="232" rx="16" ry="7" transform="rotate(-32 146 232)" fill="#fff" opacity=".35" filter="url(#kbSoft)"/>
-          <!-- visor LCD -->
-          <rect x="146" y="286" width="128" height="80" rx="18" fill="#030507" stroke="#c6f432" stroke-opacity=".28" stroke-width="1.5"/>
-          <rect x="152" y="292" width="116" height="68" rx="13" fill="#0a1006"/>
-          <text class="lcd-num" x="198" y="344" text-anchor="middle" fill="#c6f432" filter="url(#lcdGlow)">24</text>
-          <text class="lcd-unit" x="250" y="316" text-anchor="middle" fill="#c6f432" opacity=".8">KG</text>
-          <g fill="#c6f432" filter="url(#lcdGlow)">
-            <rect x="240" y="326" width="4" height="6" rx="1" opacity=".9"/>
-            <rect x="246" y="323" width="4" height="9" rx="1" opacity=".9"/>
-            <rect x="252" y="320" width="4" height="12" rx="1" opacity=".9"/>
-            <rect x="258" y="317" width="4" height="15" rx="1" opacity=".3"/>
-          </g>
-          <!-- base -->
-          <ellipse cx="210" cy="428" rx="82" ry="8" fill="#c6f432" opacity=".55" filter="url(#kbBlur)"/>
-        </svg>
-      </div>
-      <div class="hv-platform" aria-hidden="true"></div>
-
-      <div class="float-card fc-hr" data-depth="2.2">
-        <div class="fc-top"><span class="fc-ico"><svg><use href="#i-heart"/></svg></span><span>Frequência cardíaca</span></div>
-        <div class="fc-val"><b data-bpm>142</b> bpm</div>
-        <svg class="ekg" viewBox="0 0 160 36" aria-hidden="true"><path d="M0 20h36l6-10 8 22 7-26 7 20 5-6h28l6-10 8 22 7-26 7 20 5-6h30" fill="none"/></svg>
-      </div>
-
-      <div class="float-card fc-week" data-depth="1.6">
-        <svg class="mini-ring" viewBox="0 0 56 56" aria-hidden="true">
-          <circle cx="28" cy="28" r="23" fill="none" class="mr-bg"/>
-          <circle cx="28" cy="28" r="23" fill="none" class="mr-fg"/>
-        </svg>
-        <div>
-          <span class="fc-label">Semana</span>
-          <div class="fc-val"><b>08</b>/12</div>
-        </div>
-      </div>
-
-      <div class="float-card fc-kg" data-depth="2.8">
-        <span class="fc-label">Mariana, 34</span>
-        <div class="fc-big">−7,8<small>kg</small></div>
-        <span class="fc-note"><svg><use href="#i-chart"/></svg> em 12 semanas</span>
-      </div>
-    </div>
+  <div class="hero-media">
+    <img src="assets/img/hero.webp" width="1672" height="941" alt="Atleta ao lado de um kettlebell com o raio da VOLT, com indicadores de frequência cardíaca, calorias e massa magra" fetchpriority="high">
   </div>
 
   <a class="scroll-cue" href="#dores" data-scroll aria-label="Rolar para a próxima seção">
