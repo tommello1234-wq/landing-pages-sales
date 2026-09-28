@@ -68,8 +68,8 @@
   /* ---------- 3. Rolagem suave nos links internos ---------- */
   const nav = $('#nav');
   const burger = $('.nav-burger');
-  const closeMenu = () => { nav.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); };
-  burger.addEventListener('click', () => {
+  const closeMenu = () => { if (!nav || !burger) return; nav.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); };
+  if (burger) burger.addEventListener('click', () => {
     const open = !nav.classList.contains('menu-open');
     nav.classList.toggle('menu-open', open);
     burger.setAttribute('aria-expanded', String(open));
@@ -222,7 +222,9 @@
   const meter = $('.pain-meter');
   const gauge = $('.g-fg');
   const painCount = $('[data-pain-count]');
+  const painPct = $('[data-pain-pct]');
   const painMsg = $('[data-pain-msg]');
+  if (meter && pains.length) meter.classList.add('is-idle');
   const painText = n => {
     if (n === 0) return 'Marque os itens para ver o seu diagnóstico.';
     if (n === 1) return 'Já é um sinal. Um plano feito para a sua rotina resolve isso.';
@@ -233,10 +235,11 @@
   pains.forEach(p => p.addEventListener('click', () => {
     p.setAttribute('aria-checked', String(p.getAttribute('aria-checked') !== 'true'));
     const n = pains.filter(x => x.getAttribute('aria-checked') === 'true').length;
-    painCount.textContent = n;
-    gauge.style.strokeDashoffset = String(282.8 * (1 - n / pains.length));
-    painMsg.textContent = painText(n);
-    meter.classList.toggle('is-ready', n > 0);
+    if (painCount) painCount.textContent = n;
+    if (painPct) painPct.textContent = `${Math.round((n / pains.length) * 100)}%`;
+    if (gauge) gauge.style.strokeDashoffset = String(282.8 * (1 - n / pains.length));
+    if (painMsg) painMsg.textContent = painText(n);
+    if (meter) { meter.classList.toggle('is-ready', n > 0); meter.classList.toggle('is-idle', n === 0); }
   }));
 
   /* ---------- 10. Pilares do método ---------- */
@@ -450,7 +453,7 @@
             if (hadFocus) { const first = $('.set-btn', setList); if (first) first.focus(); }
           }, 650);
         } else {
-          $('.kpi-sub').textContent = 'Treino concluído. Mande o check-in!';
+          const sub = $('.kpi-sub'); if (sub) sub.textContent = 'Treino concluído. Mande o check-in!';
         }
       }
     }
@@ -458,6 +461,7 @@
 
   const timer = (() => {
     const box = $('[data-timer]');
+    if (!box || !$('[data-timer-btn]') || !$('[data-timer-display]')) return { running: false, set() {}, start() {}, stop() {} };
     const disp = $('[data-timer-display]');
     const btn = $('[data-timer-btn]');
     const label = $('span', btn);
@@ -813,6 +817,48 @@
     setInterval(tick, 1000);
   }
 
+  /* ---------- 18b. Partículas de fundo ---------- */
+  const cvs = $('#particles');
+  if (cvs && cvs.getContext) {
+    const ctx = cvs.getContext('2d');
+    let W = 0, H = 0, dpr = 1, parts = [], running = false, t0 = performance.now();
+    const make = () => {
+      const n = Math.round(clamp((W * H) / 26000, 18, 60));
+      parts = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.4 + 0.4, v: Math.random() * 0.18 + 0.05,
+        a: Math.random() * 0.5 + 0.15, ph: Math.random() * Math.PI * 2, tw: Math.random() * 1.5 + 0.5
+      }));
+    };
+    const size = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      make();
+    };
+    const draw = now => {
+      const t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, W, H);
+      parts.forEach(p => {
+        if (!reduce) { p.y -= p.v; p.x += Math.sin(t * 0.4 + p.ph) * 0.08; if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; } }
+        const al = p.a * (0.55 + 0.45 * Math.sin(t * p.tw + p.ph));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3.2, 0, Math.PI * 2); ctx.fillStyle = `rgba(198,244,50,${(al * 0.12).toFixed(3)})`; ctx.fill();
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(214,255,120,${al.toFixed(3)})`; ctx.fill();
+      });
+      if (running) requestAnimationFrame(draw);
+    };
+    size();
+    window.addEventListener('resize', () => { clearTimeout(cvs._rz); cvs._rz = setTimeout(size, 200); });
+    if (reduce) draw(performance.now());
+    else {
+      const start = () => { if (!running) { running = true; requestAnimationFrame(draw); } };
+      const stop = () => { running = false; };
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      start();
+    }
+  }
+
   /* ---------- 19. Rolagem: progresso, nav, timeline, texto grande ---------- */
   const progress = $('.scroll-progress span');
   const navLinks = $$('[data-nav-link]');
@@ -834,7 +880,7 @@
   let navCurrent = undefined;
 
   function setNav(id) {
-    if (id === navCurrent) return;
+    if (id === navCurrent || !navInd) return;
     navCurrent = id;
     const link = navLinks.find(l => l.dataset.navLink === id);
     navLinks.forEach(l => l.classList.toggle('is-active', l === link));
@@ -851,14 +897,14 @@
     boost = Math.min(boost + Math.abs(y - lastY) * 0.02, 5);
     lastY = y;
 
-    progress.style.transform = `scaleX(${docH > 0 ? y / docH : 0})`;
-    nav.classList.toggle('is-scrolled', y > 20);
+    if (progress) progress.style.transform = `scaleX(${docH > 0 ? y / docH : 0})`;
+    if (nav) nav.classList.toggle('is-scrolled', y > 20);
 
     let curNav = null;
     sections.forEach(s => { if (s.getBoundingClientRect().top <= vh * 0.4) curNav = s.dataset.nav || null; });
     setNav(curNav);
 
-    if (steps) {
+    if (steps && railFill && procNum && procTitle && procRing) {
       const r = steps.getBoundingClientRect();
       const mid = vh * 0.55;
       railFill.style.setProperty('--p', clamp((mid - r.top - 20) / (r.height - 40), 0, 1).toFixed(3));
@@ -881,11 +927,11 @@
       }
     }
 
-    const heroBottom = hero.offsetTop + hero.offsetHeight;
+    const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 600;
     const finalTop = finalSec ? finalSec.getBoundingClientRect().top : Infinity;
     const show = y > heroBottom - vh * 0.3 && finalTop > vh * 0.6;
-    mbar.classList.toggle('is-visible', show);
-    waFloat.classList.toggle('is-visible', y > heroBottom - vh * 0.3);
+    if (mbar) mbar.classList.toggle('is-visible', show);
+    if (waFloat) waFloat.classList.toggle('is-visible', y > heroBottom - vh * 0.3);
   }
   const requestTick = () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } };
   window.addEventListener('scroll', requestTick, { passive: true });
