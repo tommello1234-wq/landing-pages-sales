@@ -5,21 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>VOLT Personal Training</title>
   <meta name="description" content="Consultoria de treino com personal trainer: treino personalizado no app, check-in semanal, orientação nutricional e ajustes a cada fase. Transforme seu corpo em 12 semanas.">
-  <meta name="theme-color" content="#06080c">
+  <meta name="theme-color" content="#05080d">
   <meta property="og:title" content="VOLT Personal Training">
   <meta property="og:description" content="Treino personalizado, acompanhamento semanal e resultado em 12 semanas.">
   <meta property="og:type" content="website">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<!-- Ícones (sprite) -->
+<!-- Ícones (sprite) e gradientes compartilhados -->
 <svg class="sprite" aria-hidden="true" focusable="false">
   <defs>
+    <linearGradient id="g-ribbon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c6f432" stop-opacity="0"/>
+      <stop offset=".45" stop-color="#c6f432" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#c6f432" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="g-lime" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a9dc17"/>
+      <stop offset="1" stop-color="#e3ff8c"/>
+    </linearGradient>
+    <filter id="f-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
     <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -56,10 +66,27 @@
     <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.2 21.8l4.9-1.3A9.8 9.8 0 1 0 12 2.2Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.6 7.3c.2-.4.5-.5.8-.5h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.5.7c-.1.2-.2.4 0 .6.5.9 1.1 1.6 1.9 2.2.7.5 1.2.8 1.6 1 .2.1.4 0 .5-.1l.8-.9c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.4 0 .4-.1 1-.5 1.5-.5.5-1.3.9-2.2.9-1.1 0-3-.6-4.8-2.3-2-1.9-2.8-4-2.8-5.1 0-.9.3-1.7.6-2.1Z" fill="currentColor"/></symbol>
     <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></symbol>
     <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="m10 9.2 5 2.8-5 2.8V9.2Z" fill="currentColor"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3.5h7l4.5 4.5v12a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5ZM14 3.5V8h4.5M9.5 12.5h5M9.5 16h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16.5" rx="2.5"/><path d="M9 4.5V3h6v1.5M8.5 11h7M8.5 14.5h7M8.5 18h4"/></g></symbol>
+    <symbol id="i-trend-down" viewBox="0 0 24 24"><path d="m3.5 6.5 6 6 4-4 7 7M20.5 10.5v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trend-up" viewBox="0 0 24 24"><path d="m3.5 17.5 6-6 4 4 7-7M15.5 8.5h5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sad" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.6 16.3c.9-1.1 2-1.7 3.4-1.7s2.5.6 3.4 1.7"/></g><circle cx="9.2" cy="10" r="1.2" fill="currentColor"/><circle cx="14.8" cy="10" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><path d="M5 20v-4M10 20v-8M15 20V8M20 20V4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.6 3.3-5.5 6.5-5.5s5.8 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.8"/><path d="M16.8 14.6c2.5.3 4.2 2 4.7 5"/></g></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.8"/><path d="M10.5 18.5h3"/></g></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></g></symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24"><path d="M9.6 6C6.4 7 4.5 9.5 4.5 13v5h6v-6H7.7c.3-1.8 1.4-3.1 3.1-3.8L9.6 6Zm9 0c-3.2 1-5.1 3.5-5.1 7v5h6v-6h-2.9c.3-1.8 1.4-3.1 3.1-3.8L18.6 6Z" fill="currentColor"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M8.3 10a5.2 5.2 0 0 1 7.4 0M12 10.3l1.6-2"/></g></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1.5 7 5-2.5 5 2.5-1.5-7"/></g></symbol>
+    <symbol id="i-grad" viewBox="0 0 24 24"><path d="M12 5 2.5 9.5 12 14l9.5-4.5L12 5ZM6.5 11.5V16c1.6 1.6 3.4 2.4 5.5 2.4s3.9-.8 5.5-2.4v-4.5M21.5 9.5V15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="m3.5 8 4.5 4 4-6.5 4 6.5 4.5-4-1.8 10.5H5.3L3.5 8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.7"/></g><circle cx="12" cy="17" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M7 3.5h10M7 20.5h10M8 3.5c0 4 8 5 8 8.5s-8 4.5-8 8.5M16 3.5c0 4-8 5-8 8.5s8 4.5 8 8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
 
 <div class="atmos" aria-hidden="true"></div>
+<canvas class="particles" id="particles" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
@@ -68,7 +95,7 @@
   <div class="wrap nav-inner">
     <a class="brand" href="#inicio" data-scroll aria-label="VOLT, voltar ao início">
       <span class="brand-mark"><svg><use href="#i-bolt"/></svg></span>
-      <span class="brand-name">VOLT<small>personal training</small></span>
+      <span class="brand-name">VOLT<small>Personal trainer</small></span>
     </a>
 
     <nav class="nav-pill" aria-label="Seções da página">
@@ -84,7 +111,7 @@
     <div class="nav-actions">
       <a class="btn btn-primary btn-sm" href="#planos" data-scroll data-magnetic>
         <span>Quero minha vaga</span>
-        <span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span>
+        <span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span>
       </a>
       <button class="nav-burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Abrir menu">
         <svg class="ico-open"><use href="#i-menu"/></svg>
@@ -101,7 +128,7 @@
       <a href="#resultados" data-scroll><span>04</span>Resultados</a>
       <a href="#planos" data-scroll><span>05</span>Planos</a>
       <a href="#faq" data-scroll><span>06</span>Dúvidas</a>
-      <a class="btn btn-primary" href="#planos" data-scroll><span>Quero minha vaga</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn-primary" href="#planos" data-scroll><span>Quero minha vaga</span><span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span></a>
     </nav>
   </div>
 </header>
@@ -110,11 +137,26 @@
 
 <!-- ============ 1. HERO ============ -->
 <section class="hero" id="inicio">
-  <div class="hero-vertical" aria-hidden="true">PERSONAL</div>
+  <div class="hero-media">
+    <img src="assets/img/hero.webp" width="1672" height="941" alt="Atleta ao lado de um kettlebell com o raio da VOLT, com indicadores de frequência cardíaca, calorias e massa magra" fetchpriority="high">
+  </div>
+
+  <div class="hero-deco" aria-hidden="true">
+    <svg class="ribbon ribbon-hero" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-base" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-base" d="M-60 120C60 200 70 320 10 420S-40 560 20 660"/>
+      <path class="rb-flow" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-flow rb-slow" d="M-60 120C60 200 70 320 10 420S-40 560 20 660"/>
+    </svg>
+    <span class="cross" style="left:2.2%;top:24%"></span>
+    <span class="cross" style="left:44%;top:14%"></span>
+    <span class="cross" style="left:4%;top:78%"></span>
+    <p class="hud hud-hero">Seu<br>melhor<br>eu<br>é um<br>processo</p>
+  </div>
 
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="chip chip-live hero-in" style="--d:.1s"><span class="live-dot"></span>Turma de outubro · inscrições abertas</p>
+      <p class="chip chip-live hero-in" style="--d:.1s"><span class="live-dot"></span>Turma de outubro · Inscrições abertas</p>
 
       <h1 class="hero-title">
         <span class="line"><span>Transforme</span></span>
@@ -123,19 +165,14 @@
       </h1>
       <p class="hero-kicker hero-in" style="--d:.55s">com treino e acompanhamento de personal</p>
 
-      <div class="hero-lead hero-in" style="--d:.7s">
-        <a class="round-arrow" href="#metodo" data-scroll aria-label="Conhecer o método">
-          <svg><use href="#i-arrow-ur"/></svg>
-        </a>
-        <p>Treino personalizado no app, orientação nutricional e ajustes toda semana. Você só precisa aparecer para treinar. O planejamento é comigo.</p>
-      </div>
+      <p class="hero-text hero-in" style="--d:.7s">Treino personalizado no app, orientação nutricional e ajustes toda semana. Você só precisa aparecer para treinar. O planejamento é comigo.</p>
 
       <div class="hero-ctas hero-in" style="--d:.85s">
-        <a class="btn btn-primary btn-lg" href="#planos" data-scroll data-magnetic>
+        <a class="btn btn-primary" href="#planos" data-scroll data-magnetic>
           <span>Quero começar agora</span>
-          <span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span>
+          <span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span>
         </a>
-        <a class="btn btn-ghost btn-lg" href="#resultados" data-scroll>
+        <a class="btn btn-ghost" href="#resultados" data-scroll>
           <svg class="btn-lead-ico"><use href="#i-play"/></svg>
           <span>Ver resultados</span>
         </a>
@@ -147,116 +184,199 @@
           <span class="av" style="--h:200">DR</span>
           <span class="av" style="--h:150">CL</span>
           <span class="av" style="--h:32">JP</span>
-          <span class="av av-more">+480</span>
+          <span class="av" style="--h:260">RS</span>
         </div>
         <div class="proof-txt">
           <span class="stars" aria-label="Nota 4,9 de 5">
             <svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg>
             <b>4,9</b>
           </span>
-          <span>alunos acompanhados desde 2014</span>
+          <span>+480 alunos acompanhados desde 2014</span>
         </div>
       </div>
-
     </div>
-
   </div>
-
-  <div class="hero-media">
-    <img src="assets/img/hero.webp" width="1672" height="941" alt="Atleta ao lado de um kettlebell com o raio da VOLT, com indicadores de frequência cardíaca, calorias e massa magra" fetchpriority="high">
-  </div>
-
-  <a class="scroll-cue" href="#dores" data-scroll aria-label="Rolar para a próxima seção">
-    <span></span>
-  </a>
 </section>
 
 <!-- ============ TICKER ============ -->
 <div class="ticker" aria-hidden="true">
-  <div class="ticker-band band-lime" data-marquee="1">
+  <div class="ticker-band" data-marquee="1">
     <div class="ticker-track">
-      <span>Hipertrofia</span><svg><use href="#i-bolt"/></svg>
-      <span>Emagrecimento</span><svg><use href="#i-bolt"/></svg>
-      <span>Performance</span><svg><use href="#i-bolt"/></svg>
-      <span>Mobilidade</span><svg><use href="#i-bolt"/></svg>
-      <span>Saúde</span><svg><use href="#i-bolt"/></svg>
-      <span>Condicionamento</span><svg><use href="#i-bolt"/></svg>
+      <span class="tk"><svg><use href="#i-bolt"/></svg>Performance</span>
+      <span class="tk"><svg><use href="#i-dumbbell"/></svg>Mobilidade</span>
+      <span class="tk"><svg><use href="#i-heart"/></svg>Saúde</span>
+      <span class="tk"><svg><use href="#i-bars"/></svg>Condicionamento</span>
+      <span class="tk"><svg><use href="#i-target"/></svg>Hipertrofia</span>
+      <span class="tk"><svg><use href="#i-flame"/></svg>Emagrecimento</span>
     </div>
   </div>
-  <div class="ticker-band band-dark" data-marquee="-1">
-    <div class="ticker-track">
-      <span>CREF 045872-G/SP</span><i></i>
-      <span>12 anos de experiência</span><i></i>
-      <span>Treino periodizado</span><i></i>
-      <span>Check-in toda segunda</span><i></i>
-      <span>Online e presencial</span><i></i>
-    </div>
-  </div>
+  <p class="hud ticker-note"><b>› › ›</b>&nbsp;&nbsp;Disciplina transforma</p>
 </div>
 
-<!-- ============ 2. DORES / IDENTIFICAÇÃO ============ -->
-<section class="section pains" id="dores">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow" data-reveal>Para quem é</p>
-      <h2 class="h2" data-split><span class="l">Você treina, se esforça</span> <span class="l lime">e o resultado não vem?</span></h2>
-      <p class="lead" data-reveal style="--d:.15s">Marque o que já aconteceu com você. Ninguém está vendo, então pode ser sincero.</p>
-    </div>
 
-    <div class="pains-grid">
-      <div class="pains-list" data-stagger>
+<!-- ============ 2. PARA QUEM É (dores + diagnóstico) ============ -->
+<section class="section pains" id="dores">
+  <div class="section-deco" aria-hidden="true">
+    <span class="pn-fog"></span>
+    <span class="grid-bg pn-grid">
+      <span class="spark" style="left:128px;top:128px"></span>
+      <span class="spark" style="left:320px;top:256px;animation-delay:-1.2s"></span>
+      <span class="spark" style="left:448px;top:384px;animation-delay:-2.3s"></span>
+    </span>
+
+    <svg class="ribbon pn-ribbon pn-ribbon-l" viewBox="0 0 150 620" preserveAspectRatio="xMinYMax meet">
+      <path class="rb-glow" d="M-24 640C70 560 128 470 84 360S-6 190-34 70"/>
+      <path class="rb-base" d="M-24 640C70 560 128 470 84 360S-6 190-34 70"/>
+      <path class="rb-base" d="M-44 640C48 566 100 480 60 372S-22 214-50 110"/>
+      <path class="rb-base" d="M-6 640C92 552 150 462 108 350S14 176-14 40"/>
+      <path class="rb-flow" d="M-24 640C70 560 128 470 84 360S-6 190-34 70"/>
+      <path class="rb-flow rb-slow" d="M-6 640C92 552 150 462 108 350S14 176-14 40"/>
+    </svg>
+    <svg class="ribbon pn-ribbon pn-ribbon-r" viewBox="0 0 150 620" preserveAspectRatio="xMinYMax meet">
+      <path class="rb-glow" d="M-24 640C62 590 124 520 96 420S10 260-30 170"/>
+      <path class="rb-base" d="M-24 640C62 590 124 520 96 420S10 260-30 170"/>
+      <path class="rb-base" d="M-46 640C36 596 96 530 70 436S-10 286-50 210"/>
+      <path class="rb-flow" d="M-24 640C62 590 124 520 96 420S10 260-30 170"/>
+      <path class="rb-flow rb-slow" d="M-46 640C36 596 96 530 70 436S-10 286-50 210"/>
+    </svg>
+
+    <span class="pn-ruler pn-ruler-l"></span>
+    <span class="pn-ruler pn-ruler-r"></span>
+    <span class="pn-bar"></span>
+    <span class="spark pn-dot" style="--x:26px;top:30%"></span>
+    <span class="spark pn-dot" style="--x:26px;top:37%;animation-delay:-1.6s"></span>
+    <span class="spark pn-dot pn-dot-r" style="--x:40px;top:63%;animation-delay:-.8s"></span>
+    <span class="spark pn-dot pn-dot-r" style="--x:40px;top:72%;animation-delay:-2.4s"></span>
+
+    <span class="cross pn-xd" style="left:72px;top:5%"></span>
+    <span class="cross is-muted pn-xd" style="left:47%;top:8%"></span>
+    <span class="cross pn-xd" style="right:3.4%;top:22%"></span>
+    <span class="cross is-muted pn-xd" style="right:6%;bottom:9%"></span>
+
+    <p class="hud pn-hud"><b>06</b><br>sinais<br>de<br>alerta</p>
+  </div>
+
+  <div class="wrap pains-layout">
+    <div class="pains-main">
+      <div class="sec-head pains-head">
+        <p class="eyebrow" data-reveal>Para quem é</p>
+        <h2 class="h2" data-split><span class="l">Você treina, se esforça</span> <span class="l lime">e o resultado não vem?</span></h2>
+        <p class="lead" data-reveal style="--d:.15s">Marque o que já aconteceu com você. Ninguém está vendo, então pode ser sincero.</p>
+      </div>
+
+      <div class="pains-list" role="group" aria-label="Situações que já aconteceram com você" data-stagger>
         <button class="pain spot" type="button" role="checkbox" aria-checked="false" data-reveal>
-          <span class="pain-box"><svg><use href="#i-check"/></svg></span>
+          <span class="pain-ico" aria-hidden="true">
+            <span class="ibox pain-ibox"><svg><use href="#i-dumbbell"/></svg></span>
+            <span class="ibox ibox-fill pain-ibox-on"><svg><use href="#i-check"/></svg></span>
+          </span>
           <span class="pain-txt">Treino há meses e o espelho continua igual.</span>
         </button>
         <button class="pain spot" type="button" role="checkbox" aria-checked="false" data-reveal>
-          <span class="pain-box"><svg><use href="#i-check"/></svg></span>
+          <span class="pain-ico" aria-hidden="true">
+            <span class="ibox pain-ibox"><svg><use href="#i-clock"/></svg></span>
+            <span class="ibox ibox-fill pain-ibox-on"><svg><use href="#i-check"/></svg></span>
+          </span>
           <span class="pain-txt">Começo animado e desisto na terceira semana.</span>
         </button>
         <button class="pain spot" type="button" role="checkbox" aria-checked="false" data-reveal>
-          <span class="pain-box"><svg><use href="#i-check"/></svg></span>
+          <span class="pain-ico" aria-hidden="true">
+            <span class="ibox pain-ibox"><svg><use href="#i-close"/></svg></span>
+            <span class="ibox ibox-fill pain-ibox-on"><svg><use href="#i-check"/></svg></span>
+          </span>
           <span class="pain-txt">Não sei se estou fazendo os exercícios do jeito certo.</span>
         </button>
         <button class="pain spot" type="button" role="checkbox" aria-checked="false" data-reveal>
-          <span class="pain-box"><svg><use href="#i-check"/></svg></span>
+          <span class="pain-ico" aria-hidden="true">
+            <span class="ibox pain-ibox"><svg><use href="#i-doc"/></svg></span>
+            <span class="ibox ibox-fill pain-ibox-on"><svg><use href="#i-check"/></svg></span>
+          </span>
           <span class="pain-txt">Minha rotina é corrida e o treino sempre fica para depois.</span>
         </button>
         <button class="pain spot" type="button" role="checkbox" aria-checked="false" data-reveal>
-          <span class="pain-box"><svg><use href="#i-check"/></svg></span>
+          <span class="pain-ico" aria-hidden="true">
+            <span class="ibox pain-ibox"><svg><use href="#i-trend-down"/></svg></span>
+            <span class="ibox ibox-fill pain-ibox-on"><svg><use href="#i-check"/></svg></span>
+          </span>
           <span class="pain-txt">Já fiz dieta restritiva e recuperei tudo depois.</span>
         </button>
         <button class="pain spot" type="button" role="checkbox" aria-checked="false" data-reveal>
-          <span class="pain-box"><svg><use href="#i-check"/></svg></span>
+          <span class="pain-ico" aria-hidden="true">
+            <span class="ibox pain-ibox"><svg><use href="#i-sad"/></svg></span>
+            <span class="ibox ibox-fill pain-ibox-on"><svg><use href="#i-check"/></svg></span>
+          </span>
           <span class="pain-txt">Sinto dor nas costas ou no joelho quando treino.</span>
         </button>
       </div>
-
-      <aside class="pain-meter" data-reveal="scale" aria-live="polite">
-        <div class="pm-head">
-          <span class="eyebrow eyebrow-muted">Seu diagnóstico</span>
-          <span class="pm-count"><b data-pain-count>0</b>/6</span>
-        </div>
-        <svg class="gauge" viewBox="0 0 220 124" aria-hidden="true">
-          <path class="g-bg" d="M20 112a90 90 0 0 1 180 0" fill="none"/>
-          <path class="g-fg" d="M20 112a90 90 0 0 1 180 0" fill="none"/>
-          <g class="g-ticks">
-            <path d="M20 112h10M190 112h10M110 22v10"/>
-          </g>
-        </svg>
-        <p class="pm-msg" data-pain-msg>Marque os itens para ver o seu diagnóstico.</p>
-        <a class="btn btn-primary pm-cta" href="#metodo" data-scroll>
-          <span>Ver como resolvo isso</span>
-          <span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span>
-        </a>
-      </aside>
     </div>
+
+    <aside class="pain-meter" data-reveal="scale" aria-label="Seu diagnóstico">
+      <span class="spark pm-spark" aria-hidden="true"></span>
+      <div class="pm-head">
+        <span class="pm-title">Seu diagnóstico</span>
+        <svg class="pm-dots" aria-hidden="true"><use href="#i-dots"/></svg>
+      </div>
+
+      <div class="pm-body" aria-live="polite">
+        <div class="pm-gauge">
+          <svg class="gauge" viewBox="0 0 220 124" aria-hidden="true">
+            <defs>
+              <linearGradient id="pm-grad" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="200" y2="0">
+                <stop offset="0" stop-color="#9fd40f"/>
+                <stop offset=".32" stop-color="#c6f432"/>
+                <stop offset="1" stop-color="#ecffa8"/>
+              </linearGradient>
+            </defs>
+            <path class="g-ring" d="M8 112a102 102 0 0 1 204 0" fill="none"/>
+            <path class="g-major" d="M4 112a106 106 0 0 1 212 0" fill="none"/>
+            <path class="g-ring g-ring-in" d="M40 112a70 70 0 0 1 140 0" fill="none"/>
+            <path class="g-minor" d="M45 112a65 65 0 0 1 130 0" fill="none"/>
+            <path class="g-bg" d="M20 112a90 90 0 0 1 180 0" fill="none"/>
+            <path class="g-idle" d="M20 112a90 90 0 0 1 180 0" fill="none"/>
+            <path class="g-fg" d="M20 112a90 90 0 0 1 180 0" fill="none"/>
+          </svg>
+          <div class="pm-center">
+            <strong class="pm-pct" data-pain-pct>0%</strong>
+            <span class="pm-count"><b data-pain-count>0</b> de 6 marcados</span>
+          </div>
+          <div class="pm-scale" aria-hidden="true"><span>0%</span><span>100%</span></div>
+        </div>
+        <p class="pm-msg" data-pain-msg>Marque os itens para ver o seu diagnóstico.</p>
+      </div>
+
+      <a class="btn btn-primary pm-cta" href="#metodo" data-scroll data-magnetic>
+        <span>Ver como resolvo isso</span>
+        <span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span>
+      </a>
+    </aside>
   </div>
 </section>
 
-<!-- ============ 3. MÉTODO ============ -->
+
+<!-- ============ 3. MÉTODO VOLT ============ -->
 <section class="section method" id="metodo" data-nav="metodo">
+  <div class="section-deco" aria-hidden="true">
+    <div class="grid-bg md-grid"></div>
+    <div class="md-glow"></div>
+    <svg class="ribbon md-ribbon" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-glow" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-base" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-base" d="M300 90C180 180 170 300 230 400S280 560 220 660"/>
+      <path class="rb-flow" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-flow rb-slow" d="M300 90C180 180 170 300 230 400S280 560 220 660"/>
+    </svg>
+    <span class="cross" style="left:4%;top:14%"></span>
+    <span class="cross is-muted" style="left:47%;top:22%"></span>
+    <span class="cross" style="right:5%;top:88%"></span>
+    <span class="cross is-muted" style="left:2.5%;top:82%"></span>
+    <span class="spark" style="left:38%;top:12%"></span>
+    <span class="spark" style="right:18%;top:30%;animation-delay:-1.4s"></span>
+    <span class="spark" style="left:9%;top:92%;animation-delay:-2.2s"></span>
+    <p class="hud md-hud"><b>› › ›</b>&nbsp;&nbsp;4 pilares<br>1 método<br>resultado <strong>real</strong></p>
+  </div>
+
   <div class="wrap">
-    <div class="sec-head sec-head-split">
+    <div class="sec-head sec-head-split md-head">
       <div>
         <p class="eyebrow" data-reveal>O método</p>
         <h2 class="h2" data-split><span class="l">Método</span> <span class="l lime">VOLT</span></h2>
@@ -266,28 +386,52 @@
 
     <div class="pillars" data-pillars data-stagger>
       <article class="pillar spot" tabindex="0" data-reveal>
-        <span class="pillar-letter">V</span>
+        <div class="pl-top">
+          <span class="pillar-letter" aria-hidden="true">V</span>
+          <svg class="pillar-ico" aria-hidden="true"><use href="#i-bars"/></svg>
+        </div>
         <h3>Volume sob medida</h3>
         <p>Séries, cargas e descanso calculados para o seu nível, periodizados em fases de 4 semanas.</p>
-        <span class="pillar-ico"><svg><use href="#i-dumbbell"/></svg></span>
+        <div class="pl-foot" aria-hidden="true">
+          <span class="num">01</span>
+          <span class="arrow-c"><svg><use href="#i-arrow-r"/></svg></span>
+        </div>
       </article>
       <article class="pillar spot is-active" tabindex="0" data-reveal>
-        <span class="pillar-letter">O</span>
+        <div class="pl-top">
+          <span class="pillar-letter" aria-hidden="true">O</span>
+          <svg class="pillar-ico" aria-hidden="true"><use href="#i-apple"/></svg>
+        </div>
         <h3>Orientação nutricional</h3>
         <p>Estratégia flexível, sem cortar o que você gosta. Metas simples de proteína, água e sono.</p>
-        <span class="pillar-ico"><svg><use href="#i-apple"/></svg></span>
+        <div class="pl-foot" aria-hidden="true">
+          <span class="num">02</span>
+          <span class="arrow-c"><svg><use href="#i-arrow-r"/></svg></span>
+        </div>
       </article>
       <article class="pillar spot" tabindex="0" data-reveal>
-        <span class="pillar-letter">L</span>
+        <div class="pl-top">
+          <span class="pillar-letter" aria-hidden="true">L</span>
+          <svg class="pillar-ico" aria-hidden="true"><use href="#i-trend-up"/></svg>
+        </div>
         <h3>Leitura de dados</h3>
         <p>Peso, medidas, fotos e bioimpedância analisados toda semana. Cada ajuste nasce de números reais.</p>
-        <span class="pillar-ico"><svg><use href="#i-pulse"/></svg></span>
+        <div class="pl-foot" aria-hidden="true">
+          <span class="num">03</span>
+          <span class="arrow-c"><svg><use href="#i-arrow-r"/></svg></span>
+        </div>
       </article>
       <article class="pillar spot" tabindex="0" data-reveal>
-        <span class="pillar-letter">T</span>
+        <div class="pl-top">
+          <span class="pillar-letter" aria-hidden="true">T</span>
+          <svg class="pillar-ico" aria-hidden="true"><use href="#i-shield"/></svg>
+        </div>
         <h3>Técnica e segurança</h3>
         <p>Você grava a execução e eu corrijo por vídeo. Menos risco de lesão e mais músculo trabalhando.</p>
-        <span class="pillar-ico"><svg><use href="#i-video"/></svg></span>
+        <div class="pl-foot" aria-hidden="true">
+          <span class="num">04</span>
+          <span class="arrow-c"><svg><use href="#i-arrow-r"/></svg></span>
+        </div>
       </article>
     </div>
   </div>
@@ -295,350 +439,716 @@
 
 <!-- ============ 4. COMO FUNCIONA ============ -->
 <section class="section process" id="processo" data-nav="processo">
-  <div class="wrap process-grid">
-    <div class="process-aside">
-      <div class="sec-head">
-        <p class="eyebrow" data-reveal>Passo a passo</p>
-        <h2 class="h2" data-split><span class="l">Como funciona</span> <span class="l lime">a consultoria</span></h2>
-        <p class="lead" data-reveal style="--d:.15s">Do primeiro contato ao primeiro resultado. Sem planilha genérica e sem treino copiado da internet.</p>
-      </div>
+  <div class="section-deco" aria-hidden="true">
+    <div class="grid-bg pc-grid"></div>
+    <div class="pc-glow"></div>
+    <svg class="ribbon pc-ribbon" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-base" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-base" d="M-60 120C60 200 70 320 10 420S-40 560 20 660"/>
+      <path class="rb-flow" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-flow rb-slow" d="M-60 120C60 200 70 320 10 420S-40 560 20 660"/>
+    </svg>
+    <span class="cross" style="left:3%;top:9%"></span>
+    <span class="cross is-muted" style="left:44%;top:6%"></span>
+    <span class="cross is-muted" style="right:3%;top:48%"></span>
+    <span class="cross" style="left:36%;top:78%"></span>
+    <span class="spark" style="left:31%;top:30%;animation-delay:-.8s"></span>
+    <span class="spark" style="right:6%;top:14%;animation-delay:-2.6s"></span>
+  </div>
 
-      <div class="proc-meter" data-reveal="scale">
-        <svg class="pm-ring" viewBox="0 0 160 160" aria-hidden="true">
-          <circle cx="80" cy="80" r="70" class="pr-bg" fill="none"/>
-          <circle cx="80" cy="80" r="70" class="pr-fg" fill="none"/>
-        </svg>
-        <div class="pm-inner">
-          <span class="pm-step"><b data-proc-num>01</b><small>/05</small></span>
-          <span class="pm-title" data-proc-title>Avaliação completa</span>
+  <div class="wrap">
+    <div class="process-grid">
+      <div class="process-aside">
+        <div class="sec-head pc-head">
+          <p class="eyebrow" data-reveal>Passo a passo</p>
+          <h2 class="h2" data-split><span class="l">Como funciona</span> <span class="l lime">a consultoria</span></h2>
+          <p class="lead" data-reveal style="--d:.15s">Do primeiro contato ao primeiro resultado.<br class="br-d"> Sem planilha genérica e sem treino copiado da&nbsp;internet.</p>
+        </div>
+
+        <div class="proc-row" data-reveal="scale" style="--d:.2s">
+          <div class="proc-meter">
+            <svg class="pm-ring" viewBox="0 0 160 160" aria-hidden="true">
+              <circle cx="80" cy="80" r="70" class="pr-bg" fill="none"/>
+              <circle cx="80" cy="80" r="70" class="pr-fg" fill="none"/>
+            </svg>
+            <div class="pm-inner">
+              <span class="pm-step"><b data-proc-num>01</b><small>/05</small></span>
+              <span class="pm-title" data-proc-title>Avaliação completa</span>
+            </div>
+          </div>
+          <div class="proc-note glass">
+            <p>Resultado é consequência de um bom processo.</p>
+            <svg class="pn-ico" aria-hidden="true"><use href="#i-bars"/></svg>
+          </div>
+        </div>
+
+        <div class="proc-hud" aria-hidden="true">
+          <p class="hud"><strong>VOLT</strong><br>Consultoria online<br>Evolução real</p>
+          <span class="ph-lines"><i></i><i></i></span>
         </div>
       </div>
+
+      <ol class="steps" data-steps>
+        <li class="rail" aria-hidden="true"><span class="rail-fill"></span></li>
+        <li class="step is-active" data-reveal>
+          <span class="step-dot" aria-hidden="true"></span>
+          <div class="step-card spot">
+            <span class="ibox ibox-lime step-ico" aria-hidden="true"><svg><use href="#i-clipboard"/></svg><span class="step-n">01</span></span>
+            <div class="step-head">
+              <h3>Avaliação completa</h3>
+              <span class="tag tag-time"><svg aria-hidden="true"><use href="#i-target"/></svg>Dia 1</span>
+            </div>
+            <p>Anamnese, histórico de lesões, rotina, fotos e medidas. Se você tiver um exame de bioimpedância, ele entra também.</p>
+            <div class="tags"><span class="tag">Anamnese</span><span class="tag">Fotos</span><span class="tag">Medidas</span></div>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-dot" aria-hidden="true"></span>
+          <div class="step-card spot">
+            <span class="ibox ibox-lime step-ico" aria-hidden="true"><svg><use href="#i-doc"/></svg><span class="step-n">02</span></span>
+            <div class="step-head">
+              <h3>Plano sob medida</h3>
+              <span class="tag tag-time"><svg aria-hidden="true"><use href="#i-hourglass"/></svg>Em até 48h</span>
+            </div>
+            <p>Seu treino periodizado chega pronto no app, com cargas iniciais, tempo de descanso e alternativas para cada aparelho.</p>
+            <div class="tags"><span class="tag">Periodização</span><span class="tag">Alternativas</span><span class="tag">Metas</span></div>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-dot" aria-hidden="true"></span>
+          <div class="step-card spot">
+            <span class="ibox ibox-lime step-ico" aria-hidden="true"><svg><use href="#i-phone"/></svg><span class="step-n">03</span></span>
+            <div class="step-head">
+              <h3>Treino guiado no app</h3>
+              <span class="tag tag-time"><svg aria-hidden="true"><use href="#i-clock"/></svg>Todos os dias</span>
+            </div>
+            <p>Abra o app, siga a sequência e marque cada série. Todo exercício tem vídeo de execução e cronômetro de descanso.</p>
+            <div class="tags"><span class="tag">Vídeos</span><span class="tag">Timer</span><span class="tag">Registro de cargas</span></div>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-dot" aria-hidden="true"></span>
+          <div class="step-card spot">
+            <span class="ibox ibox-lime step-ico" aria-hidden="true"><svg><use href="#i-users"/></svg><span class="step-n">04</span></span>
+            <div class="step-head">
+              <h3>Check-in semanal</h3>
+              <span class="tag tag-time"><svg aria-hidden="true"><use href="#i-calendar"/></svg>Toda segunda</span>
+            </div>
+            <p>Você envia peso, fotos e como foi a semana. Eu analiso tudo e respondo com os ajustes do treino e da alimentação.</p>
+            <div class="tags"><span class="tag">Peso</span><span class="tag">Fotos</span><span class="tag">Feedback</span></div>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-dot" aria-hidden="true"></span>
+          <div class="step-card spot">
+            <span class="ibox ibox-lime step-ico" aria-hidden="true"><svg><use href="#i-bars"/></svg><span class="step-n">05</span></span>
+            <div class="step-head">
+              <h3>Nova fase</h3>
+              <span class="tag tag-time"><svg aria-hidden="true"><use href="#i-refresh"/></svg>A cada 4 semanas</span>
+            </div>
+            <p>Com os dados do mês, o treino evolui: novos estímulos, novas cargas e novas metas. Seu corpo não tem tempo de se acostumar.</p>
+            <div class="tags"><span class="tag">Progressão</span><span class="tag">Reavaliação</span></div>
+          </div>
+        </li>
+      </ol>
     </div>
 
-    <ol class="steps" data-steps>
-      <li class="rail" aria-hidden="true"><span class="rail-fill"></span></li>
-      <li class="step is-active" data-reveal>
-        <span class="step-dot" aria-hidden="true"></span>
-        <div class="step-card spot">
-          <div class="step-meta"><span class="step-n">01</span><span class="tag tag-time"><svg><use href="#i-clock"/></svg>Dia 1</span></div>
-          <h3>Avaliação completa</h3>
-          <p>Anamnese, histórico de lesões, rotina, fotos e medidas. Se você tiver um exame de bioimpedância, ele entra também.</p>
-          <div class="tags"><span class="tag">Anamnese</span><span class="tag">Fotos</span><span class="tag">Medidas</span></div>
-        </div>
-      </li>
-      <li class="step" data-reveal>
-        <span class="step-dot" aria-hidden="true"></span>
-        <div class="step-card spot">
-          <div class="step-meta"><span class="step-n">02</span><span class="tag tag-time"><svg><use href="#i-clock"/></svg>Em até 48h</span></div>
-          <h3>Plano sob medida</h3>
-          <p>Seu treino periodizado chega pronto no app, com cargas iniciais, tempo de descanso e alternativas para cada aparelho.</p>
-          <div class="tags"><span class="tag">Periodização</span><span class="tag">Alternativas</span><span class="tag">Metas</span></div>
-        </div>
-      </li>
-      <li class="step" data-reveal>
-        <span class="step-dot" aria-hidden="true"></span>
-        <div class="step-card spot">
-          <div class="step-meta"><span class="step-n">03</span><span class="tag tag-time"><svg><use href="#i-clock"/></svg>Todos os dias</span></div>
-          <h3>Treino guiado no app</h3>
-          <p>Abra o app, siga a sequência e marque cada série. Todo exercício tem vídeo de execução e cronômetro de descanso.</p>
-          <div class="tags"><span class="tag">Vídeos</span><span class="tag">Timer</span><span class="tag">Registro de cargas</span></div>
-        </div>
-      </li>
-      <li class="step" data-reveal>
-        <span class="step-dot" aria-hidden="true"></span>
-        <div class="step-card spot">
-          <div class="step-meta"><span class="step-n">04</span><span class="tag tag-time"><svg><use href="#i-clock"/></svg>Toda segunda</span></div>
-          <h3>Check-in semanal</h3>
-          <p>Você envia peso, fotos e como foi a semana. Eu analiso tudo e respondo com os ajustes do treino e da alimentação.</p>
-          <div class="tags"><span class="tag">Peso</span><span class="tag">Fotos</span><span class="tag">Feedback</span></div>
-        </div>
-      </li>
-      <li class="step" data-reveal>
-        <span class="step-dot" aria-hidden="true"></span>
-        <div class="step-card spot">
-          <div class="step-meta"><span class="step-n">05</span><span class="tag tag-time"><svg><use href="#i-clock"/></svg>A cada 4 semanas</span></div>
-          <h3>Nova fase</h3>
-          <p>Com os dados do mês, o treino evolui: novos estímulos, novas cargas e novas metas. Seu corpo não tem tempo de se acostumar.</p>
-          <div class="tags"><span class="tag">Progressão</span><span class="tag">Reavaliação</span></div>
-        </div>
-      </li>
-    </ol>
+    <div class="cap-divider pc-divider" aria-hidden="true"><span>Consistência gera liberdade</span></div>
   </div>
 </section>
 
 <!-- ============ 5. APP / ÁREA DO ALUNO ============ -->
 <section class="section app-sec" id="app" data-nav="app">
+  <div class="section-deco" aria-hidden="true">
+    <div class="grid-bg ap-grid"></div>
+    <div class="ap-glow"></div>
+    <svg class="ribbon ap-ribbon ap-ribbon-l" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-glow" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-base" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-base" d="M-60 120C60 200 70 320 10 420S-40 560 20 660"/>
+      <path class="rb-flow" d="M-30 40C90 140 120 250 40 360S-20 540 70 660"/>
+      <path class="rb-flow rb-slow" d="M-60 120C60 200 70 320 10 420S-40 560 20 660"/>
+    </svg>
+    <svg class="ribbon ap-ribbon ap-ribbon-r" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-glow" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-base" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-base" d="M300 90C180 180 170 300 230 400S280 560 220 660"/>
+      <path class="rb-flow" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-flow rb-slow" d="M300 90C180 180 170 300 230 400S280 560 220 660"/>
+    </svg>
+    <span class="cross" style="left:5%;top:7%"></span>
+    <span class="cross is-muted" style="right:9%;top:12%"></span>
+    <span class="cross" style="right:3.5%;top:58%"></span>
+    <span class="cross is-muted" style="left:3%;top:64%"></span>
+    <span class="cross is-muted" style="left:30%;top:95%"></span>
+    <span class="spark" style="left:22%;top:9%"></span>
+    <span class="spark" style="right:24%;top:5%;animation-delay:-1.2s"></span>
+    <span class="spark" style="left:6%;top:44%;animation-delay:-2.1s"></span>
+    <span class="spark" style="right:5%;top:82%;animation-delay:-.6s"></span>
+    <p class="hud ap-hud-l">Treino<br>dados<br>ajuste<br><strong>semanal</strong></p>
+    <p class="hud ap-hud-r"><b>› › ›</b>&nbsp;&nbsp;iOS<br>Android<br>web</p>
+  </div>
+
   <div class="wrap">
-    <div class="sec-head sec-head-center">
+    <div class="sec-head sec-head-center ap-head">
       <p class="eyebrow" data-reveal>Área do aluno</p>
       <h2 class="h2" data-split><span class="l">Seu treino inteiro</span> <span class="l lime">na palma da mão</span></h2>
       <p class="lead" data-reveal style="--d:.15s">Treino do dia, vídeos, cronômetro, evolução e check-in no mesmo lugar. A demonstração abaixo funciona: marque as séries e explore as abas.</p>
     </div>
 
-    <div class="device" data-reveal="rise">
-      <div class="app" data-app>
-        <div class="app-top">
-          <div class="app-brand"><span class="brand-mark sm"><svg><use href="#i-bolt"/></svg></span><span>VOLT app</span></div>
-          <div class="app-tabs" role="tablist" aria-label="Áreas do app">
-            <span class="app-tab-ind" aria-hidden="true"></span>
-            <button class="app-tab is-active" type="button" role="tab" id="tab-treino" aria-selected="true" aria-controls="panel-treino"><svg><use href="#i-dumbbell"/></svg>Treino</button>
-            <button class="app-tab" type="button" role="tab" id="tab-evolucao" aria-selected="false" aria-controls="panel-evolucao" tabindex="-1"><svg><use href="#i-chart"/></svg>Evolução</button>
-            <button class="app-tab" type="button" role="tab" id="tab-checkin" aria-selected="false" aria-controls="panel-checkin" tabindex="-1"><svg><use href="#i-calendar"/></svg>Check-in</button>
-          </div>
-          <div class="app-icons" aria-hidden="true">
-            <span class="icon-btn"><svg><use href="#i-bell"/></svg><i></i></span>
-            <span class="icon-btn"><svg><use href="#i-chat"/></svg></span>
-            <span class="av av-sm" style="--h:82">MA</span>
-          </div>
-        </div>
+    <div class="ap-stage" data-reveal="rise">
+      <div class="ap-hudbar" aria-hidden="true">
+        <p class="hud"><i class="ap-pip"></i>VOLT app&nbsp;·&nbsp;<strong>Área do aluno</strong></p>
+        <span class="ap-hudline"></span>
+        <p class="hud ap-sync"><span class="live-dot"></span>Sincronizado</p>
+      </div>
 
-        <div class="app-title">
-          <div>
-            <h3>Olá, Mariana</h3>
-            <p>Semana 08 de 12 · Fase 2: Força</p>
-          </div>
-          <span class="chip chip-demo">Demonstração interativa</span>
-        </div>
+      <div class="ap-frame">
+        <span class="ap-br ap-br-tl" aria-hidden="true"></span>
+        <span class="ap-br ap-br-tr" aria-hidden="true"></span>
+        <span class="ap-br ap-br-bl" aria-hidden="true"></span>
+        <span class="ap-br ap-br-br" aria-hidden="true"></span>
+        <p class="hud ap-side ap-side-l" aria-hidden="true">Semana <strong>08</strong> / 12&nbsp;&nbsp;<b>·</b>&nbsp;&nbsp;Fase 2</p>
+        <p class="hud ap-side ap-side-r" aria-hidden="true">Treino B&nbsp;&nbsp;<b>·</b>&nbsp;&nbsp;18 séries</p>
 
-        <!-- Painel: Treino -->
-        <div class="app-panel is-active" id="panel-treino" role="tabpanel" aria-labelledby="tab-treino">
-          <div class="kpis">
-            <div class="kpi">
-              <span class="kpi-label">Treino de hoje</span>
-              <span class="kpi-val">B · Inferiores</span>
-              <span class="kpi-sub">5 exercícios · 18 séries</span>
-            </div>
-            <div class="kpi">
-              <span class="kpi-label">Progresso</span>
-              <span class="kpi-val"><b data-sets-done>0</b> de 18 séries</span>
-              <span class="bar"><span data-sets-bar></span></span>
-            </div>
-            <div class="kpi kpi-timer" data-timer>
-              <span class="kpi-label">Descanso</span>
-              <span class="kpi-val mono" data-timer-display>01:30</span>
-              <button class="mini-btn" type="button" data-timer-btn><svg><use href="#i-play"/></svg><span>Iniciar</span></button>
-            </div>
-          </div>
-
-          <div class="workout">
-            <div class="ex-list">
-              <div class="ex-list-head">
-                <span>Exercícios</span>
-                <span class="chip chip-paper">Treino B</span>
+        <div class="device">
+          <span class="device-cam" aria-hidden="true"></span>
+          <div class="app" data-app>
+            <div class="app-top">
+              <div class="app-brand">
+                <span class="brand-mark sm"><svg><use href="#i-bolt"/></svg></span>
+                <span class="app-brand-name">VOLT app<small>Área do aluno</small></span>
               </div>
-              <ul data-ex-list></ul>
+              <div class="app-tabs" role="tablist" aria-label="Áreas do app">
+                <span class="app-tab-ind" aria-hidden="true"></span>
+                <button class="app-tab is-active" type="button" role="tab" id="tab-treino" aria-selected="true" aria-controls="panel-treino"><svg aria-hidden="true"><use href="#i-dumbbell"/></svg>Treino</button>
+                <button class="app-tab" type="button" role="tab" id="tab-evolucao" aria-selected="false" aria-controls="panel-evolucao" tabindex="-1"><svg aria-hidden="true"><use href="#i-chart"/></svg>Evolução</button>
+                <button class="app-tab" type="button" role="tab" id="tab-checkin" aria-selected="false" aria-controls="panel-checkin" tabindex="-1"><svg aria-hidden="true"><use href="#i-calendar"/></svg>Check-in</button>
+              </div>
+              <div class="app-icons" aria-hidden="true">
+                <span class="icon-btn"><svg><use href="#i-bell"/></svg><i></i></span>
+                <span class="icon-btn"><svg><use href="#i-chat"/></svg></span>
+                <span class="av av-sm" style="--h:82">MA</span>
+              </div>
             </div>
 
-            <div class="ex-detail" data-ex-detail>
-              <div class="exd-head">
-                <div>
-                  <span class="kpi-label">Exercício <b data-exd-idx>1</b> de 5</span>
-                  <h4 data-exd-name>Agachamento livre</h4>
-                </div>
-                <span class="chip chip-lime" data-exd-rpe>RPE 8</span>
+            <div class="app-title">
+              <div class="app-hello">
+                <p class="ap-date">Segunda-feira · 06:40</p>
+                <h3>Olá, Mariana</h3>
+                <p class="ap-phase">Semana 08 de 12 · Fase 2: Força</p>
               </div>
-              <div class="exd-specs">
-                <div><span>Séries</span><b data-exd-sets>4</b></div>
-                <div><span>Repetições</span><b data-exd-reps>8</b></div>
-                <div><span>Carga</span><b data-exd-load>60 kg</b></div>
-                <div><span>Descanso</span><b data-exd-rest>90 s</b></div>
-              </div>
-              <div class="exd-sets" data-exd-setlist></div>
-              <div class="exd-foot">
-                <div class="exd-video" aria-hidden="true">
-                  <span class="play"><svg><use href="#i-play"/></svg></span>
-                  <span class="exd-video-txt">Vídeo de execução<small>0:42</small></span>
-                </div>
-                <div class="exd-tip">
-                  <span class="av av-sm" style="--h:150">BC</span>
-                  <p data-exd-tip>Desça até a coxa passar da linha do joelho, com o peito aberto e os joelhos acompanhando a ponta dos pés.</p>
+              <div class="ap-week">
+                <span class="chip ap-demo"><span class="live-dot"></span>Demonstração interativa</span>
+                <div class="ap-week-meter" aria-hidden="true">
+                  <span class="ap-week-lbl">Programa <b>08</b>/12</span>
+                  <span class="ap-seg"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on is-now"></i><i></i><i></i><i></i><i></i></span>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Painel: Evolução -->
-        <div class="app-panel" id="panel-evolucao" role="tabpanel" aria-labelledby="tab-evolucao" hidden>
-          <div class="kpis kpis-4">
-            <div class="kpi"><span class="kpi-label">Peso atual</span><span class="kpi-val">64,2 kg</span><span class="delta">−7,8 kg</span></div>
-            <div class="kpi"><span class="kpi-label">Gordura corporal</span><span class="kpi-val">24,1%</span><span class="delta">−6,3 p.p.</span></div>
-            <div class="kpi"><span class="kpi-label">Cintura</span><span class="kpi-val">74 cm</span><span class="delta">−12 cm</span></div>
-            <div class="kpi"><span class="kpi-label">Treinos feitos</span><span class="kpi-val">38 de 40</span><span class="delta">95% de adesão</span></div>
-          </div>
-          <div class="evo-grid">
-            <div class="evo-card">
-              <div class="evo-head"><span>Peso corporal (kg)</span><span class="chip chip-paper-dark">12 semanas</span></div>
-              <svg class="chart" data-chart="app" role="img" aria-label="Gráfico: peso de 72,0 kg na semana 0 para 64,2 kg na semana 12"></svg>
-            </div>
-            <div class="evo-card">
-              <div class="evo-head"><span>Frequência mensal</span></div>
-              <ul class="freq">
-                <li><span>Julho</span><span class="bar"><span style="--w:75%"></span></span><b>12/16</b></li>
-                <li><span>Agosto</span><span class="bar"><span style="--w:94%"></span></span><b>15/16</b></li>
-                <li><span>Setembro</span><span class="bar"><span style="--w:92%"></span></span><b>11/12</b></li>
-              </ul>
-              <div class="streak"><svg><use href="#i-flame"/></svg><div><b>21 dias</b><span>sem perder um treino</span></div></div>
-            </div>
-          </div>
-        </div>
+            <!-- Painel: Treino -->
+            <div class="app-panel is-active" id="panel-treino" role="tabpanel" aria-labelledby="tab-treino">
+              <div class="kpis">
+                <div class="kpi">
+                  <span class="kpi-ico" aria-hidden="true"><svg><use href="#i-dumbbell"/></svg></span>
+                  <span class="kpi-label">Treino de hoje</span>
+                  <span class="kpi-val">B · Inferiores</span>
+                  <span class="kpi-sub">5 exercícios · 18 séries</span>
+                </div>
+                <div class="kpi">
+                  <span class="kpi-ico" aria-hidden="true"><svg><use href="#i-target"/></svg></span>
+                  <span class="kpi-label">Progresso</span>
+                  <span class="kpi-val"><b data-sets-done>0</b> de 18 séries</span>
+                  <span class="bar"><span data-sets-bar></span></span>
+                </div>
+                <div class="kpi kpi-timer" data-timer>
+                  <span class="kpi-label">Descanso</span>
+                  <span class="kpi-val mono" data-timer-display>01:30</span>
+                  <button class="mini-btn" type="button" data-timer-btn><svg aria-hidden="true"><use href="#i-play"/></svg><span>Iniciar</span></button>
+                </div>
+              </div>
 
-        <!-- Painel: Check-in -->
-        <div class="app-panel" id="panel-checkin" role="tabpanel" aria-labelledby="tab-checkin" hidden>
-          <form class="checkin" data-checkin novalidate>
-            <div class="ci-grid">
-              <label class="field">
-                <span class="kpi-label">Peso desta semana</span>
-                <span class="input-wrap"><input id="ci-peso" name="peso" type="number" inputmode="decimal" step="0.1" min="30" max="250" value="64.2"><em>kg</em></span>
-              </label>
-              <label class="field">
-                <span class="kpi-label">Horas de sono por noite · <output id="ci-sono-out" for="ci-sono">7,5 h</output></span>
-                <input id="ci-sono" name="sono" type="range" min="4" max="10" step="0.5" value="7.5">
-              </label>
-              <fieldset class="field">
-                <legend class="kpi-label">Energia nos treinos</legend>
-                <div class="seg">
-                  <input type="radio" name="energia" id="en1" value="1"><label for="en1">1</label>
-                  <input type="radio" name="energia" id="en2" value="2"><label for="en2">2</label>
-                  <input type="radio" name="energia" id="en3" value="3"><label for="en3">3</label>
-                  <input type="radio" name="energia" id="en4" value="4" checked><label for="en4">4</label>
-                  <input type="radio" name="energia" id="en5" value="5"><label for="en5">5</label>
+              <div class="workout">
+                <div class="ex-list">
+                  <div class="ex-list-head">
+                    <span class="ex-list-title"><span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-clipboard"/></svg></span>Exercícios</span>
+                    <span class="chip ap-chip">Treino B</span>
+                  </div>
+                  <ul data-ex-list></ul>
                 </div>
-              </fieldset>
-              <fieldset class="field">
-                <legend class="kpi-label">Fome durante a semana</legend>
-                <div class="seg">
-                  <input type="radio" name="fome" id="fo1" value="baixa"><label for="fo1">Baixa</label>
-                  <input type="radio" name="fome" id="fo2" value="normal" checked><label for="fo2">Normal</label>
-                  <input type="radio" name="fome" id="fo3" value="alta"><label for="fo3">Alta</label>
+
+                <div class="ex-detail" data-ex-detail>
+                  <div class="exd-head">
+                    <div>
+                      <span class="kpi-label">Exercício <b data-exd-idx>1</b> de 5</span>
+                      <h4 data-exd-name>Agachamento livre</h4>
+                    </div>
+                    <span class="chip chip-lime" data-exd-rpe>RPE 8</span>
+                  </div>
+                  <div class="exd-specs">
+                    <div><span>Séries</span><b data-exd-sets>4</b></div>
+                    <div><span>Repetições</span><b data-exd-reps>8</b></div>
+                    <div><span>Carga</span><b data-exd-load>60 kg</b></div>
+                    <div><span>Descanso</span><b data-exd-rest>90 s</b></div>
+                  </div>
+                  <p class="exd-hint" aria-hidden="true"><b>› › ›</b>&nbsp;Toque na série para concluir</p>
+                  <div class="exd-sets" data-exd-setlist></div>
+                  <div class="exd-foot">
+                    <div class="exd-video" aria-hidden="true">
+                      <span class="play"><svg><use href="#i-play"/></svg></span>
+                      <span class="exd-video-txt">Vídeo de execução<small>0:42 · HD</small></span>
+                    </div>
+                    <div class="exd-tip">
+                      <span class="av av-sm" style="--h:150">BC</span>
+                      <div>
+                        <span class="exd-tip-lbl">Dica do Bruno</span>
+                        <p data-exd-tip>Desça até a coxa passar da linha do joelho, com o peito aberto e os joelhos acompanhando a ponta dos pés.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </fieldset>
-              <label class="field field-wide">
-                <span class="kpi-label">Como foi a semana?</span>
-                <textarea id="ci-obs" name="obs" rows="2">Consegui fazer os 4 treinos. Senti o posterior da coxa no stiff, acho que dá para subir a carga.</textarea>
-              </label>
+              </div>
             </div>
-            <div class="ci-foot">
-              <p class="ci-msg" data-ci-msg role="status"></p>
-              <button class="btn btn-primary" type="submit"><span>Enviar check-in</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></button>
+
+            <!-- Painel: Evolução -->
+            <div class="app-panel" id="panel-evolucao" role="tabpanel" aria-labelledby="tab-evolucao" hidden>
+              <div class="kpis kpis-4">
+                <div class="kpi"><span class="kpi-label">Peso atual</span><span class="kpi-val">64,2 kg</span><span class="delta">−7,8 kg</span></div>
+                <div class="kpi"><span class="kpi-label">Gordura corporal</span><span class="kpi-val">24,1%</span><span class="delta">−6,3 p.p.</span></div>
+                <div class="kpi"><span class="kpi-label">Cintura</span><span class="kpi-val">74 cm</span><span class="delta">−12 cm</span></div>
+                <div class="kpi"><span class="kpi-label">Treinos feitos</span><span class="kpi-val">38 de 40</span><span class="delta">95% de adesão</span></div>
+              </div>
+              <div class="evo-grid">
+                <div class="evo-card">
+                  <div class="evo-head"><span class="evo-title"><span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-trend-down"/></svg></span>Peso corporal (kg)</span><span class="chip ap-chip">12 semanas</span></div>
+                  <svg class="chart" data-chart="app" role="img" aria-label="Gráfico: peso de 72,0 kg na semana 0 para 64,2 kg na semana 12"></svg>
+                </div>
+                <div class="evo-card">
+                  <div class="evo-head"><span class="evo-title"><span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-calendar"/></svg></span>Frequência mensal</span></div>
+                  <ul class="freq">
+                    <li><span>Julho</span><span class="bar"><span style="--w:75%"></span></span><b>12/16</b></li>
+                    <li><span>Agosto</span><span class="bar"><span style="--w:94%"></span></span><b>15/16</b></li>
+                    <li><span>Setembro</span><span class="bar"><span style="--w:92%"></span></span><b>11/12</b></li>
+                  </ul>
+                  <div class="streak"><span class="streak-ico" aria-hidden="true"><svg><use href="#i-flame"/></svg></span><div><b>21 dias</b><span>sem perder um treino</span></div></div>
+                </div>
+              </div>
             </div>
-          </form>
+
+            <!-- Painel: Check-in -->
+            <div class="app-panel" id="panel-checkin" role="tabpanel" aria-labelledby="tab-checkin" hidden>
+              <form class="checkin" data-checkin novalidate>
+                <div class="ci-grid">
+                  <label class="field">
+                    <span class="kpi-label">Peso desta semana</span>
+                    <span class="input-wrap"><input id="ci-peso" name="peso" type="number" inputmode="decimal" step="0.1" min="30" max="250" value="64.2"><em>kg</em></span>
+                  </label>
+                  <label class="field">
+                    <span class="kpi-label">Horas de sono por noite · <output id="ci-sono-out" for="ci-sono">7,5 h</output></span>
+                    <input id="ci-sono" name="sono" type="range" min="4" max="10" step="0.5" value="7.5">
+                    <span class="range-scale" aria-hidden="true"><span>4 h</span><span>7 h</span><span>10 h</span></span>
+                  </label>
+                  <fieldset class="field">
+                    <legend class="kpi-label">Energia nos treinos</legend>
+                    <div class="seg">
+                      <input type="radio" name="energia" id="en1" value="1"><label for="en1">1</label>
+                      <input type="radio" name="energia" id="en2" value="2"><label for="en2">2</label>
+                      <input type="radio" name="energia" id="en3" value="3"><label for="en3">3</label>
+                      <input type="radio" name="energia" id="en4" value="4" checked><label for="en4">4</label>
+                      <input type="radio" name="energia" id="en5" value="5"><label for="en5">5</label>
+                    </div>
+                  </fieldset>
+                  <fieldset class="field">
+                    <legend class="kpi-label">Fome durante a semana</legend>
+                    <div class="seg">
+                      <input type="radio" name="fome" id="fo1" value="baixa"><label for="fo1">Baixa</label>
+                      <input type="radio" name="fome" id="fo2" value="normal" checked><label for="fo2">Normal</label>
+                      <input type="radio" name="fome" id="fo3" value="alta"><label for="fo3">Alta</label>
+                    </div>
+                  </fieldset>
+                  <label class="field field-wide">
+                    <span class="kpi-label">Como foi a semana?</span>
+                    <textarea id="ci-obs" name="obs" rows="2">Consegui fazer os 4 treinos. Senti o posterior da coxa no stiff, acho que dá para subir a carga.</textarea>
+                  </label>
+                </div>
+                <div class="ci-foot">
+                  <p class="ci-msg" data-ci-msg role="status"></p>
+                  <button class="btn btn-primary" type="submit"><span>Enviar check-in</span><span class="btn-ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div class="ap-hudbar ap-hudbar-b" aria-hidden="true">
+        <p class="hud"><b>› › ›</b>&nbsp;&nbsp;Demo interativa</p>
+        <span class="ap-ticks"></span>
+        <p class="hud">Dados&nbsp;<strong>em tempo real</strong></p>
+      </div>
+      <div class="ap-floor" aria-hidden="true"></div>
     </div>
 
     <ul class="app-features" data-stagger>
-      <li data-reveal><svg><use href="#i-video"/></svg><span><b>+300 vídeos</b> de execução</span></li>
-      <li data-reveal><svg><use href="#i-clock"/></svg><span><b>Cronômetro</b> de descanso</span></li>
-      <li data-reveal><svg><use href="#i-chart"/></svg><span><b>Gráficos</b> de evolução</span></li>
-      <li data-reveal><svg><use href="#i-chat"/></svg><span><b>Chat direto</b> com o personal</span></li>
+      <li class="ap-feat spot" data-reveal>
+        <span class="ibox ibox-lg ibox-lime" aria-hidden="true"><svg><use href="#i-video"/></svg></span>
+        <div>
+          <h3><b>+300 vídeos</b> de execução</h3>
+          <p>Cada exercício do seu treino com a execução gravada.</p>
+        </div>
+        <span class="num" aria-hidden="true">01</span>
+      </li>
+      <li class="ap-feat spot" data-reveal>
+        <span class="ibox ibox-lg ibox-lime" aria-hidden="true"><svg><use href="#i-clock"/></svg></span>
+        <div>
+          <h3><b>Cronômetro</b> de descanso</h3>
+          <p>Começa sozinho quando você marca a série.</p>
+        </div>
+        <span class="num" aria-hidden="true">02</span>
+      </li>
+      <li class="ap-feat spot" data-reveal>
+        <span class="ibox ibox-lg ibox-lime" aria-hidden="true"><svg><use href="#i-chart"/></svg></span>
+        <div>
+          <h3><b>Gráficos</b> de evolução</h3>
+          <p>Peso, medidas e cargas semana a semana.</p>
+        </div>
+        <span class="num" aria-hidden="true">03</span>
+      </li>
+      <li class="ap-feat spot" data-reveal>
+        <span class="ibox ibox-lg ibox-lime" aria-hidden="true"><svg><use href="#i-chat"/></svg></span>
+        <div>
+          <h3><b>Chat direto</b> com o personal</h3>
+          <p>Dúvida no treino? Resposta em até 24h.</p>
+        </div>
+        <span class="num" aria-hidden="true">04</span>
+      </li>
     </ul>
   </div>
 </section>
 
 <!-- ============ 6. RESULTADOS ============ -->
 <section class="section results" id="resultados" data-nav="resultados">
+  <div class="section-deco" aria-hidden="true">
+    <span class="rs-fog"></span>
+    <span class="grid-bg rs-grid"></span>
+    <span class="grid-bg rs-grid-2"></span>
+    <svg class="ribbon rs-ribbon" viewBox="0 0 150 620" preserveAspectRatio="xMinYMid meet">
+      <path class="rb-glow" d="M-24 -20C70 60 128 170 84 280S-6 450-34 640"/>
+      <path class="rb-base" d="M-24 -20C70 60 128 170 84 280S-6 450-34 640"/>
+      <path class="rb-base" d="M-44 10C48 84 100 184 60 290S-22 460-50 640"/>
+      <path class="rb-base" d="M-6 -40C92 48 150 160 108 276S14 446-14 640"/>
+      <path class="rb-flow" d="M-24 -20C70 60 128 170 84 280S-6 450-34 640"/>
+      <path class="rb-flow rb-slow" d="M-6 -40C92 48 150 160 108 276S14 446-14 640"/>
+    </svg>
+    <span class="rs-ruler"></span>
+    <span class="cross" style="left:3.2%;top:9%"></span>
+    <span class="cross is-muted" style="left:52%;top:6%"></span>
+    <span class="cross" style="right:3%;top:47%"></span>
+    <span class="cross is-muted" style="left:4%;top:86%"></span>
+    <span class="spark" style="left:44%;top:15%"></span>
+    <span class="spark" style="right:9%;top:24%;animation-delay:-1.3s"></span>
+    <span class="spark" style="left:7%;top:58%;animation-delay:-2.1s"></span>
+    <span class="spark" style="right:14%;top:93%;animation-delay:-.6s"></span>
+    <p class="hud rs-hud"><b>S0 › S12</b><br>medido<br>semana<br>a semana</p>
+  </div>
+
   <div class="wrap">
-    <div class="sec-head sec-head-split">
+    <div class="sec-head sec-head-split rs-head">
       <div>
         <p class="eyebrow" data-reveal>Resultados</p>
         <h2 class="h2" data-split><span class="l">Resultados de quem</span> <span class="l lime">seguiu o método</span></h2>
       </div>
-      <p class="lead" data-reveal style="--d:.15s">Números medidos em avaliação, semana a semana. Escolha um aluno para ver a evolução completa.</p>
+      <div class="rs-head-aside">
+        <p class="hud rs-head-hud" data-reveal><b>› › ›</b>&nbsp;&nbsp;Dados / Avaliação / <strong>Evolução</strong></p>
+        <p class="lead" data-reveal style="--d:.15s">Números medidos em avaliação, semana a semana. Escolha um aluno para ver a evolução completa.</p>
+      </div>
     </div>
 
-    <div class="stats" data-stagger>
-      <div class="stat" data-reveal><span class="stat-num"><span data-count="480" data-prefix="+">0</span></span><span class="stat-label">alunos acompanhados</span></div>
-      <div class="stat" data-reveal><span class="stat-num"><span data-count="6.4" data-dec="1" data-prefix="−">0</span><small>kg</small></span><span class="stat-label">média em 12 semanas nos planos de emagrecimento</span></div>
-      <div class="stat" data-reveal><span class="stat-num"><span data-count="92">0</span><small>%</small></span><span class="stat-label">renovam depois da primeira fase</span></div>
-      <div class="stat" data-reveal><span class="stat-num"><span data-count="4.9" data-dec="1">0</span><small>/5</small></span><span class="stat-label">de avaliação dos alunos</span></div>
+    <!-- números gerais -->
+    <div class="rs-stats" data-stagger>
+      <article class="rs-stat spot" data-reveal>
+        <div class="rs-stat-top">
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-users"/></svg></span>
+          <span class="kpi-label">Alunos</span>
+          <span class="num" aria-hidden="true">01</span>
+        </div>
+        <p class="rs-stat-num"><span data-count="480" data-prefix="+">0</span></p>
+        <p class="rs-stat-label">alunos acompanhados desde 2014</p>
+        <span class="rs-meter" style="--w:82%" aria-hidden="true"></span>
+      </article>
+      <article class="rs-stat spot" data-reveal>
+        <div class="rs-stat-top">
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-scale"/></svg></span>
+          <span class="kpi-label">Peso médio</span>
+          <span class="num" aria-hidden="true">02</span>
+        </div>
+        <p class="rs-stat-num"><span data-count="6.4" data-dec="1" data-prefix="−">0</span><small>kg</small></p>
+        <p class="rs-stat-label">média em 12 semanas nos planos de emagrecimento</p>
+        <span class="rs-meter" style="--w:64%" aria-hidden="true"></span>
+      </article>
+      <article class="rs-stat spot" data-reveal>
+        <div class="rs-stat-top">
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-refresh"/></svg></span>
+          <span class="kpi-label">Renovação</span>
+          <span class="num" aria-hidden="true">03</span>
+        </div>
+        <p class="rs-stat-num"><span data-count="92">0</span><small>%</small></p>
+        <p class="rs-stat-label">renovam depois da primeira fase</p>
+        <span class="rs-meter" style="--w:92%" aria-hidden="true"></span>
+      </article>
+      <article class="rs-stat spot" data-reveal>
+        <div class="rs-stat-top">
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-star"/></svg></span>
+          <span class="kpi-label">Avaliação</span>
+          <span class="num" aria-hidden="true">04</span>
+        </div>
+        <p class="rs-stat-num"><span data-count="4.9" data-dec="1">0</span><small>/5</small></p>
+        <p class="rs-stat-label">de avaliação dos alunos</p>
+        <span class="rs-meter" style="--w:98%" aria-hidden="true"></span>
+      </article>
     </div>
 
-    <div class="cases" data-reveal="rise">
-      <div class="case-tabs" role="tablist" aria-label="Escolha um aluno">
-        <button class="case-tab is-active" type="button" role="tab" aria-selected="true" data-case="0"><span class="av av-sm" style="--h:82">MA</span><span>Mariana<small>34 anos</small></span></button>
-        <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="1" tabindex="-1"><span class="av av-sm" style="--h:200">DR</span><span>Diego<small>41 anos</small></span></button>
-        <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="2" tabindex="-1"><span class="av av-sm" style="--h:150">CL</span><span>Camila<small>28 anos</small></span></button>
+    <!-- visualizador de casos -->
+    <div class="rs-cases" data-reveal="rise">
+      <span class="rs-arc rs-arc-tl" aria-hidden="true"></span>
+      <span class="rs-arc rs-arc-br" aria-hidden="true"></span>
+
+      <div class="rs-cases-top">
+        <div class="rs-cases-title">
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-pulse"/></svg></span>
+          <div>
+            <p class="rs-cases-h">Evolução por aluno</p>
+            <p class="hud rs-cases-hud">Dados de avaliação · <strong>semana a semana</strong></p>
+          </div>
+        </div>
+
+        <div class="case-tabs" role="tablist" aria-label="Escolha um aluno">
+          <button class="case-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="case-panel" data-case="0">
+            <span class="av av-sm" style="--h:82" aria-hidden="true">MA</span>
+            <span class="ct-txt"><span class="ct-name">Mariana</span><small>34 anos<span class="ct-goal"> · Emagrecimento</span></small></span>
+            <span class="ct-dot" aria-hidden="true"></span>
+          </button>
+          <button class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="1" tabindex="-1">
+            <span class="av av-sm" style="--h:200" aria-hidden="true">DR</span>
+            <span class="ct-txt"><span class="ct-name">Diego</span><small>41 anos<span class="ct-goal"> · Hipertrofia</span></small></span>
+            <span class="ct-dot" aria-hidden="true"></span>
+          </button>
+          <button class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="2" tabindex="-1">
+            <span class="av av-sm" style="--h:150" aria-hidden="true">CL</span>
+            <span class="ct-txt"><span class="ct-name">Camila</span><small>28 anos<span class="ct-goal"> · Performance</span></small></span>
+            <span class="ct-dot" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
 
-      <div class="case" data-case-view role="tabpanel">
+      <div class="case" id="case-panel" data-case-view role="tabpanel" aria-label="Evolução do aluno selecionado">
         <div class="case-info">
           <div class="case-meta">
             <span class="chip chip-lime" data-case-goal>Emagrecimento</span>
             <span class="chip" data-case-time>12 semanas · VOLT Pro</span>
           </div>
           <h3 class="case-name" data-case-name>Mariana, 34</h3>
+
+          <div class="case-legend" aria-hidden="true">
+            <span class="hud">Antes <b>›</b> depois</span>
+            <span class="lg lg-before">Antes</span>
+            <span class="lg lg-after">Depois</span>
+          </div>
           <ul class="metrics" data-case-metrics></ul>
-          <blockquote class="case-quote" data-case-quote>“Pela primeira vez eu não desisti. O check-in de segunda virou compromisso.”</blockquote>
+
+          <blockquote class="case-quote">
+            <svg class="cq-ico" aria-hidden="true"><use href="#i-quote"/></svg>
+            <p data-case-quote>“Pela primeira vez eu não desisti. O check-in de segunda virou compromisso.”</p>
+          </blockquote>
         </div>
+
         <div class="case-chart">
-          <div class="evo-head"><span data-case-chart-title>Peso corporal (kg)</span><span class="chip chip-paper-dark">semana a semana</span></div>
-          <svg class="chart" data-chart="case" role="img" aria-label="Gráfico de evolução do aluno selecionado"></svg>
+          <div class="evo-head">
+            <span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-chart"/></svg></span>
+            <div class="evo-title">
+              <span class="kpi-label">Gráfico de evolução</span>
+              <b data-case-chart-title>Peso corporal (kg)</b>
+            </div>
+            <span class="tag tag-time"><svg aria-hidden="true"><use href="#i-calendar"/></svg>Semana a semana</span>
+          </div>
+          <div class="chart-box">
+            <svg class="chart" data-chart="case" role="img" aria-label="Gráfico de evolução do aluno selecionado"></svg>
+          </div>
+          <div class="evo-foot" aria-hidden="true">
+            <span class="hud"><b>●</b>&nbsp; Avaliação semanal</span>
+            <span class="hud">VOLT / Data log</span>
+          </div>
         </div>
       </div>
-      <p class="disclaimer">Resultados individuais variam conforme rotina, genética e adesão ao plano.</p>
+
+      <div class="rs-cases-foot">
+        <p class="disclaimer"><svg aria-hidden="true"><use href="#i-help"/></svg>Resultados individuais variam conforme rotina, genética e adesão ao plano.</p>
+        <p class="hud" aria-hidden="true"><b>› › ›</b>&nbsp;&nbsp;Medido, não estimado</p>
+      </div>
     </div>
+
+    <div class="cap-divider rs-divider" aria-hidden="true"><span>Dados guiam cada ajuste</span></div>
   </div>
 </section>
 
 <!-- ============ 7. SOBRE O PERSONAL ============ -->
 <section class="section about" id="sobre" data-nav="resultados">
+  <div class="section-deco" aria-hidden="true">
+    <span class="ab-fog"></span>
+    <span class="grid-bg ab-grid"></span>
+    <svg class="ribbon ab-ribbon" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-glow" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-base" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-base" d="M300 90C180 180 170 300 230 400S280 560 220 660"/>
+      <path class="rb-flow" d="M270 20C150 120 120 240 200 350S260 540 170 660"/>
+      <path class="rb-flow rb-slow" d="M300 90C180 180 170 300 230 400S280 560 220 660"/>
+    </svg>
+    <span class="cross" style="left:3%;top:12%"></span>
+    <span class="cross is-muted" style="left:48%;top:7%"></span>
+    <span class="cross" style="right:4%;top:84%"></span>
+    <span class="cross is-muted" style="left:6%;top:90%"></span>
+    <span class="spark" style="left:12%;top:20%;animation-delay:-.9s"></span>
+    <span class="spark" style="left:46%;top:88%;animation-delay:-2s"></span>
+    <span class="spark" style="right:10%;top:14%;animation-delay:-1.5s"></span>
+    <p class="hud ab-hud">Volt<br>seu personal<br><b>evolução real</b></p>
+  </div>
+
   <div class="wrap about-grid">
     <div class="portrait" data-reveal="left">
-      <!-- Troque este SVG por uma foto do personal: <img src="assets/img/personal.jpg" alt="Bruno Castro"> -->
-      <svg class="portrait-svg" viewBox="0 0 400 500" role="img" aria-label="Retrato de Bruno Castro, personal trainer">
-        <defs>
-          <radialGradient id="ptBg" cx="60%" cy="30%" r="80%">
-            <stop offset="0" stop-color="#16233a"/>
-            <stop offset=".6" stop-color="#0a0f18"/>
-            <stop offset="1" stop-color="#05070a"/>
-          </radialGradient>
-          <linearGradient id="ptBody" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#1c2533"/>
-            <stop offset="1" stop-color="#07090d"/>
-          </linearGradient>
-          <linearGradient id="ptRim" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#c6f432" stop-opacity="0"/>
-            <stop offset=".6" stop-color="#c6f432" stop-opacity="0"/>
-            <stop offset="1" stop-color="#c6f432" stop-opacity=".95"/>
-          </linearGradient>
-          <filter id="ptGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
-          <pattern id="ptGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" fill="none" stroke="#c6f432" stroke-opacity=".07"/></pattern>
-        </defs>
-        <rect width="400" height="500" fill="url(#ptBg)"/>
-        <rect width="400" height="500" fill="url(#ptGrid)"/>
-        <circle cx="250" cy="170" r="130" fill="#c6f432" opacity=".08" filter="url(#ptGlow)"/>
-        <g>
-          <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166Z" fill="url(#ptBody)"/>
-          <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166" fill="none" stroke="url(#ptRim)" stroke-width="3"/>
-          <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166" fill="none" stroke="url(#ptRim)" stroke-width="10" opacity=".45" filter="url(#ptGlow)"/>
-          <ellipse cx="200" cy="208" rx="66" ry="80" fill="url(#ptBody)"/>
-          <ellipse cx="200" cy="208" rx="66" ry="80" fill="none" stroke="url(#ptRim)" stroke-width="3"/>
-          <ellipse cx="200" cy="208" rx="66" ry="80" fill="none" stroke="url(#ptRim)" stroke-width="10" opacity=".4" filter="url(#ptGlow)"/>
-        </g>
-      </svg>
-      <span class="hud hud-tl" aria-hidden="true"></span><span class="hud hud-tr" aria-hidden="true"></span><span class="hud hud-bl" aria-hidden="true"></span><span class="hud hud-br" aria-hidden="true"></span>
-      <span class="scanline" aria-hidden="true"></span>
-      <div class="portrait-tag pt-1"><svg><use href="#i-shield"/></svg><span>CREF 045872-G/SP</span></div>
-      <div class="portrait-tag pt-2"><b>12</b><span>anos de<br>experiência</span></div>
+      <span class="pt-glow" aria-hidden="true"></span>
+
+      <div class="pt-frame">
+        <div class="pt-media">
+          <!-- FOTO DO PERSONAL: para trocar, substitua o <svg class="portrait-svg"> abaixo por
+               <img src="assets/img/personal.webp" width="800" height="1000" alt="Bruno Castro, personal trainer" loading="lazy" decoding="async">
+               A moldura, a grade, a luz de contorno, a faixa de dados e as tags continuam iguais (o encaixe é por object-fit: cover). -->
+          <svg class="portrait-svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Retrato de Bruno Castro, personal trainer">
+            <defs>
+              <radialGradient id="ptBg" cx="60%" cy="30%" r="80%">
+                <stop offset="0" stop-color="#16233a"/>
+                <stop offset=".6" stop-color="#0a0f18"/>
+                <stop offset="1" stop-color="#05070a"/>
+              </radialGradient>
+              <linearGradient id="ptBody" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#243249"/>
+                <stop offset="1" stop-color="#07090d"/>
+              </linearGradient>
+              <linearGradient id="ptRim" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#c6f432" stop-opacity="0"/>
+                <stop offset=".6" stop-color="#c6f432" stop-opacity="0"/>
+                <stop offset="1" stop-color="#c6f432" stop-opacity=".95"/>
+              </linearGradient>
+              <linearGradient id="ptRimL" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#6fa8ff" stop-opacity=".45"/>
+                <stop offset=".3" stop-color="#6fa8ff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="ptGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+              <pattern id="ptGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" fill="none" stroke="#c6f432" stroke-opacity=".07"/></pattern>
+            </defs>
+            <rect width="400" height="500" fill="url(#ptBg)"/>
+            <rect width="400" height="500" fill="url(#ptGrid)"/>
+            <circle cx="250" cy="170" r="130" fill="#c6f432" opacity=".06" filter="url(#ptGlow)"/>
+            <ellipse cx="300" cy="330" rx="120" ry="170" fill="#c6f432" opacity=".05" filter="url(#ptGlow)"/>
+            <!-- retícula HUD -->
+            <g fill="none" stroke="#c6f432" stroke-linecap="round">
+              <circle cx="200" cy="208" r="108" stroke-opacity=".16" stroke-dasharray="2 7"/>
+              <circle cx="200" cy="208" r="124" stroke-opacity=".08"/>
+              <path d="M200 76v14M200 326v14M68 208h14M318 208h14" stroke-opacity=".5" stroke-width="1.5"/>
+            </g>
+            <g>
+              <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166Z" fill="url(#ptBody)"/>
+              <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166" fill="none" stroke="url(#ptRimL)" stroke-width="2"/>
+              <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166" fill="none" stroke="url(#ptRim)" stroke-width="3"/>
+              <path d="M40 500c6-96 52-150 118-166 14-4 20-14 20-26v-22h44v22c0 12 6 22 20 26 66 16 112 70 118 166" fill="none" stroke="url(#ptRim)" stroke-width="10" opacity=".45" filter="url(#ptGlow)"/>
+              <ellipse cx="200" cy="208" rx="66" ry="80" fill="url(#ptBody)"/>
+              <ellipse cx="200" cy="208" rx="66" ry="80" fill="none" stroke="url(#ptRimL)" stroke-width="2"/>
+              <ellipse cx="200" cy="208" rx="66" ry="80" fill="none" stroke="url(#ptRim)" stroke-width="3"/>
+              <ellipse cx="200" cy="208" rx="66" ry="80" fill="none" stroke="url(#ptRim)" stroke-width="10" opacity=".4" filter="url(#ptGlow)"/>
+            </g>
+          </svg>
+        </div>
+
+        <span class="pt-grid" aria-hidden="true"></span>
+        <span class="pt-scan" aria-hidden="true"></span>
+        <span class="pt-shade" aria-hidden="true"></span>
+
+        <div class="pt-top" aria-hidden="true">
+          <span class="hud"><b>●</b>&nbsp; Perfil do personal</span>
+          <span class="hud">ID 001</span>
+        </div>
+
+        <dl class="pt-data">
+          <div><dt>Nome</dt><dd>Bruno Castro</dd></div>
+          <div><dt>CREF</dt><dd>045872-G/SP</dd></div>
+          <div><dt>Especialidade</dt><dd>Treino de força</dd></div>
+        </dl>
+      </div>
+
+      <span class="pt-c pt-c-tl" aria-hidden="true"></span>
+      <span class="pt-c pt-c-tr" aria-hidden="true"></span>
+      <span class="pt-c pt-c-bl" aria-hidden="true"></span>
+      <span class="pt-c pt-c-br" aria-hidden="true"></span>
+      <span class="pt-ruler" aria-hidden="true"></span>
+      <p class="hud pt-side" aria-hidden="true">Bio <b>/</b> scan <b>/</b> 01</p>
+
+      <div class="pt-tag pt-tag-cref">
+        <span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-shield"/></svg></span>
+        <span class="pt-tag-txt"><small>Registro profissional</small><strong>CREF 045872-G/SP</strong></span>
+      </div>
+      <div class="pt-tag pt-tag-exp">
+        <b>12</b>
+        <span>anos de<br>experiência</span>
+      </div>
     </div>
 
     <div class="about-copy">
       <p class="eyebrow" data-reveal>Seu personal</p>
       <h2 class="h2" data-split><span class="l">Prazer, eu sou o</span> <span class="l lime">Bruno Castro</span></h2>
       <p class="lead" data-reveal>Sou personal trainer há 12 anos e já acompanhei mais de 480 alunos, de quem nunca pisou numa academia a atletas amadores de corrida.</p>
-      <p data-reveal>Criei o Método VOLT depois de perceber que o problema da maioria não era falta de força de vontade. Era falta de um plano que coubesse na rotina e de alguém olhando os números toda semana.</p>
+      <p class="ab-text" data-reveal>Criei o Método VOLT depois de perceber que o problema da maioria não era falta de força de vontade. Era falta de um plano que coubesse na rotina e de alguém olhando os números toda semana.</p>
+
+      <ul class="ab-nums" data-reveal>
+        <li>
+          <span class="ab-num"><span data-count="12">0</span><small>anos</small></span>
+          <span class="kpi-label">de experiência</span>
+        </li>
+        <li>
+          <span class="ab-num"><span data-count="480" data-prefix="+">0</span></span>
+          <span class="kpi-label">alunos acompanhados</span>
+        </li>
+        <li>
+          <span class="ab-num"><span data-count="9000">0</span><small>+</small></span>
+          <span class="kpi-label">treinos prescritos</span>
+        </li>
+      </ul>
 
       <ul class="creds" data-stagger>
-        <li data-reveal><svg><use href="#i-check"/></svg>Bacharel em Educação Física</li>
-        <li data-reveal><svg><use href="#i-check"/></svg>Pós-graduação em Fisiologia do Exercício</li>
-        <li data-reveal><svg><use href="#i-check"/></svg>Especialista em treinamento de força</li>
-        <li data-reveal><svg><use href="#i-check"/></svg>Certificação em reabilitação de lesões</li>
+        <li class="cred spot" data-reveal>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-grad"/></svg></span>
+          <span class="cred-txt"><small>Graduação</small><b>Bacharel em Educação Física</b></span>
+        </li>
+        <li class="cred spot" data-reveal>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-award"/></svg></span>
+          <span class="cred-txt"><small>Especialização</small><b>Pós-graduação em Fisiologia do Exercício</b></span>
+        </li>
+        <li class="cred spot" data-reveal>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-dumbbell"/></svg></span>
+          <span class="cred-txt"><small>Força e hipertrofia</small><b>Especialista em treinamento de força</b></span>
+        </li>
+        <li class="cred spot" data-reveal>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-shield"/></svg></span>
+          <span class="cred-txt"><small>Treino seguro</small><b>Certificação em reabilitação de lesões</b></span>
+        </li>
       </ul>
 
       <blockquote class="about-quote" data-reveal>
+        <svg class="aq-ico" aria-hidden="true"><use href="#i-quote"/></svg>
         <p>Treino bom é aquele que cabe na sua vida e que você consegue repetir por anos.</p>
-        <cite>Bruno Castro</cite>
+        <footer class="aq-foot">
+          <span class="av av-sm" style="--h:82" aria-hidden="true">BC</span>
+          <cite>Bruno Castro<small>Criador do Método VOLT</small></cite>
+        </footer>
       </blockquote>
     </div>
   </div>
@@ -646,10 +1156,63 @@
 
 <!-- ============ 8. DEPOIMENTOS ============ -->
 <section class="section testimonials" id="depoimentos" data-nav="resultados">
+  <div class="section-deco" aria-hidden="true">
+    <span class="tm-fog"></span>
+    <span class="grid-bg tm-grid"></span>
+    <svg class="ribbon tm-ribbon" viewBox="0 0 150 620" preserveAspectRatio="xMaxYMid meet">
+      <path class="rb-glow" d="M174 -20C80 60 22 170 66 280S156 450 184 640"/>
+      <path class="rb-base" d="M174 -20C80 60 22 170 66 280S156 450 184 640"/>
+      <path class="rb-base" d="M194 10C102 84 50 184 90 290S172 460 200 640"/>
+      <path class="rb-base" d="M156 -40C58 48 0 160 42 276S136 446 164 640"/>
+      <path class="rb-flow" d="M174 -20C80 60 22 170 66 280S156 450 184 640"/>
+      <path class="rb-flow rb-slow" d="M156 -40C58 48 0 160 42 276S136 446 164 640"/>
+    </svg>
+    <span class="cross" style="left:4%;top:12%"></span>
+    <span class="cross is-muted" style="left:30%;top:7%"></span>
+    <span class="cross is-muted" style="right:26%;top:30%"></span>
+    <span class="cross" style="left:2.6%;top:88%"></span>
+    <span class="spark" style="left:18%;top:20%"></span>
+    <span class="spark" style="right:21%;top:12%;animation-delay:-1.2s"></span>
+    <span class="spark" style="left:48%;top:95%;animation-delay:-2.3s"></span>
+    <p class="hud tm-hud"><b>› › ›</b><br>relatos<br>reais<br>de alunos</p>
+  </div>
+
   <div class="wrap">
-    <div class="sec-head sec-head-center">
+    <div class="sec-head sec-head-center tm-head">
       <p class="eyebrow" data-reveal>Depoimentos</p>
       <h2 class="h2" data-split><span class="l">Quem treina com a VOLT</span> <span class="l lime">conta como foi</span></h2>
+      <p class="lead" data-reveal style="--d:.12s">Avaliações de alunos e conversas reais do chat do app, sem roteiro e sem edição.</p>
+
+      <div class="t-summary" data-reveal style="--d:.22s">
+        <div class="ts-cell ts-rate">
+          <p class="ts-big">4,9<small>/5</small></p>
+          <div class="ts-meta">
+            <span class="stars" role="img" aria-label="Nota 4,9 de 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></span>
+            <b>4,9 de 5</b>
+            <small>média das avaliações</small>
+          </div>
+        </div>
+        <span class="ts-sep" aria-hidden="true"></span>
+        <div class="ts-cell">
+          <div class="avatars ts-avs" aria-hidden="true">
+            <span class="av av-sm" style="--h:82">MA</span>
+            <span class="av av-sm" style="--h:200">DR</span>
+            <span class="av av-sm" style="--h:150">CL</span>
+          </div>
+          <div class="ts-meta">
+            <b>+480 alunos</b>
+            <small>desde 2014</small>
+          </div>
+        </div>
+        <span class="ts-sep" aria-hidden="true"></span>
+        <div class="ts-cell">
+          <span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-refresh"/></svg></span>
+          <div class="ts-meta">
+            <b>92% renovam</b>
+            <small>após a 1ª fase</small>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -657,241 +1220,495 @@
     <div class="t-row" data-tmarquee>
       <div class="t-track">
         <figure class="tcard">
-          <div class="tc-stars" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <div class="tc-top">
+            <span class="ibox ibox-sm ibox-lime tc-q" aria-hidden="true"><svg><use href="#i-quote"/></svg></span>
+            <div class="tc-stars" role="img" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+            <span class="tag tag-time tc-res">−9 kg</span>
+          </div>
           <blockquote>Perdi 9 kg e parei de ter dor nas costas. O Bruno ajusta tudo quando a minha semana aperta.</blockquote>
-          <figcaption><span class="av av-sm" style="--h:32">RL</span><span><b>Renata L., 38</b><small>aluna há 7 meses</small></span></figcaption>
+          <figcaption><span class="av av-sm" style="--h:32">RL</span><span class="tc-who"><b>Renata L., 38</b><small>aluna há 7 meses</small></span></figcaption>
         </figure>
         <figure class="tcard tcard-chat">
-          <div class="bubble">Bruno, bati meu recorde no agachamento hoje!! 85 kg</div>
-          <div class="bubble bubble-me">Boa, Aline! Semana que vem a gente testa 87,5. Manda o vídeo que eu confiro a profundidade.</div>
-          <figcaption><span class="av av-sm" style="--h:150">AS</span><span><b>Aline S., 33</b><small>conversa no chat do app</small></span></figcaption>
+          <div class="tc-chat-top">
+            <span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-chat"/></svg></span>
+            <span class="tc-chat-t"><b>Chat VOLT</b><small><span class="live-dot" aria-hidden="true"></span>Bruno online</small></span>
+            <span class="num">07:42</span>
+          </div>
+          <div class="tc-thread">
+            <div class="bubble">Bruno, bati meu recorde no agachamento hoje!! 85 kg</div>
+            <div class="bubble bubble-me">Boa, Aline! Semana que vem a gente testa 87,5. Manda o vídeo que eu confiro a profundidade.</div>
+          </div>
+          <figcaption><span class="av av-sm" style="--h:150">AS</span><span class="tc-who"><b>Aline S., 33</b><small>conversa no chat do app</small></span></figcaption>
         </figure>
         <figure class="tcard">
-          <div class="tc-stars" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <div class="tc-top">
+            <span class="ibox ibox-sm ibox-lime tc-q" aria-hidden="true"><svg><use href="#i-quote"/></svg></span>
+            <div class="tc-stars" role="img" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+            <span class="tag tag-time tc-res">11º mês</span>
+          </div>
           <blockquote>Nunca tinha passado de 2 meses na academia. Estou no 11º e não penso em parar.</blockquote>
-          <figcaption><span class="av av-sm" style="--h:200">FM</span><span><b>Felipe M., 29</b><small>aluno há 11 meses</small></span></figcaption>
+          <figcaption><span class="av av-sm" style="--h:200">FM</span><span class="tc-who"><b>Felipe M., 29</b><small>aluno há 11 meses</small></span></figcaption>
         </figure>
         <figure class="tcard">
-          <div class="tc-stars" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <div class="tc-top">
+            <span class="ibox ibox-sm ibox-lime tc-q" aria-hidden="true"><svg><use href="#i-quote"/></svg></span>
+            <div class="tc-stars" role="img" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+            <span class="tag tag-time tc-res">Em casa</span>
+          </div>
           <blockquote>Treino em casa com dois halteres e um elástico. Mesmo assim o resultado aparece.</blockquote>
-          <figcaption><span class="av av-sm" style="--h:220">CP</span><span><b>Carlos P., 45</b><small>aluno há 5 meses</small></span></figcaption>
+          <figcaption><span class="av av-sm" style="--h:220">CP</span><span class="tc-who"><b>Carlos P., 45</b><small>aluno há 5 meses</small></span></figcaption>
         </figure>
       </div>
     </div>
     <div class="t-row t-row-rev" data-tmarquee>
       <div class="t-track">
         <figure class="tcard">
-          <div class="tc-stars" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <div class="tc-top">
+            <span class="ibox ibox-sm ibox-lime tc-q" aria-hidden="true"><svg><use href="#i-quote"/></svg></span>
+            <div class="tc-stars" role="img" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+            <span class="tag tag-time tc-res">Check-in</span>
+          </div>
           <blockquote>O check-in de segunda virou meu compromisso da semana. Não dá vontade de chegar sem ter treinado.</blockquote>
-          <figcaption><span class="av av-sm" style="--h:82">JR</span><span><b>Juliana R., 31</b><small>aluna há 9 meses</small></span></figcaption>
+          <figcaption><span class="av av-sm" style="--h:82">JR</span><span class="tc-who"><b>Juliana R., 31</b><small>aluna há 9 meses</small></span></figcaption>
         </figure>
         <figure class="tcard">
-          <div class="tc-stars" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <div class="tc-top">
+            <span class="ibox ibox-sm ibox-lime tc-q" aria-hidden="true"><svg><use href="#i-quote"/></svg></span>
+            <div class="tc-stars" role="img" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+            <span class="tag tag-time tc-res">Dieta flexível</span>
+          </div>
           <blockquote>Achei que ia viver de frango com batata-doce. Como pizza no sábado e continuo evoluindo.</blockquote>
-          <figcaption><span class="av av-sm" style="--h:40">TA</span><span><b>Thiago A., 36</b><small>aluno há 6 meses</small></span></figcaption>
+          <figcaption><span class="av av-sm" style="--h:40">TA</span><span class="tc-who"><b>Thiago A., 36</b><small>aluno há 6 meses</small></span></figcaption>
         </figure>
         <figure class="tcard tcard-chat">
-          <div class="bubble">Subi a escada do metrô inteira sem parar. Parece pouco, mas pra mim foi enorme.</div>
-          <div class="bubble bubble-me">Não é pouco, Sônia. É o seu condicionamento respondendo. Orgulho!</div>
-          <figcaption><span class="av av-sm" style="--h:170">SF</span><span><b>Sônia F., 58</b><small>conversa no chat do app</small></span></figcaption>
+          <div class="tc-chat-top">
+            <span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-chat"/></svg></span>
+            <span class="tc-chat-t"><b>Chat VOLT</b><small><span class="live-dot" aria-hidden="true"></span>Bruno online</small></span>
+            <span class="num">19:05</span>
+          </div>
+          <div class="tc-thread">
+            <div class="bubble">Subi a escada do metrô inteira sem parar. Parece pouco, mas pra mim foi enorme.</div>
+            <div class="bubble bubble-me">Não é pouco, Sônia. É o seu condicionamento respondendo. Orgulho!</div>
+          </div>
+          <figcaption><span class="av av-sm" style="--h:170">SF</span><span class="tc-who"><b>Sônia F., 58</b><small>conversa no chat do app</small></span></figcaption>
         </figure>
         <figure class="tcard">
-          <div class="tc-stars" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <div class="tc-top">
+            <span class="ibox ibox-sm ibox-lime tc-q" aria-hidden="true"><svg><use href="#i-quote"/></svg></span>
+            <div class="tc-stars" role="img" aria-label="5 estrelas"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+            <span class="tag tag-time tc-res">1 ano</span>
+          </div>
           <blockquote>Respostas rápidas no chat e treino sempre atualizado no app. Vale cada centavo.</blockquote>
-          <figcaption><span class="av av-sm" style="--h:210">MV</span><span><b>Marcos V., 41</b><small>aluno há 1 ano</small></span></figcaption>
+          <figcaption><span class="av av-sm" style="--h:210">MV</span><span class="tc-who"><b>Marcos V., 41</b><small>aluno há 1 ano</small></span></figcaption>
         </figure>
       </div>
     </div>
+  </div>
+
+  <div class="wrap tm-foot" aria-hidden="true">
+    <p class="hud"><b>● </b>&nbsp;Avaliações verificadas no app</p>
+    <p class="hud tm-foot-r">Passe o cursor para pausar&nbsp;&nbsp;<b>› › ›</b></p>
   </div>
 </section>
 
 <!-- ============ 9. DIAGNÓSTICO (QUIZ) ============ -->
 <section class="section quiz-sec" id="diagnostico" data-nav="planos">
+  <div class="section-deco" aria-hidden="true">
+    <span class="qz-fog"></span>
+    <span class="grid-bg qz-grid"></span>
+    <svg class="ribbon qz-ribbon" viewBox="0 0 150 620" preserveAspectRatio="xMinYMid meet">
+      <path class="rb-glow" d="M-24 -20C70 60 128 170 84 280S-6 450-34 640"/>
+      <path class="rb-base" d="M-24 -20C70 60 128 170 84 280S-6 450-34 640"/>
+      <path class="rb-base" d="M-44 10C48 84 100 184 60 290S-22 460-50 640"/>
+      <path class="rb-flow" d="M-24 -20C70 60 128 170 84 280S-6 450-34 640"/>
+      <path class="rb-flow rb-slow" d="M-44 10C48 84 100 184 60 290S-22 460-50 640"/>
+    </svg>
+    <span class="cross" style="left:46%;top:10%"></span>
+    <span class="cross is-muted" style="right:3%;top:18%"></span>
+    <span class="cross is-muted" style="left:6%;top:84%"></span>
+    <span class="spark" style="left:40%;top:78%;animation-delay:-.8s"></span>
+    <span class="spark" style="right:6%;top:64%;animation-delay:-2s"></span>
+    <p class="hud qz-hud">Perfil<br>objetivo<br>rotina<br><b>plano</b></p>
+  </div>
+
   <div class="wrap quiz-grid">
-    <div class="sec-head">
-      <p class="eyebrow" data-reveal>Diagnóstico rápido</p>
-      <h2 class="h2" data-split><span class="l">Qual plano</span> <span class="l lime">combina com você?</span></h2>
-      <p class="lead" data-reveal style="--d:.15s">Três perguntas, menos de 30 segundos. No fim você recebe a recomendação certa para o seu momento.</p>
+    <div class="qz-side">
+      <div class="sec-head qz-head">
+        <p class="eyebrow" data-reveal>Diagnóstico rápido</p>
+        <h2 class="h2" data-split><span class="l">Qual plano</span> <span class="l lime">combina com você?</span></h2>
+        <p class="lead" data-reveal style="--d:.15s">Três perguntas, menos de 30 segundos. No fim você recebe a recomendação certa para o seu momento.</p>
+      </div>
+
+      <ul class="qz-facts" data-stagger>
+        <li data-reveal><span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-help"/></svg></span><span><b>3 perguntas</b><small>objetivo, local e acompanhamento</small></span></li>
+        <li data-reveal><span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-clock"/></svg></span><span><b>Menos de 30 s</b><small>sem cadastro e sem e-mail</small></span></li>
+        <li data-reveal><span class="ibox ibox-sm ibox-lime" aria-hidden="true"><svg><use href="#i-target"/></svg></span><span><b>Plano certo</b><small>Essencial, VOLT Pro ou Elite</small></span></li>
+      </ul>
+
+      <p class="hud qz-side-hud" aria-hidden="true"><b>› › ›</b>&nbsp;&nbsp;Volt / diagnóstico / <strong>plano ideal</strong></p>
     </div>
 
     <div class="quiz" data-quiz data-reveal="scale">
+      <span class="qz-arc qz-arc-tl" aria-hidden="true"></span>
+      <span class="qz-arc qz-arc-br" aria-hidden="true"></span>
+
       <div class="quiz-top">
-        <span class="kpi-label">Pergunta <b data-quiz-step>1</b> de 3</span>
-        <span class="quiz-bar"><span data-quiz-bar></span></span>
+        <div class="qt-row">
+          <p class="qt-label"><span class="live-dot" aria-hidden="true"></span><b>Diagnóstico</b><span class="qt-dot" aria-hidden="true">·</span>Pergunta <span class="qt-step" data-quiz-step>1</span> de 3</p>
+          <span class="qt-steps" aria-hidden="true"><i>01</i><i>02</i><i>03</i></span>
+        </div>
+        <span class="quiz-bar" aria-hidden="true"><span data-quiz-bar></span></span>
       </div>
 
-      <div class="quiz-q is-active" data-q="0">
+      <div class="quiz-q" data-q="0">
         <h3>Qual é o seu principal objetivo?</h3>
         <div class="quiz-opts">
-          <button type="button" class="qopt" data-v="emagrecer"><svg><use href="#i-flame"/></svg>Emagrecer e definir</button>
-          <button type="button" class="qopt" data-v="massa"><svg><use href="#i-dumbbell"/></svg>Ganhar massa muscular</button>
-          <button type="button" class="qopt" data-v="condicionamento"><svg><use href="#i-pulse"/></svg>Melhorar o condicionamento</button>
-          <button type="button" class="qopt" data-v="saude"><svg><use href="#i-heart"/></svg>Cuidar da saúde e das dores</button>
+          <button type="button" class="qopt" data-v="emagrecer"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-flame"/></svg></span><span class="qo-txt"><b>Emagrecer e definir</b><small>perder gordura e marcar</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="massa"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-dumbbell"/></svg></span><span class="qo-txt"><b>Ganhar massa muscular</b><small>força e hipertrofia</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="condicionamento"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-pulse"/></svg></span><span class="qo-txt"><b>Melhorar o condicionamento</b><small>fôlego e disposição</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="saude"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-heart"/></svg></span><span class="qo-txt"><b>Cuidar da saúde e das dores</b><small>postura e mobilidade</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
         </div>
       </div>
       <div class="quiz-q" data-q="1" hidden>
         <h3>Onde você vai treinar?</h3>
         <div class="quiz-opts">
-          <button type="button" class="qopt" data-v="academia"><svg><use href="#i-dumbbell"/></svg>Na academia</button>
-          <button type="button" class="qopt" data-v="casa"><svg><use href="#i-home"/></svg>Em casa</button>
-          <button type="button" class="qopt" data-v="livre"><svg><use href="#i-sun"/></svg>Ao ar livre</button>
-          <button type="button" class="qopt" data-v="indefinido"><svg><use href="#i-target"/></svg>Ainda não sei</button>
+          <button type="button" class="qopt" data-v="academia"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-dumbbell"/></svg></span><span class="qo-txt"><b>Na academia</b><small>máquinas e pesos livres</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="casa"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-home"/></svg></span><span class="qo-txt"><b>Em casa</b><small>com pouco ou nenhum equipamento</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="livre"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-sun"/></svg></span><span class="qo-txt"><b>Ao ar livre</b><small>parque, praia ou rua</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="indefinido"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-target"/></svg></span><span class="qo-txt"><b>Ainda não sei</b><small>a gente decide juntos</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
         </div>
       </div>
       <div class="quiz-q" data-q="2" hidden>
         <h3>Quanto acompanhamento você quer?</h3>
-        <div class="quiz-opts">
-          <button type="button" class="qopt" data-v="essencial"><svg><use href="#i-target"/></svg>Quero o plano e sigo por conta</button>
-          <button type="button" class="qopt" data-v="pro"><svg><use href="#i-calendar"/></svg>Quero ajustes e correções toda semana</button>
-          <button type="button" class="qopt" data-v="elite"><svg><use href="#i-user"/></svg>Quero o personal do meu lado</button>
+        <div class="quiz-opts quiz-opts-list">
+          <button type="button" class="qopt" data-v="essencial"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-target"/></svg></span><span class="qo-txt"><b>Quero o plano e sigo por conta</b><small>treino no app, no meu ritmo</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="pro"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-calendar"/></svg></span><span class="qo-txt"><b>Quero ajustes e correções toda semana</b><small>check-in semanal e correção por vídeo</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
+          <button type="button" class="qopt" data-v="elite"><span class="ibox qo-ico" aria-hidden="true"><svg><use href="#i-user"/></svg></span><span class="qo-txt"><b>Quero o personal do meu lado</b><small>treinos presenciais e bioimpedância</small></span><span class="qo-mark" aria-hidden="true"><svg><use href="#i-check"/></svg></span></button>
         </div>
       </div>
 
       <div class="quiz-result" data-quiz-result hidden>
-        <span class="chip chip-lime">Recomendação</span>
+        <div class="qr-top">
+          <span class="ibox ibox-lg ibox-fill qr-badge" aria-hidden="true"><svg><use href="#i-award"/></svg></span>
+          <div class="qr-top-txt">
+            <span class="chip chip-lime">Recomendação</span>
+            <span class="qr-done" aria-hidden="true"><span class="bar"><span style="--w:100%"></span></span><span class="num">3/3</span></span>
+          </div>
+        </div>
         <h3>Seu plano ideal é o <span class="lime" data-qr-plan>VOLT Pro</span></h3>
-        <p data-qr-text></p>
+        <p class="qr-text" data-qr-text></p>
+        <ul class="qr-incl" aria-label="Incluso em todos os planos">
+          <li><svg><use href="#i-check"/></svg>Avaliação inicial</li>
+          <li><svg><use href="#i-check"/></svg>Treino no app</li>
+          <li><svg><use href="#i-check"/></svg>Vídeos de execução</li>
+        </ul>
         <div class="quiz-actions">
           <a class="btn btn-primary" href="#planos" data-quiz-go><span>Ver o plano</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
           <button class="btn btn-ghost" type="button" data-quiz-reset><svg class="btn-lead-ico"><use href="#i-refresh"/></svg><span>Refazer</span></button>
         </div>
       </div>
 
-      <button class="quiz-back" type="button" data-quiz-back hidden><svg><use href="#i-arrow-l"/></svg>Voltar</button>
+      <div class="quiz-foot">
+        <button class="quiz-back" type="button" data-quiz-back hidden><svg><use href="#i-arrow-l"/></svg>Voltar</button>
+        <p class="hud qf-hud" aria-hidden="true">Sem cadastro&nbsp;&nbsp;<b>·</b>&nbsp;&nbsp;na hora</p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============ FAIXA DE TRANSIÇÃO ============ -->
 <div class="bigtext" aria-hidden="true" data-bigtext>
-  <div class="bt-line bt-fill" data-bt-dir="-1">Sua melhor fase · Sua melhor fase · Sua melhor fase ·</div>
-  <div class="bt-line bt-outline" data-bt-dir="1">começa agora · começa agora · começa agora · começa agora ·</div>
+  <div class="bt-hud bt-hud-top">
+    <span class="bt-hud-l"><b>› › ›</b>&nbsp;&nbsp;Volt / fase 01</span>
+    <span class="bt-rule"></span>
+    <span class="bt-hud-c">12 semanas&nbsp;&nbsp;·&nbsp;&nbsp;3 fases&nbsp;&nbsp;·&nbsp;&nbsp;1 objetivo</span>
+    <span class="bt-rule bt-rule-2"></span>
+    <span class="bt-hud-r">S01 <b>—</b> S12</span>
+  </div>
+  <div class="bt-lines">
+    <div class="bt-line bt-fill" data-bt-dir="-1">Sua melhor fase <i class="bt-sep"></i> Sua melhor fase <i class="bt-sep"></i> Sua melhor fase <i class="bt-sep"></i> Sua melhor fase <i class="bt-sep"></i> Sua melhor fase <i class="bt-sep"></i></div>
+    <div class="bt-line bt-outline" data-bt-dir="1">começa agora <i class="bt-sep"></i> começa agora <i class="bt-sep"></i> começa agora <i class="bt-sep"></i> começa agora <i class="bt-sep"></i> começa agora <i class="bt-sep"></i> começa agora <i class="bt-sep"></i></div>
+  </div>
+  <div class="bt-hud bt-hud-bot">
+    <span class="bt-hud-l">Disciplina <b>/</b> dados <b>/</b> resultado</span>
+    <span class="bt-rule bt-rule-ticks"></span>
+    <span class="bt-hud-r">Consistência gera liberdade&nbsp;&nbsp;<b>›</b></span>
+  </div>
 </div>
 
 <!-- ============ 10. PLANOS ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gt-g-band" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c6f432" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#c6f432" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#c6f432" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="gt-g-core" cx=".38" cy=".3" r=".8">
+      <stop offset="0" stop-color="#eaff9e"/>
+      <stop offset=".55" stop-color="#c6f432"/>
+      <stop offset="1" stop-color="#8fbf0c"/>
+    </radialGradient>
+  </defs>
+</svg>
+
 <section class="section pricing" id="planos" data-nav="planos">
+  <div class="section-deco" aria-hidden="true">
+    <div class="grid-bg pr-grid"></div>
+    <div class="pr-glow"></div>
+    <svg class="ribbon pr-ribbon pr-ribbon-l" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-glow" d="M-40 10C80 120 110 240 30 350S-30 540 60 660"/>
+      <path class="rb-base" d="M-40 10C80 120 110 240 30 350S-30 540 60 660"/>
+      <path class="rb-base" d="M-70 90C50 180 60 300 0 400S-50 560 10 660"/>
+      <path class="rb-flow" d="M-40 10C80 120 110 240 30 350S-30 540 60 660"/>
+      <path class="rb-flow rb-slow" d="M-70 90C50 180 60 300 0 400S-50 560 10 660"/>
+    </svg>
+    <svg class="ribbon pr-ribbon pr-ribbon-r" viewBox="0 0 240 640" preserveAspectRatio="none">
+      <path class="rb-glow" d="M280 20C160 130 130 250 210 360S270 540 180 660"/>
+      <path class="rb-base" d="M280 20C160 130 130 250 210 360S270 540 180 660"/>
+      <path class="rb-flow" d="M280 20C160 130 130 250 210 360S270 540 180 660"/>
+    </svg>
+    <span class="cross" style="left:4%;top:9%"></span>
+    <span class="cross is-muted" style="left:30%;top:4%"></span>
+    <span class="cross" style="right:6%;top:40%"></span>
+    <span class="cross is-muted" style="left:12%;top:36%"></span>
+    <span class="cross is-muted" style="right:3.5%;top:86%"></span>
+    <span class="spark" style="left:22%;top:14%"></span>
+    <span class="spark" style="right:24%;top:7%;animation-delay:-1.2s"></span>
+    <span class="spark" style="left:8%;top:48%;animation-delay:-2.1s"></span>
+    <span class="spark" style="right:9%;top:70%;animation-delay:-.6s"></span>
+    <p class="hud pr-hud pr-hud-r"><b>› › ›</b>&nbsp;&nbsp;3 planos<br>online <b>+</b> presencial<br>turma de <strong>outubro</strong></p>
+    <p class="hud pr-hud pr-hud-l">Invista<br>em você<br><b>evolua</b><br>de verdade</p>
+  </div>
+
   <div class="wrap">
-    <div class="sec-head sec-head-center">
+    <div class="sec-head sec-head-center pr-head">
       <p class="eyebrow" data-reveal>Planos</p>
       <h2 class="h2" data-split><span class="l">Escolha seu plano</span> <span class="l lime">e comece na segunda</span></h2>
       <p class="lead" data-reveal style="--d:.15s">Todos os planos incluem avaliação inicial, treino no app e acesso aos vídeos de execução.</p>
     </div>
 
-    <div class="billing" data-reveal role="radiogroup" aria-label="Período de cobrança">
-      <span class="billing-ind" aria-hidden="true"></span>
-      <button type="button" role="radio" aria-checked="false" data-billing="1">Mensal</button>
-      <button type="button" role="radio" aria-checked="true" data-billing="3" class="is-active">Trimestral <em>−15%</em></button>
-      <button type="button" role="radio" aria-checked="false" data-billing="6">Semestral <em>−25%</em></button>
+    <div class="billing-wrap" data-reveal style="--d:.2s">
+      <div class="billing" role="radiogroup" aria-label="Período de cobrança">
+        <span class="billing-ind" aria-hidden="true"></span>
+        <button type="button" role="radio" aria-checked="false" data-billing="1"><span>Mensal</span></button>
+        <button type="button" role="radio" aria-checked="true" data-billing="3" class="is-active"><span>Trimestral</span> <em>−15%</em></button>
+        <button type="button" role="radio" aria-checked="false" data-billing="6"><span>Semestral</span> <em>−25%</em></button>
+      </div>
+      <p class="billing-hint"><svg aria-hidden="true"><use href="#i-bolt"/></svg>Valor por mês · cobrado no período escolhido</p>
     </div>
 
     <div class="plans" data-stagger>
+      <!-- Essencial -->
       <article class="plan spot" data-plan="essencial" data-price="197" data-reveal>
-        <header>
-          <h3>Essencial</h3>
-          <p>Para quem já treina e quer um plano profissional.</p>
-        </header>
-        <div class="price"><span class="cur">R$</span><b data-amount>167</b><span class="per">/mês</span></div>
-        <p class="price-note" data-note>R$ 501 a cada 3 meses</p>
-        <p class="price-day" data-day>≈ R$ 5,57 por dia</p>
+        <span class="plan-ring" aria-hidden="true"></span>
+        <div class="pl-top">
+          <span class="ibox ibox-lg pl-ico" aria-hidden="true"><svg><use href="#i-dumbbell"/></svg></span>
+          <div class="pl-name">
+            <span class="pl-kind">Online</span>
+            <h3>Essencial</h3>
+          </div>
+          <span class="num" aria-hidden="true">01</span>
+        </div>
+        <p class="pl-desc">Para quem já treina e quer um plano profissional.</p>
+
+        <div class="pl-price">
+          <div class="price"><span class="cur">R$</span><b data-amount>167</b><span class="per">/mês</span></div>
+          <p class="price-note" data-note>R$ 501 a cada 3 meses</p>
+          <p class="price-day" data-day>≈ R$ 5,57 por dia</p>
+        </div>
+
+        <p class="feat-label" aria-hidden="true">O que está incluso</p>
         <ul class="feat">
-          <li><svg><use href="#i-check"/></svg>Treino personalizado no app</li>
-          <li><svg><use href="#i-check"/></svg>Vídeos de execução de todos os exercícios</li>
-          <li><svg><use href="#i-check"/></svg>Nova fase de treino a cada 4 semanas</li>
-          <li><svg><use href="#i-check"/></svg>Suporte por chat em dias úteis</li>
-          <li class="off"><svg><use href="#i-minus"/></svg>Check-in semanal com ajustes</li>
-          <li class="off"><svg><use href="#i-minus"/></svg>Correção de execução por vídeo</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Treino personalizado no app</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Vídeos de execução de todos os exercícios</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Nova fase de treino a cada 4 semanas</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Suporte por chat em dias úteis</li>
+          <li class="off"><span class="ck" aria-hidden="true"><svg><use href="#i-minus"/></svg></span><span class="visually-hidden">Não incluso: </span>Check-in semanal com ajustes</li>
+          <li class="off"><span class="ck" aria-hidden="true"><svg><use href="#i-minus"/></svg></span><span class="visually-hidden">Não incluso: </span>Correção de execução por vídeo</li>
         </ul>
-        <a class="btn btn-ghost btn-block" href="https://wa.me/5511900000000" target="_blank" rel="noopener" data-plan-cta><span>Quero o Essencial</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
+
+        <a class="btn btn-ghost btn-block pl-cta" href="https://wa.me/5511900000000" target="_blank" rel="noopener" data-plan-cta><span>Quero o Essencial</span><span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span><span class="visually-hidden"> (abre o WhatsApp)</span></a>
       </article>
 
+      <!-- VOLT Pro (destaque) -->
       <article class="plan plan-featured spot" data-plan="pro" data-price="297" data-reveal>
-        <span class="plan-badge"><svg><use href="#i-bolt"/></svg>Mais escolhido</span>
-        <header>
-          <h3>VOLT Pro</h3>
-          <p>Acompanhamento completo, 100% online.</p>
-        </header>
-        <div class="price"><span class="cur">R$</span><b data-amount>252</b><span class="per">/mês</span></div>
-        <p class="price-note" data-note>R$ 756 a cada 3 meses</p>
-        <p class="price-day" data-day>≈ R$ 8,40 por dia</p>
+        <span class="plan-ring" aria-hidden="true"></span>
+        <span class="plan-badge"><svg aria-hidden="true"><use href="#i-bolt"/></svg>Mais escolhido</span>
+        <div class="pl-top">
+          <span class="ibox ibox-lg ibox-fill pl-ico" aria-hidden="true"><svg><use href="#i-bolt"/></svg></span>
+          <div class="pl-name">
+            <span class="pl-kind">Online · completo</span>
+            <h3>VOLT Pro</h3>
+          </div>
+          <span class="num" aria-hidden="true">02</span>
+        </div>
+        <p class="pl-desc">Acompanhamento completo, 100% online.</p>
+
+        <div class="pl-price">
+          <div class="price"><span class="cur">R$</span><b data-amount>252</b><span class="per">/mês</span></div>
+          <p class="price-note" data-note>R$ 756 a cada 3 meses</p>
+          <p class="price-day" data-day>≈ R$ 8,40 por dia</p>
+        </div>
+
+        <p class="feat-label" aria-hidden="true">O que está incluso</p>
         <ul class="feat">
-          <li><svg><use href="#i-check"/></svg>Tudo do Essencial</li>
-          <li><svg><use href="#i-check"/></svg>Check-in semanal com ajustes</li>
-          <li><svg><use href="#i-check"/></svg>Correção de execução por vídeo</li>
-          <li><svg><use href="#i-check"/></svg>Orientação nutricional flexível</li>
-          <li><svg><use href="#i-check"/></svg>Chat prioritário 7 dias por semana</li>
-          <li><svg><use href="#i-check"/></svg>Chamada mensal de 30 minutos</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Tudo do Essencial</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Check-in semanal com ajustes</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Correção de execução por vídeo</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Orientação nutricional flexível</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Chat prioritário 7 dias por semana</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Chamada mensal de 30 minutos</li>
         </ul>
-        <a class="btn btn-dark btn-block" href="https://wa.me/5511900000000" target="_blank" rel="noopener" data-plan-cta data-magnetic><span>Quero o VOLT Pro</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
+
+        <a class="btn btn-primary btn-block btn-lg pl-cta" href="https://wa.me/5511900000000" target="_blank" rel="noopener" data-plan-cta data-magnetic><span>Quero o VOLT Pro</span><span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span><span class="visually-hidden"> (abre o WhatsApp)</span></a>
+        <p class="pl-foot"><span class="live-dot" aria-hidden="true"></span>Vagas limitadas na turma de outubro</p>
       </article>
 
+      <!-- Elite Presencial -->
       <article class="plan spot" data-plan="elite" data-price="897" data-reveal>
-        <header>
-          <h3>Elite Presencial</h3>
-          <p>O personal do seu lado, 2 vezes por semana.</p>
-        </header>
-        <div class="price"><span class="cur">R$</span><b data-amount>762</b><span class="per">/mês</span></div>
-        <p class="price-note" data-note>R$ 2.286 a cada 3 meses</p>
-        <p class="price-day" data-day>≈ R$ 25,40 por dia</p>
+        <span class="plan-ring" aria-hidden="true"></span>
+        <div class="pl-top">
+          <span class="ibox ibox-lg pl-ico" aria-hidden="true"><svg><use href="#i-crown"/></svg></span>
+          <div class="pl-name">
+            <span class="pl-kind">Presencial · SP</span>
+            <h3>Elite Presencial</h3>
+          </div>
+          <span class="num" aria-hidden="true">03</span>
+        </div>
+        <p class="pl-desc">O personal do seu lado, 2 vezes por semana.</p>
+
+        <div class="pl-price">
+          <div class="price"><span class="cur">R$</span><b data-amount>762</b><span class="per">/mês</span></div>
+          <p class="price-note" data-note>R$ 2.286 a cada 3 meses</p>
+          <p class="price-day" data-day>≈ R$ 25,40 por dia</p>
+        </div>
+
+        <p class="feat-label" aria-hidden="true">O que está incluso</p>
         <ul class="feat">
-          <li><svg><use href="#i-check"/></svg>Tudo do VOLT Pro</li>
-          <li><svg><use href="#i-check"/></svg>8 treinos presenciais por mês</li>
-          <li><svg><use href="#i-check"/></svg>Bioimpedância todo mês</li>
-          <li><svg><use href="#i-check"/></svg>Agenda flexível de segunda a sábado</li>
-          <li><svg><use href="#i-check"/></svg>Academia parceira na Vila Mariana (SP)</li>
-          <li><svg><use href="#i-check"/></svg>Prioridade na escolha de horários</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Tudo do VOLT Pro</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>8 treinos presenciais por mês</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Bioimpedância todo mês</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Agenda flexível de segunda a sábado</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Academia parceira na Vila Mariana (SP)</li>
+          <li><span class="ck" aria-hidden="true"><svg><use href="#i-check"/></svg></span>Prioridade na escolha de horários</li>
         </ul>
-        <a class="btn btn-ghost btn-block" href="https://wa.me/5511900000000" target="_blank" rel="noopener" data-plan-cta><span>Quero o Elite</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
+
+        <a class="btn btn-ghost btn-block pl-cta" href="https://wa.me/5511900000000" target="_blank" rel="noopener" data-plan-cta><span>Quero o Elite</span><span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span><span class="visually-hidden"> (abre o WhatsApp)</span></a>
       </article>
     </div>
 
+    <!-- Bônus -->
     <div class="bonus" data-reveal>
       <div class="bonus-head">
-        <span class="bonus-ico"><svg><use href="#i-gift"/></svg></span>
-        <div>
+        <span class="ibox ibox-lg ibox-lime" aria-hidden="true"><svg><use href="#i-gift"/></svg></span>
+        <div class="bonus-copy">
+          <p class="bonus-kicker">Presente de boas-vindas</p>
           <h3>Bônus da turma de outubro</h3>
           <p>Liberados no primeiro dia, em qualquer plano.</p>
         </div>
+        <p class="bonus-total"><span>Total em bônus</span><b><s>R$ 211</s> grátis</b></p>
       </div>
       <ul class="bonus-list">
-        <li><b>Guia de alimentação flexível</b><span><s>R$ 97</s> grátis</span></li>
-        <li><b>Treinos expressos de 20 minutos</b><span><s>R$ 67</s> grátis</span></li>
-        <li><b>Comunidade VOLT no app</b><span><s>R$ 47</s> grátis</span></li>
+        <li>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-apple"/></svg></span>
+          <div><b>Guia de alimentação flexível</b><span class="bn-price"><s>R$ 97</s><em>grátis</em></span></div>
+        </li>
+        <li>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-clock"/></svg></span>
+          <div><b>Treinos expressos de 20 minutos</b><span class="bn-price"><s>R$ 67</s><em>grátis</em></span></div>
+        </li>
+        <li>
+          <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-users"/></svg></span>
+          <div><b>Comunidade VOLT no app</b><span class="bn-price"><s>R$ 47</s><em>grátis</em></span></div>
+        </li>
       </ul>
     </div>
 
-    <ul class="pay" data-reveal>
-      <li><svg><use href="#i-pix"/></svg>Pix</li>
-      <li><svg><use href="#i-card"/></svg>Cartão em até 12x</li>
-      <li><svg><use href="#i-lock"/></svg>Pagamento seguro</li>
-      <li><svg><use href="#i-refresh"/></svg>Cancelamento simples</li>
+    <!-- Pagamento -->
+    <ul class="pay" data-reveal aria-label="Formas de pagamento e condições">
+      <li><span class="ibox ibox-sm" aria-hidden="true"><svg><use href="#i-pix"/></svg></span>Pix</li>
+      <li><span class="ibox ibox-sm" aria-hidden="true"><svg><use href="#i-card"/></svg></span>Cartão em até 12x</li>
+      <li><span class="ibox ibox-sm" aria-hidden="true"><svg><use href="#i-lock"/></svg></span>Pagamento seguro</li>
+      <li><span class="ibox ibox-sm" aria-hidden="true"><svg><use href="#i-refresh"/></svg></span>Cancelamento simples</li>
     </ul>
   </div>
 </section>
 
 <!-- ============ 11. GARANTIA ============ -->
 <section class="section guarantee" id="garantia" data-nav="planos">
+  <div class="section-deco" aria-hidden="true">
+    <div class="gt-glow"></div>
+    <span class="cross is-muted" style="left:5%;top:18%"></span>
+    <span class="cross" style="right:4%;top:12%"></span>
+    <span class="spark" style="left:12%;top:86%;animation-delay:-1.6s"></span>
+    <span class="spark" style="right:14%;top:90%;animation-delay:-.4s"></span>
+  </div>
+
   <div class="wrap">
     <div class="g-card" data-reveal="rise">
+      <div class="g-bg" aria-hidden="true">
+        <div class="grid-bg g-grid"></div>
+        <div class="g-shine"></div>
+        <svg class="ribbon g-band" viewBox="0 0 1200 420" preserveAspectRatio="none">
+          <path class="rb-glow" d="M-60 430C60 410 130 330 200 250S320 40 450 -40"/>
+          <path class="rb-base" d="M-60 430C60 410 130 330 200 250S320 40 450 -40"/>
+          <path class="rb-base" d="M-90 470C70 440 170 370 250 290S390 80 520 -40"/>
+          <path class="rb-base g-faint" d="M-40 360C40 350 90 300 140 230S230 60 330 -40"/>
+          <path class="rb-flow g-flow" d="M-60 430C60 410 130 330 200 250S320 40 450 -40"/>
+          <path class="rb-flow rb-slow g-flow" d="M-90 470C70 440 170 370 250 290S390 80 520 -40"/>
+        </svg>
+        <span class="g-corner is-tl"></span>
+        <span class="g-corner is-tr"></span>
+        <span class="g-corner is-bl"></span>
+        <span class="g-corner is-br"></span>
+        <p class="hud g-hud g-hud-tr">Risco<br>zero<br><b>30 dias</b></p>
+        <p class="hud g-hud g-hud-bl">VOLT<br>garantia<br><strong>sem perguntas</strong></p>
+      </div>
+
       <div class="seal" aria-hidden="true">
+        <span class="seal-halo"></span>
+        <svg class="seal-dial" viewBox="0 0 200 200">
+          <circle class="sd-ticks" cx="100" cy="100" r="95"/>
+          <circle class="sd-ticks-major" cx="100" cy="100" r="95"/>
+          <circle class="sd-track" cx="100" cy="100" r="61"/>
+          <circle class="sd-ring" cx="100" cy="100" r="61"/>
+        </svg>
         <svg class="seal-text" viewBox="0 0 200 200">
-          <defs><path id="sealPath" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
-          <text><textPath href="#sealPath">GARANTIA VOLT · 30 DIAS · RISCO ZERO · GARANTIA VOLT · 30 DIAS · RISCO ZERO ·</textPath></text>
+          <defs><path id="gt-seal-path" d="M100 100m-75 0a75 75 0 1 1 150 0a75 75 0 1 1-150 0"/></defs>
+          <text><textPath href="#gt-seal-path" textLength="468" lengthAdjust="spacing">GARANTIA VOLT · <tspan class="st-lime">30 DIAS</tspan> · RISCO ZERO ·</textPath></text>
         </svg>
         <div class="seal-core">
           <b>30</b>
           <span>dias</span>
         </div>
       </div>
+
       <div class="g-copy">
-        <p class="eyebrow">Garantia</p>
+        <p class="eyebrow" data-reveal>Garantia incondicional</p>
         <h2 class="h2 h2-sm" data-split><span class="l">Treine 30 dias.</span> <span class="l lime">O risco é meu.</span></h2>
-        <p>Siga o plano por 30 dias. Se não sentir diferença no corpo, na disposição ou na sua relação com o treino, devolvo 100% do valor. Basta uma mensagem, sem formulário e sem pergunta.</p>
+        <p class="g-text" data-reveal style="--d:.12s">Siga o plano por 30 dias. Se não sentir diferença no corpo, na disposição ou na sua relação com o treino, devolvo 100% do valor. Basta uma mensagem, sem formulário e sem pergunta.</p>
+        <ul class="g-list" data-stagger>
+          <li data-reveal>
+            <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-shield"/></svg></span>
+            <div><b>100% do valor</b><span>Devolução integral, sem taxa</span></div>
+          </li>
+          <li data-reveal>
+            <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-refresh"/></svg></span>
+            <div><b>Sem burocracia</b><span>Sem formulário nem justificativa</span></div>
+          </li>
+          <li data-reveal>
+            <span class="ibox ibox-lime" aria-hidden="true"><svg><use href="#i-chat"/></svg></span>
+            <div><b>Uma mensagem</b><span>No mesmo chat do treino</span></div>
+          </li>
+        </ul>
       </div>
     </div>
+
+    <div class="cap-divider gt-divider" aria-hidden="true"><span>Resultado é compromisso</span></div>
   </div>
 </section>
 
-<!-- ============ 12. FAQ ============ -->
 <section class="section faq" id="faq" data-nav="faq">
   <div class="wrap faq-grid">
     <div class="sec-head">
@@ -945,7 +1762,7 @@
         <p class="lead">Garanta sua vaga hoje, faça a avaliação essa semana e comece a treinar com o plano pronto no app.</p>
 
         <div class="final-ctas">
-          <a class="btn btn-primary btn-lg" href="#planos" data-scroll data-magnetic><span>Garantir minha vaga</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
+          <a class="btn btn-primary btn-lg" href="#planos" data-scroll data-magnetic><span>Garantir minha vaga</span><span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span></a>
           <a class="btn btn-ghost btn-lg" href="https://wa.me/5511900000000?text=Ol%C3%A1%20Bruno%2C%20quero%20saber%20mais%20sobre%20a%20consultoria." target="_blank" rel="noopener"><svg class="btn-lead-ico"><use href="#i-whatsapp"/></svg><span>Tirar dúvidas</span></a>
         </div>
       </div>
@@ -972,14 +1789,13 @@
 
 </main>
 
-<!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
         <a class="brand" href="#inicio" data-scroll>
           <span class="brand-mark"><svg><use href="#i-bolt"/></svg></span>
-          <span class="brand-name">VOLT<small>personal training</small></span>
+          <span class="brand-name">VOLT<small>Personal trainer</small></span>
         </a>
         <p>Consultoria online e treino presencial com Bruno Castro. São Paulo, SP.</p>
         <div class="socials">
@@ -1013,7 +1829,7 @@
 <!-- Barra fixa mobile -->
 <div class="mbar" data-mbar>
   <div class="mbar-txt"><span>A partir de</span><b>R$ 147/mês</b></div>
-  <a class="btn btn-primary btn-sm" href="#planos" data-scroll><span>Quero minha vaga</span><span class="btn-ico"><svg><use href="#i-arrow-ur"/></svg></span></a>
+  <a class="btn btn-primary btn-sm" href="#planos" data-scroll><span>Quero minha vaga</span><span class="btn-ico"><svg><use href="#i-arrow-r"/></svg></span></a>
 </div>
 
 <!-- WhatsApp flutuante -->
