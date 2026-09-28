@@ -2679,13 +2679,14 @@ html.js .plan--featured.is-in { animation-name: reveal-in-lifted; }
   .compat { font-size: 11px; gap: 10px; padding-left: 14px; }
   .compat__icons { gap: 7px; padding: 6px 9px; }
   .compat__icons svg { width: 14px; height: 14px; }
-  .hero__visual { height: 500px; }
-  .phone--hero { scale: 0.86; }
-  .float-card--weight { top: 2%; width: 150px; }
-  .float-card--weight strong { font-size: 22px; }
-  .float-card--coach { top: 36%; right: -4px; }
-  .float-card--kcal { right: 0; bottom: 4%; }
-  .float-card--bpm { left: -4px; bottom: 16%; }
+  .hero__visual { height: 540px; }
+  .phone--hero { scale: 0.8; top: 54%; }
+  .float-card--weight { top: 0; left: -4px; width: 136px; padding: 9px 12px 5px; }
+  .float-card--weight strong { font-size: 21px; }
+  .float-card--weight .spark { height: 24px; margin-top: 4px; }
+  .float-card--coach { display: none; }
+  .float-card--kcal { right: -4px; bottom: 2%; }
+  .float-card--bpm { left: -4px; bottom: 13%; }
   .hero__scroll { display: none; }
   .pains__grid { grid-template-columns: minmax(0, 1fr); }
   .pain { min-height: 0; flex-direction: row; align-items: center; padding: 18px; gap: 14px; }
@@ -2756,8 +2757,6 @@ html.js .plan--featured.is-in { animation-name: reveal-in-lifted; }
 
 @media (max-width: 400px) {
   .hero__title { font-size: 2.15rem; }
-  .phone--hero { scale: 0.8; }
-  .float-card--coach { display: none; }
 }
 
 /* ---------- movimento reduzido ---------- */
