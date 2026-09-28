@@ -2,7 +2,7 @@
 
 Página de vendas de consultoria online para personal trainer. Fundo escuro (preto azulado + navy) com destaque em verde-limão.
 
-Feita do zero em HTML, CSS e JavaScript puro, sem nenhuma biblioteca externa. As fontes (Unbounded e Manrope, licença OFL) ficam na pasta `assets/fonts`, então a página funciona offline.
+Feita do zero em HTML, CSS e JavaScript puro, sem nenhuma biblioteca externa. A fonte (Geist, licença OFL) fica na pasta `assets/fonts`, então a página funciona offline.
 
 Todo o conteúdo é fictício (nome, depoimentos, números e preços) e serve para ser trocado pelo do cliente.
 
@@ -60,5 +60,5 @@ personal-trainer/
 └── assets/
     ├── css/style.css
     ├── js/main.js
-    └── fonts/ (Unbounded, Manrope + licenças OFL)
+    └── fonts/ (Geist + licença OFL)
 ```
