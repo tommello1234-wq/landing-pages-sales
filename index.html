@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TREINO/OS — A plataforma do Personal Trainer que fatura alto</title>
+<meta name="description" content="Gerencie alunos, treinos, cobranças e resultados em um só lugar. A plataforma completa para personal trainers escalarem o negócio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07080a;
+  --bg-2:#0c0f14;
+  --navy:#111723;
+  --navy-2:#171e2c;
+  --card:rgba(255,255,255,.035);
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --text:#f2f4f0;
+  --muted:#8b93a1;
+  --lime:#c6ff1a;
+  --lime-2:#a3e600;
+  --lime-glow:rgba(198,255,26,.35);
+  --radius:22px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.display{font-family:Unbounded,sans-serif;letter-spacing:-.02em;line-height:1.02}
+.lime{color:var(--lime)}
+.container{width:min(1200px,100% - 32px);margin-inline:auto}
+section{position:relative;padding:120px 0}
+@media(max-width:720px){section{padding:80px 0}}
+
+/* noise + cursor glow */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.cursor-glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(198,255,26,.09),transparent 60%);transform:translate(-50%,-50%);transition:opacity .3s;left:-600px;top:-600px}
+@media(hover:none){.cursor-glow{display:none}}
+
+/* progress */
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--lime);z-index:200;width:0;box-shadow:0 0 12px var(--lime)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 26px;border-radius:999px;font-weight:700;font-size:15px;transition:transform .35s var(--ease),box-shadow .35s,background .35s;position:relative;overflow:hidden;white-space:nowrap}
+.btn-lime{background:var(--lime);color:#0a0c05;box-shadow:0 10px 40px -10px var(--lime-glow)}
+.btn-lime:hover{transform:translateY(-3px);box-shadow:0 18px 50px -10px var(--lime-glow)}
+.btn-lime::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 3.5s infinite}
+@keyframes shine{0%,60%{left:-120%}100%{left:160%}}
+.btn-ghost{border:1px solid var(--line-2);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+.btn .arrow{width:30px;height:30px;border-radius:50%;background:#0a0c05;color:var(--lime);display:grid;place-items:center;transition:transform .35s var(--ease)}
+.btn:hover .arrow{transform:rotate(-45deg)}
+
+.tag{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tag i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+.section-head{max-width:760px;margin-bottom:64px}
+.section-head h2{font-size:clamp(34px,5vw,60px);margin:18px 0 18px}
+.section-head p{color:var(--muted);font-size:18px}
+.center{text-align:center;margin-inline:auto}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-d="1"]{transition-delay:.1s}.reveal[data-d="2"]{transition-delay:.2s}.reveal[data-d="3"]{transition-delay:.3s}.reveal[data-d="4"]{transition-delay:.4s}
+.split .w{display:inline-block;overflow:hidden;vertical-align:top}
+.split .w>span{display:inline-block;transform:translateY(110%);transition:transform 1s var(--ease)}
+.split.in .w>span{transform:none}
+
+/* NAV */
+nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:150;width:min(1200px,100% - 32px);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 10px 10px 22px;border-radius:999px;border:1px solid var(--line);background:rgba(10,12,16,.6);backdrop-filter:blur(18px);transition:background .4s}
+.logo{font-family:Unbounded;font-weight:800;font-size:17px;display:flex;align-items:center;gap:10px}
+.logo b{width:28px;height:28px;border-radius:9px;background:var(--lime);display:grid;place-items:center;color:#000}
+.nav-links{display:flex;gap:6px;background:rgba(255,255,255,.04);padding:5px;border-radius:999px;border:1px solid var(--line)}
+.nav-links a{padding:8px 16px;border-radius:999px;font-size:13px;color:var(--muted);transition:.3s}
+.nav-links a:hover,.nav-links a.active{background:var(--lime);color:#000}
+nav .btn{padding:11px 20px;font-size:13px}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* HERO */
+.hero{padding-top:170px;padding-bottom:60px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(40px,6.4vw,84px);margin:22px 0 26px}
+.hero h1 .hl{position:relative;display:inline-block;color:var(--lime)}
+.hero-lead{display:flex;gap:18px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:30px;max-width:540px}
+.hero-lead .ic{flex:none;width:52px;height:52px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime)}
+.hero-lead p{color:var(--muted)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.proof{display:flex;align-items:center;gap:14px;margin-top:34px}
+.avatars{display:flex}
+.avatars span{width:38px;height:38px;border-radius:50%;border:2px solid var(--bg);margin-left:-10px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#000}
+.avatars span:first-child{margin-left:0}
+.proof small{color:var(--muted);font-size:13px}
+.proof strong{color:var(--text);display:block;font-size:14px}
+.stars{color:var(--lime);letter-spacing:2px}
+
+/* hero visual - dashboard */
+.hero-visual{position:relative;perspective:1400px}
+.dash{position:relative;border-radius:28px;background:linear-gradient(160deg,var(--navy-2),var(--navy));border:1px solid var(--line-2);padding:22px;box-shadow:0 60px 120px -40px rgba(0,0,0,.9),0 0 0 8px rgba(255,255,255,.02);transform:rotateY(-12deg) rotateX(6deg);transition:transform .2s ease-out;transform-style:preserve-3d}
+.dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.dash-top h4{font-size:22px;font-weight:600}
+.pills{display:flex;gap:4px;background:rgba(255,255,255,.05);padding:4px;border-radius:999px}
+.pills span{font-size:11px;padding:6px 11px;border-radius:999px;color:var(--muted)}
+.pills span.on{background:var(--lime);color:#000;font-weight:700}
+.kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:14px}
+.kpi small{font-size:11px;color:var(--muted)}
+.kpi b{display:block;font-size:20px;margin:4px 0 10px;font-weight:600}
+.bar{height:6px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--lime);border-radius:9px;width:0;transition:width 1.6s var(--ease)}
+.in .bar i{width:var(--w)}
+.chart{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;align-items:flex-end;gap:8px;height:150px}
+.chart div{flex:1;border-radius:8px 8px 4px 4px;background:rgba(255,255,255,.1);height:0;transition:height 1.2s var(--ease)}
+.chart div.hi{background:linear-gradient(var(--lime),var(--lime-2));box-shadow:0 0 20px var(--lime-glow)}
+.float{position:absolute;border-radius:18px;border:1px solid var(--line-2);background:rgba(18,23,33,.85);backdrop-filter:blur(12px);padding:14px 16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8);animation:bob 6s ease-in-out infinite;z-index:3}
+.float.f1{left:-40px;bottom:40px;display:flex;gap:12px;align-items:center}
+.float.f2{right:-20px;top:-30px;animation-delay:-3s}
+.float .dot{width:40px;height:40px;border-radius:12px;background:var(--lime);display:grid;place-items:center;color:#000}
+.float small{color:var(--muted);font-size:11px;display:block}
+.float b{font-size:15px}
+@keyframes bob{50%{transform:translateY(-14px)}}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr}.dash{transform:none}.float.f1{left:0}.float.f2{right:0}}
+
+/* MARQUEE */
+.marquee{border-block:1px solid var(--line);padding:26px 0;overflow:hidden;background:var(--bg-2)}
+.marquee-track{display:flex;gap:60px;width:max-content;animation:scroll 30s linear infinite}
+.marquee span{font-family:Unbounded;font-size:clamp(22px,3vw,36px);font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.25);white-space:nowrap;display:flex;align-items:center;gap:60px}
+.marquee span::after{content:"✦";color:var(--lime);-webkit-text-stroke:0}
+.marquee span:nth-child(3n+1){color:var(--lime);-webkit-text-stroke:0}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* PAIN */
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pain{padding:30px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);transition:.5s var(--ease);position:relative;overflow:hidden}
+.pain:hover{border-color:rgba(255,80,80,.4);transform:translateY(-6px)}
+.pain .x{width:44px;height:44px;border-radius:50%;background:rgba(255,80,80,.1);color:#ff5a5a;display:grid;place-items:center;margin-bottom:22px;font-weight:800}
+.pain h3{font-size:19px;margin-bottom:10px}
+.pain p{color:var(--muted);font-size:15px}
+@media(max-width:900px){.pain-grid{grid-template-columns:1fr}}
+.pain-turn{margin-top:60px;text-align:center;font-family:Unbounded;font-size:clamp(22px,3vw,34px)}
+
+/* FEATURES (numbered cards) */
+.feat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-2);border-radius:28px;padding:10px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+.feat{padding:34px 30px;border-radius:22px;min-height:300px;display:flex;flex-direction:column;cursor:pointer;transition:background .5s var(--ease),color .5s,transform .5s var(--ease)}
+.feat .n{font-family:Unbounded;font-size:22px;color:var(--lime);margin-bottom:auto;transition:.5s}
+.feat h3{font-size:24px;font-weight:600;margin:40px 0 12px;line-height:1.2}
+.feat p{color:var(--muted);font-size:15px;max-height:0;opacity:0;overflow:hidden;transition:.6s var(--ease)}
+.feat.on{background:var(--lime);color:#0a0c05;transform:translateY(-22px);box-shadow:0 30px 60px -20px var(--lime-glow)}
+.feat.on .n{color:#0a0c05}
+.feat.on p{color:#1b2107;max-height:200px;opacity:1}
+@media(max-width:900px){.feat-row{grid-template-columns:1fr}.feat.on{transform:none}.feat{min-height:auto}}
+
+/* APP SHOWCASE tabs */
+.showcase{background:radial-gradient(ellipse at 50% 60%,rgba(198,255,26,.12),transparent 60%)}
+.show-wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:24px;border-radius:32px;border:1px solid var(--line-2);background:linear-gradient(140deg,var(--navy-2),#090b0f 70%);padding:40px;overflow:hidden}
+.tabs{display:flex;flex-direction:column;gap:6px;position:relative}
+.tabs::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:2px;background:var(--line-2)}
+.tab{display:flex;gap:18px;padding:16px 10px 16px 0;text-align:left;position:relative}
+.tab .knob{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--line-2);background:var(--bg);display:grid;place-items:center;z-index:1;transition:.4s}
+.tab .knob::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted);transition:.4s}
+.tab h4{font-size:18px;font-weight:600;color:var(--muted);transition:.4s}
+.tab p{font-size:14px;color:var(--muted);max-height:0;overflow:hidden;opacity:0;transition:.5s var(--ease)}
+.tab.on h4{color:var(--lime)}
+.tab.on p{max-height:80px;opacity:1;margin-top:6px}
+.tab.on .knob{border-color:var(--lime);box-shadow:0 0 18px var(--lime-glow)}
+.tab.on .knob::after{background:var(--lime)}
+.tab .timer{height:2px;background:var(--line);margin-top:10px;border-radius:2px;overflow:hidden;display:none}
+.tab.on .timer{display:block}
+.tab .timer i{display:block;height:100%;background:var(--lime);width:0}
+.tab.on .timer i{animation:fill 5s linear forwards}
+@keyframes fill{to{width:100%}}
+.screen{position:relative;min-height:420px}
+.pane{position:absolute;inset:0;opacity:0;transform:translateY(20px) scale(.98);transition:.6s var(--ease);pointer-events:none}
+.pane.on{opacity:1;transform:none;pointer-events:auto}
+.phone-row{display:flex;gap:18px;height:100%;align-items:center;justify-content:center}
+.panel{background:#f4f6f1;color:#0c0f14;border-radius:24px;padding:22px;width:100%;box-shadow:0 40px 80px -30px rgba(0,0,0,.9)}
+.panel h5{font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;margin-bottom:6px;font-size:14px}
+.row.sel{background:#0c0f14;color:#fff}
+.row .av{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;font-size:12px;color:#000}
+.row .st{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid #d6dace}
+.row.sel .st{background:#fff;color:#000}
+.row b{font-weight:600}
+.row small{display:block;font-size:11px;opacity:.6}
+.chip{background:var(--lime);color:#000;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:700}
+.dark-panel{background:#0c0f14;color:#fff;border:1px solid var(--line-2)}
+.ex{display:flex;align-items:center;gap:14px;padding:12px;border-radius:14px;border:1px solid var(--line);margin-bottom:8px}
+.ex .num{width:36px;height:36px;border-radius:10px;background:rgba(198,255,26,.12);color:var(--lime);display:grid;place-items:center;font-weight:700;font-family:Unbounded;font-size:12px}
+.ex .sets{margin-left:auto;font-size:12px;color:var(--muted)}
+.ring-wrap{display:flex;gap:18px;align-items:center}
+.ring{width:140px;height:140px;flex:none}
+.ring circle{fill:none;stroke-width:12}
+.ring .bg{stroke:rgba(0,0,0,.08)}
+.ring .fg{stroke:#0c0f14;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;transition:stroke-dashoffset 1.6s var(--ease);transform:rotate(-90deg);transform-origin:center}
+.pane.on .ring .fg{stroke-dashoffset:60}
+@media(max-width:900px){.show-wrap{grid-template-columns:1fr;padding:22px}.screen{min-height:460px}}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{display:flex;gap:16px;align-items:center;padding:20px 22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(255,255,255,.04),transparent);transition:.5s var(--ease)}
+.step:hover{border-color:var(--lime);transform:translateX(10px)}
+.step .b{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--lime);display:grid;place-items:center}
+.step .b::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}
+.step h4{font-size:17px;font-weight:600}
+.step p{font-size:14px;color:var(--muted)}
+.big-num{font-family:Unbounded;font-size:clamp(90px,16vw,220px);font-weight:900;line-height:.85;color:transparent;-webkit-text-stroke:2px var(--lime);position:relative}
+.big-num span{display:block;color:var(--lime);-webkit-text-stroke:0;font-size:.3em;line-height:1.1;margin-top:18px}
+.how-side p{color:var(--muted);margin-top:18px;max-width:380px}
+@media(max-width:900px){.how-grid{grid-template-columns:1fr}}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-block:1px solid var(--line)}
+.stat{padding:50px 26px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{font-family:Unbounded;font-size:clamp(34px,4.5vw,58px);color:var(--lime);display:block;font-weight:800}
+.stat span{color:var(--muted);font-size:14px}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:0}.stat{border-bottom:1px solid var(--line)}}
+
+/* CALCULATOR */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.calc-box{padding:36px;border-radius:28px;border:1px solid var(--line-2);background:var(--navy)}
+.field{margin-bottom:30px}
+.field label{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:14px}
+.field label b{color:var(--text);font-size:18px;font-family:Unbounded}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:9px;background:linear-gradient(90deg,var(--lime) var(--p,50%),rgba(255,255,255,.1) var(--p,50%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--lime);border:5px solid #0a0c05;box-shadow:0 0 0 2px var(--lime),0 0 20px var(--lime-glow);cursor:grab}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--lime);border:5px solid #0a0c05;cursor:grab}
+.calc-out{background:var(--lime);color:#0a0c05;display:flex;flex-direction:column;justify-content:space-between}
+.calc-out small{font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+.calc-out .money{font-family:Unbounded;font-size:clamp(40px,5.5vw,70px);font-weight:900;line-height:1;margin:12px 0}
+.calc-out .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0}
+.calc-out .compare div{background:rgba(0,0,0,.08);border-radius:16px;padding:14px}
+.calc-out .compare b{font-size:22px;display:block}
+.calc-out .btn{background:#0a0c05;color:var(--lime);justify-content:center}
+@media(max-width:900px){.calc{grid-template-columns:1fr}}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.testi{padding:30px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:20px;transition:transform .2s ease-out,border-color .4s;transform-style:preserve-3d}
+.testi:hover{border-color:var(--line-2)}
+.testi.feat-t{background:linear-gradient(160deg,var(--navy-2),var(--navy));border-color:rgba(198,255,26,.3)}
+.testi q{font-size:16px;quotes:none}
+.testi .res{display:inline-flex;align-self:flex-start;background:rgba(198,255,26,.12);color:var(--lime);font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px}
+.who{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line)}
+.who .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#000}
+.who small{display:block;color:var(--muted);font-size:13px}
+@media(max-width:900px){.testi-grid{grid-template-columns:1fr}}
+
+/* PRICING */
+.toggle{display:inline-flex;align-items:center;gap:6px;padding:6px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);margin-bottom:50px;position:relative}
+.toggle button{padding:10px 22px;border-radius:999px;font-size:14px;font-weight:600;position:relative;z-index:1;transition:color .4s}
+.toggle button.on{color:#000}
+.toggle .slider{position:absolute;top:6px;bottom:6px;border-radius:999px;background:var(--lime);transition:.45s var(--ease)}
+.toggle em{font-style:normal;font-size:11px;background:#0a0c05;color:var(--lime);padding:2px 7px;border-radius:999px;margin-left:6px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plan{padding:34px;border-radius:28px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;transition:.5s var(--ease)}
+.plan:hover{transform:translateY(-8px);border-color:var(--line-2)}
+.plan h3{font-size:20px;font-weight:600}
+.plan .desc{color:var(--muted);font-size:14px;margin:6px 0 26px}
+.price{font-family:Unbounded;font-size:52px;font-weight:800;display:flex;align-items:baseline;gap:6px}
+.price sup{font-size:18px;font-weight:600;align-self:flex-start;margin-top:10px}
+.price small{font-size:14px;font-family:Inter;color:var(--muted);font-weight:500}
+.price .val{display:inline-block;transition:transform .4s var(--ease),opacity .4s}
+.price .val.flip{transform:translateY(-12px);opacity:0}
+.plan ul{list-style:none;margin:26px 0 30px;display:flex;flex-direction:column;gap:12px;font-size:15px}
+.plan li{display:flex;gap:10px;align-items:flex-start}
+.plan li::before{content:"✓";flex:none;width:20px;height:20px;border-radius:50%;background:rgba(198,255,26,.14);color:var(--lime);font-size:11px;display:grid;place-items:center;font-weight:800;margin-top:2px}
+.plan li.no{color:var(--muted);text-decoration:line-through;opacity:.5}
+.plan li.no::before{content:"–";background:rgba(255,255,255,.06);color:var(--muted)}
+.plan .btn{margin-top:auto;justify-content:center}
+.plan.pro{background:var(--lime);color:#0a0c05;border-color:var(--lime);transform:scale(1.04);box-shadow:0 40px 90px -30px var(--lime-glow);position:relative}
+.plan.pro:hover{transform:scale(1.04) translateY(-8px)}
+.plan.pro .desc,.plan.pro .price small{color:#2c3510}
+.plan.pro li::before{background:#0a0c05;color:var(--lime)}
+.plan.pro .btn{background:#0a0c05;color:var(--lime)}
+.badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#0a0c05;color:var(--lime);border:1px solid var(--lime);padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap}
+@media(max-width:900px){.plans{grid-template-columns:1fr}.plan.pro{transform:none}.plan.pro:hover{transform:translateY(-8px)}}
+
+/* GUARANTEE */
+.guarantee{display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;padding:44px;border-radius:32px;border:1px dashed rgba(198,255,26,.4);background:radial-gradient(ellipse at 0% 50%,rgba(198,255,26,.1),transparent 60%)}
+.seal{width:150px;height:150px;position:relative;display:grid;place-items:center}
+.seal svg{position:absolute;inset:0;animation:spin 18s linear infinite}
+.seal b{font-family:Unbounded;font-size:44px;color:var(--lime);line-height:1;text-align:center}
+.seal b small{display:block;font-size:12px;color:var(--text)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.guarantee h3{font-size:clamp(24px,3vw,34px);margin-bottom:10px}
+.guarantee p{color:var(--muted)}
+@media(max-width:900px){.guarantee{grid-template-columns:1fr;text-align:center;justify-items:center;padding:30px}}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;text-align:left;font-size:18px;font-weight:600}
+.faq-q .pm{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);position:relative;transition:.4s var(--ease)}
+.faq-q .pm::before,.faq-q .pm::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:currentColor;transform:translate(-50%,-50%);transition:.4s var(--ease)}
+.faq-q .pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq-item.open .pm{background:var(--lime);color:#000;border-color:var(--lime)}
+.faq-item.open .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.faq-a>div{overflow:hidden;color:var(--muted)}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-item.open .faq-a>div{padding-bottom:26px}
+@media(max-width:900px){.faq-grid{grid-template-columns:1fr;gap:20px}}
+
+/* FINAL CTA */
+.final{text-align:center;overflow:hidden}
+.final-box{position:relative;padding:100px 30px;border-radius:40px;background:linear-gradient(160deg,var(--navy-2),#07080a);border:1px solid var(--line-2);overflow:hidden}
+.final-box::before{content:"";position:absolute;left:50%;bottom:-60%;width:900px;height:900px;transform:translateX(-50%);background:radial-gradient(circle,var(--lime-glow),transparent 60%);animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.5;transform:translateX(-50%) scale(1.1)}}
+.final-box>*{position:relative}
+.final h2{font-size:clamp(36px,6vw,80px);margin:22px auto 22px;max-width:900px}
+.final p{color:var(--muted);max-width:560px;margin:0 auto 36px;font-size:18px}
+.countdown{display:flex;justify-content:center;gap:10px;margin-bottom:36px}
+.countdown div{min-width:78px;padding:14px 10px;border-radius:16px;border:1px solid var(--line-2);background:rgba(0,0,0,.35)}
+.countdown b{font-family:Unbounded;font-size:28px;display:block;color:var(--lime)}
+.countdown small{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+
+footer{padding:50px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.giant{font-family:Unbounded;font-weight:900;font-size:clamp(60px,15vw,210px);line-height:.8;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(198,255,26,.25);text-align:center;margin-top:50px;user-select:none}
+
+/* sticky mobile cta */
+.m-cta{position:fixed;left:16px;right:16px;bottom:16px;z-index:140;display:none;justify-content:center;transform:translateY(140%);transition:.5s var(--ease)}
+.m-cta.show{transform:none}
+@media(max-width:720px){.m-cta{display:flex}.m-cta .btn{width:100%;justify-content:center}}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal,.split .w>span{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="cursor-glow" id="glow"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#topo" class="logo"><b>T</b>TREINO/OS</a>
+  <div class="nav-links">
+    <a href="#recursos">Recursos</a>
+    <a href="#app">Plataforma</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#planos">Planos</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#planos" class="btn btn-lime">Começar grátis</a>
+</nav>
+
+<!-- 1. HERO -->
+<header class="hero" id="topo">
+  <div class="container hero-grid">
+    <div>
+      <span class="tag reveal"><i></i> Feito para Personal Trainers</span>
+      <h1 class="display split" data-split>Transforme seu treino em um <span class="hl">negócio escalável</span></h1>
+      <div class="hero-lead reveal" data-d="2">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
+        <p>Pare de perder horas com planilhas, WhatsApp e cobranças atrasadas. O TREINO/OS organiza alunos, treinos, avaliações e pagamentos em um só app — para você atender mais e faturar mais.</p>
+      </div>
+      <div class="hero-cta reveal" data-d="3">
+        <a href="#planos" class="btn btn-lime">Quero testar 14 dias grátis <span class="arrow">→</span></a>
+        <a href="#app" class="btn btn-ghost">Ver a plataforma</a>
+      </div>
+      <div class="proof reveal" data-d="4">
+        <div class="avatars">
+          <span style="background:#c6ff1a">RM</span><span style="background:#8ee6ff">JL</span><span style="background:#ffd36e">CA</span><span style="background:#ff9ec7">BS</span>
+        </div>
+        <div><span class="stars">★★★★★</span><strong>+4.800 personais ativos</strong><small>Nota 4,9 nas lojas de apps</small></div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal" data-d="2">
+      <div class="dash" id="dash">
+        <div class="dash-top">
+          <h4>Painel do Personal</h4>
+          <div class="pills"><span>Alunos</span><span class="on">Financeiro</span><span>Treinos</span></div>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><small>Faturamento/mês</small><b>R$ 18.740</b><div class="bar"><i style="--w:82%"></i></div></div>
+          <div class="kpi"><small>Alunos ativos</small><b>47</b><div class="bar"><i style="--w:64%"></i></div></div>
+          <div class="kpi"><small>Retenção</small><b>93%</b><div class="bar"><i style="--w:93%"></i></div></div>
+        </div>
+        <div class="chart" id="chart">
+          <div data-h="35"></div><div data-h="48"></div><div data-h="42"></div><div data-h="60"></div><div data-h="55"></div><div data-h="72"></div><div data-h="68"></div><div class="hi" data-h="95"></div>
+        </div>
+      </div>
+      <div class="float f1"><div class="dot">✓</div><div><small>Pix recebido</small><b>+ R$ 450,00</b></div></div>
+      <div class="float f2"><small>Treino concluído</small><b>🔥 Ana — Inferiores A</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- 2. MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Prescrição de treinos</span><span>Cobrança automática</span><span>Avaliação física</span><span>App do aluno</span><span>Agenda inteligente</span><span>Consultoria online</span>
+    <span>Prescrição de treinos</span><span>Cobrança automática</span><span>Avaliação física</span><span>App do aluno</span><span>Agenda inteligente</span><span>Consultoria online</span>
+  </div>
+</div>
+
+<!-- 3. DOR -->
+<section id="dor">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag reveal"><i></i> O problema</span>
+      <h2 class="display split" data-split>Você é ótimo treinando. <span class="lime">Mas e a gestão?</span></h2>
+      <p class="reveal">A maioria dos personais trabalha 12h por dia e ainda assim sente que o faturamento não acompanha o esforço.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain reveal" data-d="1"><div class="x">✕</div><h3>Treinos em planilhas e PDF</h3><p>Você refaz o mesmo treino dezenas de vezes e o aluno perde o arquivo no WhatsApp.</p></div>
+      <div class="pain reveal" data-d="2"><div class="x">✕</div><h3>Cobrança constrangedora</h3><p>Correr atrás de pagamento atrasado desgasta a relação e derruba seu caixa todo mês.</p></div>
+      <div class="pain reveal" data-d="3"><div class="x">✕</div><h3>Teto de faturamento</h3><p>Sua agenda lotou. Sem consultoria online, você só ganha mais trabalhando mais horas.</p></div>
+      <div class="pain reveal" data-d="1"><div class="x">✕</div><h3>Aluno sem ver evolução</h3><p>Sem histórico de cargas e avaliações, o aluno desanima e cancela em 3 meses.</p></div>
+      <div class="pain reveal" data-d="2"><div class="x">✕</div><h3>Agenda bagunçada</h3><p>Faltas, remarcações e horários vagos que você só descobre quando já é tarde.</p></div>
+      <div class="pain reveal" data-d="3"><div class="x">✕</div><h3>Imagem amadora</h3><p>Clientes premium esperam experiência premium — e comparam você com grandes academias.</p></div>
+    </div>
+    <p class="pain-turn reveal">E se tudo isso coubesse em <span class="lime">um único app?</span></p>
+  </div>
+</section>
+
+<!-- 4. RECURSOS -->
+<section id="recursos">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag reveal"><i></i> A solução</span>
+      <h2 class="display split" data-split>Gestão ideal. <span class="lime">Resultado real.</span></h2>
+      <p class="reveal">Três pilares que tiram você do operacional e colocam no controle do seu negócio.</p>
+    </div>
+    <div class="feat-row reveal" id="featRow">
+      <div class="feat"><span class="n">01.</span><h3>Prescrição de treinos em 2 minutos</h3><p>Biblioteca com +1.200 exercícios em vídeo, modelos prontos e periodização. Duplique, ajuste e envie direto pro app do aluno.</p></div>
+      <div class="feat on"><span class="n">02.</span><h3>Cobrança recorrente automática</h3><p>Pix, cartão e boleto com lembretes automáticos. Inadimplência despenca e você nunca mais precisa cobrar ninguém.</p></div>
+      <div class="feat"><span class="n">03.</span><h3>App com a sua marca</h3><p>Seu logo, suas cores. O aluno registra cargas, vê a evolução e conversa com você — tudo em um app profissional.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PLATAFORMA (tabs) -->
+<section id="app" class="showcase">
+  <div class="container">
+    <div class="section-head center" style="text-align:center">
+      <span class="tag reveal"><i></i> Por dentro da plataforma</span>
+      <h2 class="display split" data-split>Mais controle. <span class="lime">Menos esforço.</span></h2>
+    </div>
+    <div class="show-wrap reveal">
+      <div class="tabs" id="tabs">
+        <button class="tab on" data-t="0"><span class="knob"></span><div><h4>Gestão de alunos</h4><p>Veja quem está em dia, quem sumiu e quem precisa de atenção.</p><div class="timer"><i></i></div></div></button>
+        <button class="tab" data-t="1"><span class="knob"></span><div><h4>Montagem de treinos</h4><p>Arraste exercícios, defina séries, cargas e descanso.</p><div class="timer"><i></i></div></div></button>
+        <button class="tab" data-t="2"><span class="knob"></span><div><h4>Evolução e avaliações</h4><p>Bioimpedância, fotos e gráficos que provam seu resultado.</p><div class="timer"><i></i></div></div></button>
+        <button class="tab" data-t="3"><span class="knob"></span><div><h4>Financeiro no piloto automático</h4><p>Receita prevista, recebida e pendente em tempo real.</p><div class="timer"><i></i></div></div></button>
+      </div>
+      <div class="screen">
+        <div class="pane on"><div class="phone-row"><div class="panel">
+          <h5>Alunos <span class="chip">47 ativos</span></h5>
+          <div class="row"><span class="av" style="background:#c6ff1a">AM</span><div><b>Ana Martins</b><small>Hipertrofia · 4x/sem</small></div><span class="st">Em dia</span></div>
+          <div class="row sel"><span class="av" style="background:#ffd36e">RC</span><div><b>Rafael Costa</b><small>Emagrecimento · 3x/sem</small></div><span class="st">Renovar</span></div>
+          <div class="row"><span class="av" style="background:#8ee6ff">JL</span><div><b>Júlia Lopes</b><small>Consultoria online</small></div><span class="st">Em dia</span></div>
+          <div class="row"><span class="av" style="background:#ff9ec7">PS</span><div><b>Pedro Silva</b><small>Funcional · 2x/sem</small></div><span class="st">5 dias sem treinar</span></div>
+        </div></div></div>
+        <div class="pane"><div class="phone-row"><div class="panel dark-panel">
+          <h5>Treino A — Inferiores <span class="chip">Semana 3</span></h5>
+          <div class="ex"><span class="num">01</span><div><b>Agachamento livre</b></div><span class="sets">4 × 8 · 80kg</span></div>
+          <div class="ex"><span class="num">02</span><div><b>Leg press 45°</b></div><span class="sets">4 × 12 · 220kg</span></div>
+          <div class="ex"><span class="num">03</span><div><b>Stiff com halteres</b></div><span class="sets">3 × 10 · 24kg</span></div>
+          <div class="ex"><span class="num">04</span><div><b>Cadeira extensora</b></div><span class="sets">3 × 15 · drop</span></div>
+        </div></div></div>
+        <div class="pane"><div class="phone-row"><div class="panel">
+          <h5>Evolução — Ana Martins <span class="chip">90 dias</span></h5>
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 140 140"><circle class="bg" cx="70" cy="70" r="60"/><circle class="fg" cx="70" cy="70" r="60"/><text x="70" y="68" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="24" fill="#0c0f14">84%</text><text x="70" y="88" text-anchor="middle" font-size="10" fill="#555">da meta</text></svg>
+            <div>
+              <div class="row"><div><small>Gordura corporal</small><b>28% → 21%</b></div></div>
+              <div class="row"><div><small>Massa magra</small><b>+3,4 kg</b></div></div>
+              <div class="row sel"><div><small>Agachamento</small><b>40kg → 80kg</b></div></div>
+            </div>
+          </div>
+        </div></div></div>
+        <div class="pane"><div class="phone-row"><div class="panel dark-panel">
+          <h5>Financeiro <span class="chip">Setembro</span></h5>
+          <div class="kpis" style="grid-template-columns:1fr 1fr">
+            <div class="kpi"><small>Recebido</small><b>R$ 16.290</b></div>
+            <div class="kpi"><small>Pendente</small><b>R$ 2.450</b></div>
+          </div>
+          <div class="ex"><span class="num">PIX</span><div><b>Rafael Costa</b></div><span class="sets" style="color:var(--lime)">+ R$ 450</span></div>
+          <div class="ex"><span class="num">CC</span><div><b>Júlia Lopes</b></div><span class="sets" style="color:var(--lime)">+ R$ 290</span></div>
+          <div class="ex"><span class="num">BOL</span><div><b>Pedro Silva</b></div><span class="sets">vence em 2 dias</span></div>
+        </div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. COMO FUNCIONA -->
+<section id="como">
+  <div class="container how-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:34px">
+        <span class="tag reveal"><i></i> Como funciona</span>
+        <h2 class="display split" data-split>Comece hoje em <span class="lime">4 passos</span></h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal" data-d="1"><span class="b"></span><div><h4>Crie sua conta grátis</h4><p>Sem cartão de crédito. Leva menos de 1 minuto.</p></div></div>
+        <div class="step reveal" data-d="2"><span class="b"></span><div><h4>Importe seus alunos</h4><p>Suba sua planilha ou cadastre pelo celular — nós migramos pra você.</p></div></div>
+        <div class="step reveal" data-d="3"><span class="b"></span><div><h4>Monte e envie os treinos</h4><p>Use nossos modelos ou crie os seus. O aluno recebe no app na hora.</p></div></div>
+        <div class="step reveal" data-d="4"><span class="b"></span><div><h4>Ative a cobrança automática</h4><p>E veja o dinheiro cair enquanto você foca no que ama: treinar.</p></div></div>
+      </div>
+    </div>
+    <div class="how-side reveal" data-d="2">
+      <div class="big-num">7min<span>para configurar tudo</span></div>
+      <p>Tempo médio que nossos personais levam do cadastro até o primeiro treino enviado. Suporte humano no WhatsApp em todas as etapas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. NÚMEROS -->
+<section id="resultados" style="padding:0">
+  <div class="container stats">
+    <div class="stat reveal"><b data-count="4800" data-prefix="+">0</b><span>personais usando todos os dias</span></div>
+    <div class="stat reveal" data-d="1"><b data-count="62" data-suffix="%">0</b><span>de aumento médio no faturamento</span></div>
+    <div class="stat reveal" data-d="2"><b data-count="11" data-suffix="h">0</b><span>economizadas por semana</span></div>
+    <div class="stat reveal" data-d="3"><b data-count="87" data-suffix="%">0</b><span>menos inadimplência</span></div>
+  </div>
+</section>
+
+<!-- 8. CALCULADORA -->
+<section id="calculadora">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag reveal"><i></i> Simulador</span>
+      <h2 class="display split" data-split>Quanto você <span class="lime">poderia faturar?</span></h2>
+      <p class="reveal">Mova os controles e veja o potencial de crescimento com a consultoria online do TREINO/OS.</p>
+    </div>
+    <div class="calc reveal">
+      <div class="calc-box">
+        <div class="field"><label>Alunos presenciais hoje <b id="vA">20</b></label><input type="range" id="inA" min="5" max="60" value="20"></div>
+        <div class="field"><label>Valor médio por aluno (R$) <b id="vB">400</b></label><input type="range" id="inB" min="150" max="1500" step="50" value="400"></div>
+        <div class="field"><label>Alunos online que você quer adicionar <b id="vC">25</b></label><input type="range" id="inC" min="0" max="150" value="25"></div>
+        <div class="field" style="margin:0"><label>Ticket da consultoria online (R$) <b id="vD">180</b></label><input type="range" id="inD" min="80" max="500" step="10" value="180"></div>
+      </div>
+      <div class="calc-box calc-out">
+        <div>
+          <small>Seu novo faturamento mensal</small>
+          <div class="money" id="total">R$ 12.500</div>
+          <div class="compare">
+            <div><small>Hoje</small><b id="now">R$ 8.000</b></div>
+            <div><small>Crescimento</small><b id="grow">+56%</b></div>
+          </div>
+          <p style="font-size:14px;opacity:.75">Com cobrança automática, até <b id="year">R$ 150.000</b> a mais por ano sem aumentar sua agenda presencial.</p>
+        </div>
+        <a href="#planos" class="btn" style="margin-top:26px">Quero esse faturamento →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag reveal"><i></i> Quem usa, recomenda</span>
+      <h2 class="display split" data-split>Personais que <span class="lime">viraram o jogo</span></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi tilt reveal" data-d="1"><span class="res">R$ 7k → R$ 19k/mês</span><q>Em 5 meses eu lancei minha consultoria online e hoje atendo 60 alunos à distância. O app com a minha marca passou uma imagem que eu nunca tive.</q><div class="who"><span class="av" style="background:#c6ff1a">RM</span><div><b>Rodrigo Mendes</b><small>Personal · São Paulo</small></div></div></div>
+      <div class="testi feat-t tilt reveal" data-d="2"><span class="res">Inadimplência zerada</span><q>Eu odiava cobrar aluno. Agora o sistema faz isso sozinho e eu só recebo a notificação do Pix. Parece mágica, sério.</q><div class="who"><span class="av" style="background:#ffd36e">CA</span><div><b>Camila Alves</b><small>Personal · Belo Horizonte</small></div></div></div>
+      <div class="testi tilt reveal" data-d="3"><span class="res">+10h livres por semana</span><q>Montava treino no domingo à noite. Hoje, com os modelos, levo 2 minutos por aluno. Recuperei meus finais de semana.</q><div class="who"><span class="av" style="background:#8ee6ff">JL</span><div><b>João Lima</b><small>Personal · Curitiba</small></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. PLANOS -->
+<section id="planos">
+  <div class="container" style="text-align:center">
+    <div class="section-head center">
+      <span class="tag reveal"><i></i> Planos</span>
+      <h2 class="display split" data-split>Investimento que <span class="lime">se paga no 1º aluno</span></h2>
+      <p class="reveal">Teste qualquer plano por 14 dias grátis. Cancele quando quiser.</p>
+    </div>
+    <div class="toggle reveal" id="toggle">
+      <span class="slider" id="slider"></span>
+      <button class="on" data-p="m">Mensal</button>
+      <button data-p="a">Anual <em>-30%</em></button>
+    </div>
+    <div class="plans" style="text-align:left">
+      <div class="plan reveal" data-d="1">
+        <h3>Start</h3><p class="desc">Para quem está começando a se organizar.</p>
+        <div class="price"><sup>R$</sup><span class="val" data-m="49" data-a="34">49</span><small>/mês</small></div>
+        <ul><li>Até 15 alunos</li><li>Prescrição de treinos</li><li>App do aluno</li><li>Agenda</li><li class="no">Cobrança automática</li><li class="no">App com sua marca</li></ul>
+        <a href="#" class="btn btn-ghost">Começar grátis</a>
+      </div>
+      <div class="plan pro reveal" data-d="2">
+        <span class="badge">★ MAIS ESCOLHIDO</span>
+        <h3>Pro</h3><p class="desc">Para o personal que quer crescer de verdade.</p>
+        <div class="price"><sup>R$</sup><span class="val" data-m="97" data-a="68">97</span><small>/mês</small></div>
+        <ul><li>Alunos ilimitados</li><li>Tudo do Start</li><li>Cobrança automática (Pix, cartão, boleto)</li><li>Avaliação física completa</li><li>Consultoria online</li><li class="no">App com sua marca</li></ul>
+        <a href="#" class="btn">Testar 14 dias grátis →</a>
+      </div>
+      <div class="plan reveal" data-d="3">
+        <h3>Elite</h3><p class="desc">Para studios e times de personais.</p>
+        <div class="price"><sup>R$</sup><span class="val" data-m="197" data-a="138">197</span><small>/mês</small></div>
+        <ul><li>Tudo do Pro</li><li>App com sua marca</li><li>Até 5 treinadores</li><li>Relatórios avançados</li><li>Gerente de sucesso dedicado</li><li>Migração assistida</li></ul>
+        <a href="#" class="btn btn-ghost">Falar com consultor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. GARANTIA -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="guarantee reveal">
+      <div class="seal">
+        <svg viewBox="0 0 150 150"><defs><path id="c" d="M75,75 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0"/></defs><text font-size="11" font-weight="700" letter-spacing="3" fill="#c6ff1a"><textPath href="#c">GARANTIA INCONDICIONAL • RISCO ZERO • </textPath></text></svg>
+        <b>30<small>DIAS</small></b>
+      </div>
+      <div><h3 class="display">Risco zero. <span class="lime">Satisfação garantida.</span></h3><p>Além dos 14 dias grátis, se em até 30 dias após a assinatura você não sentir que o TREINO/OS vale cada centavo, devolvemos 100% do valor. Sem perguntas.</p></div>
+      <a href="#planos" class="btn btn-lime">Começar agora</a>
+    </div>
+  </div>
+</section>
+
+<!-- 12. FAQ -->
+<section id="faq">
+  <div class="container faq-grid">
+    <div class="section-head">
+      <span class="tag reveal"><i></i> Dúvidas</span>
+      <h2 class="display split" data-split>Perguntas <span class="lime">frequentes</span></h2>
+      <p class="reveal">Não achou sua resposta? Fale com a gente no WhatsApp — respondemos em minutos.</p>
+    </div>
+    <div class="faq reveal">
+      <div class="faq-item open"><button class="faq-q">Preciso de cartão de crédito para testar?<span class="pm"></span></button><div class="faq-a"><div>Não. Você cria a conta e usa todos os recursos do plano Pro por 14 dias sem cadastrar nenhum cartão.</div></div></div>
+      <div class="faq-item"><button class="faq-q">Meus alunos precisam pagar pelo app?<span class="pm"></span></button><div class="faq-a"><div>Nunca. O app do aluno é 100% gratuito para eles, disponível para iOS e Android.</div></div></div>
+      <div class="faq-item"><button class="faq-q">Consigo migrar meus treinos e alunos atuais?<span class="pm"></span></button><div class="faq-a"><div>Sim. Importe planilhas em segundos ou peça a migração assistida — nosso time faz por você.</div></div></div>
+      <div class="faq-item"><button class="faq-q">Quais taxas existem na cobrança automática?<span class="pm"></span></button><div class="faq-a"><div>Pix sem taxa adicional, cartão a partir de 2,99% e boleto R$ 1,99 por título pago. Você recebe direto na sua conta.</div></div></div>
+      <div class="faq-item"><button class="faq-q">Posso cancelar quando quiser?<span class="pm"></span></button><div class="faq-a"><div>Sim, sem multa e sem fidelidade no plano mensal. E você ainda conta com a garantia de 30 dias.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13. CTA FINAL -->
+<section class="final" style="padding-top:0">
+  <div class="container">
+    <div class="final-box reveal">
+      <span class="tag"><i></i> Oferta de lançamento</span>
+      <h2 class="display split" data-split>Seu próximo nível <span class="lime">começa hoje</span></h2>
+      <p>Assine o plano anual até o fim da oferta e ganhe a migração assistida + 3 meses do app com a sua marca.</p>
+      <div class="countdown" id="countdown"><div><b>00</b><small>dias</small></div><div><b>00</b><small>horas</small></div><div><b>00</b><small>min</small></div><div><b>00</b><small>seg</small></div></div>
+      <a href="#planos" class="btn btn-lime">Garantir minha vaga <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot"><a href="#topo" class="logo"><b>T</b>TREINO/OS</a><span>© 2026 TREINO/OS · Todos os direitos reservados</span><span>Termos · Privacidade</span></div>
+    <div class="giant">TREINO/OS</div>
+  </div>
+</footer>
+
+<div class="m-cta" id="mcta"><a href="#planos" class="btn btn-lime">Testar 14 dias grátis →</a></div>
+
+<script>
+(()=>{
+  const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
+
+  // split headings into words
+  $$('[data-split]').forEach(el=>{
+    const walk=node=>{
+      [...node.childNodes].forEach(n=>{
+        if(n.nodeType===3){
+          const frag=document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(t=>{
+            if(!t)return;
+            if(/^\s+$/.test(t)){frag.appendChild(document.createTextNode(' '));return}
+            const w=document.createElement('span');w.className='w';
+            const i=document.createElement('span');i.textContent=t;w.appendChild(i);frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        }else if(n.nodeType===1&&!n.classList.contains('w'))walk(n);
+      });
+    };
+    walk(el);
+    $$('.w>span',el).forEach((s,i)=>s.style.transitionDelay=(i*0.06)+'s');
+  });
+
+  // reveal observer
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('in');
+    if(e.target.querySelector('[data-count]')||e.target.dataset.count!==undefined)countUp(e.target);
+    io.unobserve(e.target);
+  }),{threshold:.18,rootMargin:'0px 0px -40px 0px'});
+  $$('.reveal,[data-split]').forEach(el=>io.observe(el));
+
+  // hero chart grow
+  setTimeout(()=>$$('#chart div').forEach((d,i)=>setTimeout(()=>d.style.height=d.dataset.h+'%',i*90)),500);
+
+  // counters
+  function countUp(root){
+    $$('[data-count]',root).forEach(el=>{
+      const end=+el.dataset.count,pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';let t0;
+      const step=t=>{t0??=t;const p=Math.min((t-t0)/1800,1),v=Math.round(end*(1-Math.pow(1-p,4)));
+        el.textContent=pre+v.toLocaleString('pt-BR')+suf;if(p<1)requestAnimationFrame(step)};
+      requestAnimationFrame(step);
+    });
+  }
+
+  // scroll progress, nav, mobile cta
+  const prog=$('#progress'),mcta=$('#mcta'),links=$$('.nav-links a');
+  const secs=links.map(a=>$(a.getAttribute('href')));
+  addEventListener('scroll',()=>{
+    const h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    prog.style.width=p*100+'%';
+    mcta.classList.toggle('show',h.scrollTop>700);
+    let cur=-1;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<200)cur=i});
+    links.forEach((a,i)=>a.classList.toggle('active',i===cur));
+  },{passive:true});
+
+  // cursor glow
+  const glow=$('#glow');
+  addEventListener('pointermove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+
+  // 3D tilt on dashboard
+  const dash=$('#dash');
+  if(matchMedia('(hover:hover) and (min-width:961px)').matches){
+    const hv=$('.hero-visual');
+    hv.addEventListener('pointermove',e=>{
+      const r=hv.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      dash.style.transform=`rotateY(${x*16-6}deg) rotateX(${-y*12+4}deg)`;
+    });
+    hv.addEventListener('pointerleave',()=>dash.style.transform='');
+    $$('.tilt').forEach(c=>{
+      c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        c.style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`});
+      c.addEventListener('pointerleave',()=>c.style.transform='');
+    });
+  }
+
+  // feature cards hover/click
+  const feats=$$('.feat');
+  feats.forEach(f=>{const on=()=>{feats.forEach(x=>x.classList.remove('on'));f.classList.add('on')};f.addEventListener('mouseenter',on);f.addEventListener('click',on)});
+
+  // showcase tabs autoplay
+  const tabs=$$('.tab'),panes=$$('.pane');let ti=0,timer;
+  const setTab=i=>{ti=i;tabs.forEach((t,k)=>t.classList.toggle('on',k===i));panes.forEach((p,k)=>p.classList.toggle('on',k===i));
+    const t=tabs[i].querySelector('.timer i');t.style.animation='none';t.offsetWidth;t.style.animation='';
+    clearTimeout(timer);timer=setTimeout(()=>setTab((ti+1)%tabs.length),5000)};
+  tabs.forEach((t,i)=>t.addEventListener('click',()=>setTab(i)));
+  new IntersectionObserver(([e])=>{if(e.isIntersecting&&!timer)setTab(0)},{threshold:.3}).observe($('#tabs'));
+
+  // calculator
+  const fmt=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+  const ins=['A','B','C','D'].map(k=>$('#in'+k));
+  const calc=()=>{
+    ins.forEach((i,k)=>{i.style.setProperty('--p',((i.value-i.min)/(i.max-i.min)*100)+'%');$('#v'+'ABCD'[k]).textContent=(+i.value).toLocaleString('pt-BR')});
+    const [a,b,c,d]=ins.map(i=>+i.value),now=a*b,tot=now+c*d;
+    $('#now').textContent=fmt(now);$('#total').textContent=fmt(tot);
+    $('#grow').textContent='+'+Math.round((tot-now)/now*100)+'%';$('#year').textContent=fmt((tot-now)*12);
+  };
+  ins.forEach(i=>i.addEventListener('input',calc));calc();
+
+  // pricing toggle
+  const tb=$$('#toggle button'),sl=$('#slider');
+  const place=b=>{sl.style.left=b.offsetLeft+'px';sl.style.width=b.offsetWidth+'px'};
+  tb.forEach(b=>b.addEventListener('click',()=>{
+    tb.forEach(x=>x.classList.toggle('on',x===b));place(b);
+    $$('.price .val').forEach(v=>{v.classList.add('flip');setTimeout(()=>{v.textContent=v.dataset[b.dataset.p];v.classList.remove('flip')},250)});
+  }));
+  requestAnimationFrame(()=>place(tb[0]));addEventListener('resize',()=>place($('#toggle button.on')));
+
+  // FAQ
+  $$('.faq-q').forEach(q=>q.addEventListener('click',()=>{const it=q.parentElement,o=it.classList.contains('open');
+    $$('.faq-item').forEach(x=>x.classList.remove('open'));if(!o)it.classList.add('open')}));
+
+  // countdown (3 dias a partir da 1ª visita)
+  let end;try{end=+localStorage.getItem('to_end')}catch(e){}
+  if(!end||end<Date.now()){end=Date.now()+3*864e5+5*36e5;try{localStorage.setItem('to_end',end)}catch(e){}}
+  const cd=$$('#countdown b'),pad=n=>String(n).padStart(2,'0');
+  const tick=()=>{let s=Math.max(0,(end-Date.now())/1000|0);cd[0].textContent=pad(s/86400|0);cd[1].textContent=pad(s%86400/3600|0);cd[2].textContent=pad(s%3600/60|0);cd[3].textContent=pad(s%60)};
+  tick();setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>
