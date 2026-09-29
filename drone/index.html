@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AERIS X — O céu mudou de dono</title>
+<meta name="description" content="AERIS X: drone de cinema autônomo com câmera 1″ em 8K, 52 minutos de voo, LiDAR 360° e 20 km de transmissão. Pré-venda do Lote 02 aberta.">
+<meta name="theme-color" content="#ff4a17">
+<link rel="preload" href="fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script src="media.js"></script>
+</head>
+<body class="is-loading">
+
+<!-- ================= PRELOADER ================= -->
+<div class="preloader" aria-hidden="true">
+  <div class="pre-grid"></div>
+  <div class="pre-top mono">
+    <span>AERIS OS 4.2</span><span>CHECAGEM PRÉ-VOO</span>
+  </div>
+  <ul class="pre-checks mono">
+    <li>IMU calibrada</li>
+    <li>Bússola alinhada</li>
+    <li>GPS · 28 satélites</li>
+    <li>Link O5 · 20 km</li>
+    <li>LiDAR 360° online</li>
+    <li>Bateria 100%</li>
+  </ul>
+  <div class="pre-count"><span class="pre-num">000</span><small class="mono">%</small></div>
+  <div class="pre-bar"><i></i></div>
+  <div class="pre-status mono">Calibrando sistemas…</div>
+  <div class="pre-shutter pre-shutter--t"></div>
+  <div class="pre-shutter pre-shutter--b"></div>
+</div>
+
+<!-- ================= UI GLOBAL ================= -->
+<canvas class="drone-canvas" aria-hidden="true"></canvas>
+<svg class="link-layer" aria-hidden="true"><line class="hero-link" x1="0" y1="0" x2="0" y2="0"/><circle class="hero-link-dot" r="4"/></svg>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"><em class="cursor-label"></em></span></div>
+<div class="scroll-rail" aria-hidden="true"><i></i><span class="mono rail-alt">ALT 000 m</span></div>
+
+<header class="nav">
+  <a href="#voo" class="brand" aria-label="AERIS — início">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="7" cy="7" r="4.6"/><circle cx="25" cy="7" r="4.6"/><circle cx="7" cy="25" r="4.6"/><circle cx="25" cy="25" r="4.6"/><path d="M10.4 10.4l11.2 11.2M21.6 10.4L10.4 21.6"/></g><rect x="12.4" y="12.4" width="7.2" height="7.2" rx="2" fill="currentColor"/></svg>
+    <span>AERIS</span>
+  </a>
+  <nav class="nav-pills" aria-label="Seções">
+    <a href="#voo" data-nav="voo" class="is-active">Voo</a>
+    <a href="#fpv" data-nav="fpv">Câmera</a>
+    <a href="#anatomia" data-nav="anatomia">Anatomia</a>
+    <a href="#sensores" data-nav="sensores">Sensores</a>
+    <a href="#galeria" data-nav="galeria">Galeria</a>
+  </nav>
+  <a href="#comprar" class="nav-cta magnetic" data-cursor="pousar">
+    <span>Pré-venda</span><b class="mono">02</b>
+  </a>
+</header>
+
+<main>
+
+<!-- ================= 01 · HERO ================= -->
+<section class="s-hero" id="voo" data-section="voo" data-theme="orange">
+  <div class="hero-bg" aria-hidden="true">
+    <svg class="hero-arcs" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+      <circle cx="120" cy="880" r="300"/><circle cx="120" cy="880" r="430"/><circle cx="120" cy="880" r="560"/><circle cx="120" cy="880" r="690"/><circle cx="120" cy="880" r="820"/>
+    </svg>
+    <div class="hero-glow"></div>
+  </div>
+  <canvas class="wind-canvas" aria-hidden="true"></canvas>
+
+  <img class="hero-pilot" data-media="pilot" alt="Piloto com óculos FPV observando o drone" decoding="async">
+
+  <h1 class="hero-title" aria-label="O céu mudou de dono.">
+    <span class="ht-line"><span class="ht-inner">o céu</span></span>
+    <span class="ht-line"><span class="ht-inner">mudou</span></span>
+    <span class="ht-line"><span class="ht-inner">de don<em>o.</em></span></span>
+  </h1>
+
+  <div class="hero-panel glass" data-cursor="ajustar">
+    <div class="panel-head">
+      <span class="panel-title">Teste o voo</span>
+      <button class="panel-pause" type="button" aria-label="Pausar simulação" aria-pressed="false"><i></i><i></i></button>
+    </div>
+    <label class="slider">
+      <span class="sl-top"><span>Vento</span><output class="mono" data-out="wind">38 km/h</output></span>
+      <input type="range" min="0" max="90" value="38" data-key="wind">
+    </label>
+    <label class="slider">
+      <span class="sl-top"><span>Rajadas</span><output class="mono" data-out="gust">40%</output></span>
+      <input type="range" min="0" max="100" value="40" data-key="gust">
+    </label>
+    <label class="slider">
+      <span class="sl-top"><span>Altitude</span><output class="mono" data-out="alt">120 m</output></span>
+      <input type="range" min="10" max="500" value="120" data-key="alt">
+    </label>
+    <div class="modes" role="radiogroup" aria-label="Modo de voo">
+      <button type="button" role="radio" aria-checked="true" class="is-on" data-mode="cine">Cine</button>
+      <button type="button" role="radio" aria-checked="false" data-mode="normal">Normal</button>
+      <button type="button" role="radio" aria-checked="false" data-mode="sport">Sport</button>
+    </div>
+  </div>
+
+  <div class="hero-stat">
+    <div class="stat-pill"><span class="stat-num">99,7</span><small>%</small></div>
+    <p class="mono">Estabilidade<br>em rajadas</p>
+  </div>
+
+  <div class="hero-brand">
+    <div class="hb-logo">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="7" cy="7" r="4.6"/><circle cx="25" cy="7" r="4.6"/><circle cx="7" cy="25" r="4.6"/><circle cx="25" cy="25" r="4.6"/><path d="M10.4 10.4l11.2 11.2M21.6 10.4L10.4 21.6"/></g><rect x="12.4" y="12.4" width="7.2" height="7.2" rx="2" fill="currentColor"/></svg>
+      <span>AERIS<sup>X</sup></span>
+    </div>
+    <p class="hb-statement"><span>Voe onde</span> <span>ninguém filmou</span> <span>ainda.</span></p>
+    <p class="hb-copy">Câmera 1″ em 8K, 52 minutos no ar e um copiloto de IA que desvia de tudo. O AERIS X cabe na mochila e voa como um estúdio inteiro.</p>
+  </div>
+
+  <div class="hero-card">
+    <div class="hc-frame">
+      <img data-media="dunes" alt="Dunas no deserto fotografadas de cima" decoding="async">
+      <span class="hc-corner"></span>
+      <span class="hc-tag mono">REC ● 8K RAW</span>
+    </div>
+    <svg class="barcode" data-barcode="AERIS-X-0002" aria-hidden="true"></svg>
+    <p>Drone de 249 g com câmera de cinema, LiDAR 360° e transmissão ao vivo a 20 km.</p>
+  </div>
+
+  <div class="hero-hint mono" aria-hidden="true">
+    <span class="hint-click">Clique para uma manobra</span>
+    <span class="hint-scroll">Role para decolar <i></i></span>
+  </div>
+</section>
+
+<!-- ================= 02 · FPV / VÍDEO NO SCROLL ================= -->
+<section class="s-fpv" id="fpv" data-section="fpv" data-theme="dark">
+  <div class="fpv-stage">
+    <div class="fpv-pre">
+      <div class="fp-top mono"><span>FEED · CÂMERA 1″</span><span class="fp-blink">● CONECTANDO</span></div>
+      <p class="fp-big"><span>entre</span><span>na lente.</span></p>
+      <div class="fp-bottom mono"><span>O5 LINK · 4K/60 · 20 KM</span><span>LATÊNCIA 28 ms</span></div>
+    </div>
+
+    <div class="fpv-view">
+      <video class="fpv-video" muted playsinline preload="auto" data-media="fpv"></video>
+      <div class="fpv-fallback" aria-hidden="true"></div>
+      <div class="fpv-vignette"></div>
+
+      <div class="osd mono" aria-hidden="true">
+        <div class="osd-top">
+          <span class="osd-mode">CINE</span>
+          <div class="osd-compass"><div class="compass-tape"></div><i></i></div>
+          <span class="osd-rec"><b></b> REC <em class="osd-tc">00:00:00:00</em></span>
+        </div>
+        <div class="osd-left">
+          <small>ALT</small><strong class="osd-alt">002</strong><small>m</small>
+          <div class="osd-ladder"></div>
+        </div>
+        <div class="osd-right">
+          <small>VEL</small><strong class="osd-spd">00</strong><small>km/h</small>
+          <div class="osd-ladder"></div>
+        </div>
+        <div class="osd-center">
+          <div class="osd-horizon"><i></i><i></i></div>
+          <div class="osd-cross"></div>
+        </div>
+        <div class="osd-bottom">
+          <span>DIST <b class="osd-dist">0,00</b> km</span>
+          <span>BAT <b class="osd-bat">98</b>%</span>
+          <span>GPS <b>28</b></span>
+          <span class="osd-sig"><i></i><i></i><i></i><i></i></span>
+          <span>8K · 60 · HDR</span>
+        </div>
+      </div>
+
+      <div class="fpv-chapters">
+        <article class="chapter" data-from="0.14" data-to="0.34">
+          <span class="mono">01 — Decolagem</span>
+          <h3>Decola em 1,8 s.<br>Estabiliza antes de você piscar.</h3>
+        </article>
+        <article class="chapter" data-from="0.34" data-to="0.54">
+          <span class="mono">02 — Percepção 360°</span>
+          <h3>Penhasco à frente?<br>Ele viu a 40 metros.</h3>
+        </article>
+        <article class="chapter" data-from="0.54" data-to="0.72">
+          <span class="mono">03 — Transmissão O5</span>
+          <h3>Vídeo 4K ao vivo<br>a até 20 km de você.</h3>
+        </article>
+        <article class="chapter" data-from="0.72" data-to="0.86">
+          <span class="mono">04 — Acima das nuvens</span>
+          <h3>Isso foi só o seu scroll.<br>Imagine o controle na mão.</h3>
+        </article>
+      </div>
+      <div class="fpv-progress"><i></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 · ANATOMIA (VISTA EXPLODIDA) ================= -->
+<section class="s-anat" id="anatomia" data-section="anatomia" data-theme="light">
+  <div class="anat-stage">
+    <div class="anat-grid" aria-hidden="true"></div>
+    <header class="anat-head">
+      <span class="kicker mono">03 — Anatomia</span>
+      <h2 class="split-words">Engenharia que você não vê. <em>Até agora.</em></h2>
+      <p>Role para desmontar o AERIS X peça por peça.</p>
+    </header>
+
+    <svg class="anat-lines" aria-hidden="true"></svg>
+
+    <div class="callouts">
+      <article class="callout" data-anchor="camera" data-side="left">
+        <span class="co-num mono">01</span>
+        <h4>Câmera</h4>
+        <strong>CMOS 1″ · 50 MP</strong>
+        <p>8K a 60 qps, 14 stops de faixa dinâmica e RAW 12-bit.</p>
+      </article>
+      <article class="callout" data-anchor="gimbal" data-side="left">
+        <span class="co-num mono">02</span>
+        <h4>Gimbal</h4>
+        <strong>3 eixos · ±0,005°</strong>
+        <p>Horizonte travado mesmo com rajadas de 45 km/h.</p>
+      </article>
+      <article class="callout" data-anchor="motor" data-side="left">
+        <span class="co-num mono">03</span>
+        <h4>Propulsão</h4>
+        <strong>4 motores · 38.000 rpm</strong>
+        <p>Hélices de baixo ruído: 58 dB a 2 metros.</p>
+      </article>
+      <article class="callout" data-anchor="lidar" data-side="right">
+        <span class="co-num mono">04</span>
+        <h4>Percepção</h4>
+        <strong>LiDAR + 8 câmeras</strong>
+        <p>Mapa 3D do entorno atualizado 120 vezes por segundo.</p>
+      </article>
+      <article class="callout" data-anchor="battery" data-side="right">
+        <span class="co-num mono">05</span>
+        <h4>Energia</h4>
+        <strong>5.000 mAh · 52 min</strong>
+        <p>De 0 a 80% em 35 minutos de recarga.</p>
+      </article>
+      <article class="callout" data-anchor="arm" data-side="right">
+        <span class="co-num mono">06</span>
+        <h4>Chassi</h4>
+        <strong>Carbono + magnésio</strong>
+        <p>Braços dobráveis. Estrutura inteira em 249 g.</p>
+      </article>
+    </div>
+
+    <div class="anat-foot">
+      <div class="anat-weight"><span class="aw-num">249</span><span class="aw-unit">g</span><small class="mono">Peso de decolagem</small></div>
+      <div class="anat-meter mono"><span>Vista explodida</span><div class="am-bar"><i></i></div><b class="am-val">0%</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 · SENSORES (INTERATIVO) ================= -->
+<section class="s-sense" id="sensores" data-section="sensores" data-theme="dark">
+  <div class="sense-stage">
+    <canvas class="sense-canvas" aria-hidden="true"></canvas>
+    <header class="sense-head">
+      <span class="kicker mono">04 — Percepção</span>
+      <h2 class="split-words">Tente <em>acertá-lo.</em></h2>
+      <p>Aproxime o cursor do drone. O AERIS X enxerga 360° ao redor e reage em 20 milissegundos — mais rápido que um reflexo humano.</p>
+    </header>
+
+    <div class="sense-readout mono" aria-live="polite">
+      <div><small>Distância</small><b class="sr-dist">—</b></div>
+      <div><small>Status</small><b class="sr-status">LIVRE</b></div>
+      <div><small>Desvios</small><b class="sr-count">000</b></div>
+    </div>
+
+    <ul class="sense-stats">
+      <li><b data-count="360">0</b><span>°</span><small>de percepção</small></li>
+      <li><b data-count="40">0</b><span>m</span><small>alcance do LiDAR</small></li>
+      <li><b data-count="20">0</b><span>ms</span><small>tempo de reação</small></li>
+      <li><b data-count="12">0</b><span>TOPS</span><small>de IA embarcada</small></li>
+    </ul>
+    <p class="sense-touch mono">Toque perto do drone para lançar um obstáculo</p>
+  </div>
+</section>
+
+<!-- ================= 05 · GALERIA (HORIZONTAL) ================= -->
+<section class="s-gal" id="galeria" data-section="galeria" data-theme="light">
+  <div class="gal-stage">
+    <div class="gal-track">
+      <div class="gal-intro">
+        <span class="kicker mono">05 — Galeria</span>
+        <h2 class="split-words">Capturado <em>no céu.</em></h2>
+        <p>Seis lugares, uma mochila. Cada quadro abaixo saiu da câmera 1″ do AERIS X em RAW 12-bit.</p>
+        <span class="gal-hint mono">Continue rolando →</span>
+      </div>
+
+      <figure class="gal-card" data-cursor="ver">
+        <div class="gc-img"><img data-media="surf" alt="Surfista remando em água turquesa vista de cima" loading="lazy" decoding="async"></div>
+        <figcaption><span class="gc-n mono">01</span><strong>Fernando de Noronha</strong><span class="mono">3°51′S · ALT 90 m · ISO 100 · 1/2000</span></figcaption>
+      </figure>
+      <figure class="gal-card gal-card--tall" data-cursor="ver">
+        <div class="gc-img"><img data-media="road" alt="Estrada sinuosa em floresta de outono vista de cima" loading="lazy" decoding="async"></div>
+        <figcaption><span class="gc-n mono">02</span><strong>Vermont, EUA</strong><span class="mono">44°N · ALT 140 m · ISO 200 · 1/800</span></figcaption>
+      </figure>
+      <figure class="gal-card" data-cursor="ver">
+        <div class="gc-img"><img data-media="city" alt="Cidade à noite com rastros de luz vista do alto" loading="lazy" decoding="async"></div>
+        <figcaption><span class="gc-n mono">03</span><strong>São Paulo</strong><span class="mono">23°33′S · ALT 300 m · ISO 1600 · 2″</span></figcaption>
+      </figure>
+      <figure class="gal-card gal-card--tall" data-cursor="ver">
+        <div class="gc-img"><img data-media="beach" alt="Ondas em praia de areia preta vista de cima" loading="lazy" decoding="async"></div>
+        <figcaption><span class="gc-n mono">04</span><strong>Vík, Islândia</strong><span class="mono">63°N · ALT 120 m · ISO 100 · 1/1000</span></figcaption>
+      </figure>
+      <figure class="gal-card" data-cursor="ver">
+        <div class="gc-img"><img data-media="dunes" alt="Caravana de camelos nas dunas ao pôr do sol" loading="lazy" decoding="async"></div>
+        <figcaption><span class="gc-n mono">05</span><strong>Merzouga, Marrocos</strong><span class="mono">31°N · ALT 60 m · ISO 100 · 1/1600</span></figcaption>
+      </figure>
+      <figure class="gal-card gal-card--tall" data-cursor="ver">
+        <div class="gc-img"><img data-media="glacier" alt="Cordada de alpinistas atravessando uma geleira" loading="lazy" decoding="async"></div>
+        <figcaption><span class="gc-n mono">06</span><strong>Vatnajökull, Islândia</strong><span class="mono">64°N · ALT 75 m · ISO 100 · 1/1250</span></figcaption>
+      </figure>
+
+      <div class="gal-quotes">
+        <div class="gq-score"><b>4,9</b><span class="stars" aria-label="4,9 de 5 estrelas">★★★★★</span><small class="mono">12.480 pilotos na pré-venda 01</small></div>
+        <blockquote><p>“Troquei o aluguel de helicóptero por uma mochila.”</p><cite class="mono">Marina Duarte · diretora de fotografia</cite></blockquote>
+        <blockquote><p>“O desvio de obstáculos salvou meu drone na primeira semana.”</p><cite class="mono">Rafael Nunes · criador de conteúdo</cite></blockquote>
+        <blockquote><p>“52 minutos no ar mudam completamente o jeito de filmar.”</p><cite class="mono">Camila Rocha · cinegrafista de expedições</cite></blockquote>
+      </div>
+    </div>
+
+    <div class="flightline" aria-hidden="true">
+      <span class="mono fl-l">DECOLAGEM</span>
+      <div class="fl-track"><i class="fl-fill"></i></div>
+      <span class="mono fl-r">06 / 06</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 · COMPRA / POUSO ================= -->
+<section class="s-buy" id="comprar" data-section="comprar" data-theme="orange">
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      <span>8K/60 HDR</span><i></i><span>52 min de voo</span><i></i><span>20 km de alcance</span><i></i><span>LiDAR 360°</span><i></i><span>249 g</span><i></i>
+      <span>8K/60 HDR</span><i></i><span>52 min de voo</span><i></i><span>20 km de alcance</span><i></i><span>LiDAR 360°</span><i></i><span>249 g</span><i></i>
+    </div>
+  </div>
+
+  <div class="buy-grid">
+    <div class="buy-left">
+      <span class="kicker mono">06 — Pouso</span>
+      <h2 class="split-words">Toda landing page precisa de um <em>pouso.</em></h2>
+      <p class="buy-lead">Escolha a cor — o seu AERIS X já está na plataforma, esperando você.</p>
+
+      <div class="pad-zone" id="pad" aria-hidden="true">
+        <span class="pz-label pz-label--tl mono">ZONA DE POUSO</span>
+        <span class="pz-label pz-label--tr mono pz-status">AGUARDANDO</span>
+        <span class="pz-label pz-label--bl mono">LAT −23,5505 · LON −46,6333</span>
+      </div>
+
+      <div class="swatches" role="radiogroup" aria-label="Cor do drone">
+        <button type="button" class="sw is-on" role="radio" aria-checked="true" data-color="#1b1c1f" data-name="Grafite"><i style="--c:#1b1c1f"></i><span>Grafite</span></button>
+        <button type="button" class="sw" role="radio" aria-checked="false" data-color="#e9e8e4" data-name="Ártico"><i style="--c:#e9e8e4"></i><span>Ártico</span></button>
+        <button type="button" class="sw" role="radio" aria-checked="false" data-color="#ff4a17" data-name="Sinal"><i style="--c:#ff4a17"></i><span>Sinal</span></button>
+      </div>
+    </div>
+
+    <div class="buy-right">
+      <div class="br-head">
+        <span class="br-badge mono">Pré-venda · Lote 02</span>
+        <h3>Seu kit de voo</h3>
+      </div>
+
+      <div class="kits" role="radiogroup" aria-label="Kit">
+        <button type="button" class="kit" role="radio" aria-checked="false" data-price="6990" data-name="Essencial">
+          <span class="kit-top"><strong>Essencial</strong><b class="mono">R$ 6.990</b></span>
+          <small>Drone, 1 bateria e controle RC-N3</small>
+        </button>
+        <button type="button" class="kit is-on" role="radio" aria-checked="true" data-price="8490" data-name="Fly More">
+          <span class="kit-flag mono">Mais escolhido</span>
+          <span class="kit-top"><strong>Fly More</strong><b class="mono">R$ 8.490</b></span>
+          <small>+ 3 baterias, hub de carga, bolsa e 6 hélices extras</small>
+        </button>
+        <button type="button" class="kit" role="radio" aria-checked="false" data-price="10990" data-name="Creator Pro">
+          <span class="kit-top"><strong>Creator Pro</strong><b class="mono">R$ 10.990</b></span>
+          <small>+ controle com tela 7″, filtros ND e 1 ano de AERIS Care</small>
+        </button>
+      </div>
+
+      <div class="price">
+        <div class="pr-main"><small class="mono">12x sem juros</small><strong>R$ <span class="pr-inst">707,50</span></strong></div>
+        <div class="pr-alt">ou <b>R$ <span class="pr-pix">8.065,50</span></b> no Pix <em class="mono">−5%</em></div>
+      </div>
+
+      <div class="urgency">
+        <div class="countdown mono" aria-label="Tempo restante do lote">
+          <div><b data-cd="d">00</b><small>dias</small></div><span>:</span>
+          <div><b data-cd="h">00</b><small>horas</small></div><span>:</span>
+          <div><b data-cd="m">00</b><small>min</small></div><span>:</span>
+          <div><b data-cd="s">00</b><small>seg</small></div>
+        </div>
+        <div class="stock"><div class="st-bar"><i></i></div><p class="mono"><b>83%</b> vendido · restam 214 unidades</p></div>
+      </div>
+
+      <a href="#comprar" class="buy-cta magnetic" data-cursor="decolar">
+        <span class="cta-label">Garantir meu AERIS X</span>
+        <span class="cta-sub mono"><span class="cta-kit">Fly More</span> · <span class="cta-color">Grafite</span></span>
+        <span class="cta-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <ul class="trust">
+        <li><b>Frete grátis</b><span>com seguro total</span></li>
+        <li><b>30 dias</b><span>para devolver</span></li>
+        <li><b>2 anos</b><span>de garantia</span></li>
+        <li><b>Pagamento</b><span>100% seguro</span></li>
+      </ul>
+
+      <div class="faq">
+        <details><summary>Preciso de licença para voar?</summary><p>Com 249 g, o AERIS X fica abaixo do limite que exige registro na maioria dos países. Ainda assim, siga as regras locais de espaço aéreo.</p></details>
+        <details><summary>Quando recebo o meu?</summary><p>Os pedidos do Lote 02 são enviados em até 15 dias úteis após a confirmação do pagamento, com rastreio em tempo real.</p></details>
+        <details><summary>Dá para usar com o celular?</summary><p>Sim. O app AERIS Fly funciona em iOS e Android, e o controle RC-N3 acopla qualquer celular de até 7″.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" data-theme="dark">
+  <div class="ft-top">
+    <p class="ft-line">O céu mudou de dono.<br><span>Agora é a sua vez.</span></p>
+    <a href="#comprar" class="ft-cta magnetic" data-cursor="pousar">Reservar o meu →</a>
+  </div>
+  <div class="ft-word" aria-hidden="true"><span>A</span><span>E</span><span>R</span><span>I</span><span>S</span></div>
+  <div class="ft-bottom mono">
+    <span>© 2026 AERIS Robotics</span>
+    <span>Suporte · Garantia · Privacidade</span>
+    <a href="#voo" class="ft-top-link">Voltar ao topo ↑</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
