@@ -83,118 +83,253 @@ mindmap
 <!-- ================= PROMPT MESTRE DO DRONE ================= -->
 <section class="phase">
   <div class="ph-head"><span class="tag">Prompt mestre</span><h2>O drone completo em um único prompt</h2></div>
-  <p class="ph-goal">A especificação inteira do drone, com medidas, materiais, hierarquia, API e checklist de validação. Serve como system prompt ou como primeira mensagem. Com tudo definido, até um modelo mais simples consegue gerar o drone. Na aula, use os passos 2.1 a 2.5 para ensinar; este prompt é o atalho.</p>
+  <p class="ph-goal">O drone inteiro já vai em código pronto e testado dentro do prompt. A IA só precisa devolver o arquivo, então funciona até em modelo mais fraco. Na aula, use os passos 2.1 a 2.5 para ensinar a lógica; este prompt é o atalho e o gabarito. Para outro objeto, use o prompt modelo logo abaixo.</p>
   <ol class="steps">
     <li class="step">
-      <div class="st-top"><h3><small>★</small>Especificação completa do drone 3D</h3><button class="copy" data-for="pmaster">Copiar prompt</button></div>
-      <p class="see">Resultado: <b>um arquivo drone.html com o drone completo, animado, reagindo ao mouse e ao scroll.</b></p>
-      <details><summary>Ver prompt</summary><pre id="pmaster">Você é um desenvolvedor especialista em Three.js e motion design para web. Sua tarefa é gerar UM arquivo drone.html completo e funcional com um drone quadricóptero 3D premium, modelado 100% com código (proibido carregar .glb/.gltf/.obj ou imagens externas). Siga a especificação exatamente. Não simplifique, não omita peças, não deixe TODOs.
+      <div class="st-top"><h3><small>★</small>Drone completo: código pronto e testado</h3><button class="copy" data-for="pmaster">Copiar prompt</button></div>
+      <p class="see">Resultado: <b>drone.html com o drone completo: segue o mouse, pirueta no clique, troca de cor, desmonta no meio do scroll e pousa na plataforma.</b></p>
+      <details><summary>Ver prompt</summary><pre id="pmaster">Você vai gerar UM arquivo chamado drone.html. O código completo já está pronto abaixo: copie-o EXATAMENTE, do início ao fim, sem resumir, sem remover partes e sem trocar nada. Não use arquivos 3D (.glb/.obj) nem imagens externas. Entregue o arquivo inteiro em um único bloco de código, pronto para salvar e abrir no navegador.
 
-## 1. TECNOLOGIA
-- Three.js 0.170.0 via importmap:
-  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-- Addons: RoomEnvironment (environments/RoomEnvironment.js), RoundedBoxGeometry (geometries/RoundedBoxGeometry.js).
-- Um único &lt;script type="module"&gt;. Código comentado em português.
+O que o arquivo faz (para você conferir):
+- Drone 3D feito só com código (Three.js): corpo arredondado, faixa laranja, carenagem, bateria, 4 braços de carbono, motores, hélices girando com disco de desfoque, LEDs, gimbal e câmera com lente iridescente.
+- O canvas é transparente e fica fixo por cima de uma página com 5 seções.
+- Segue o mouse no topo; clique = pirueta; botões no canto trocam a cor.
+- Com o scroll ele atravessa as seções, se desmonta (vista explodida) na seção 3 e pousa na plataforma "H" no final, com as hélices parando.
+- Para mudar o caminho do drone, edite só a lista POSES (seção 7).
 
-## 2. RENDERER, CÂMERA E LUZ
-- WebGLRenderer({ alpha:true, antialias:true }), setClearColor(0,0), toneMapping ACESFilmicToneMapping, toneMappingExposure 1.05, outputColorSpace SRGBColorSpace, pixelRatio = min(devicePixelRatio, 2).
-- Canvas: position fixed; inset 0; width 100vw; height 100vh; z-index 40; pointer-events none.
-- PerspectiveCamera(fov 28, near 0.01, far 200) em (0,0,14), olhando para a origem.
-- scene.environment = PMREMGenerator.fromScene(new RoomEnvironment(), 0.04).texture
-- Luzes: DirectionalLight branca 2.2 em (-4,6,5); DirectionalLight #ff7a45 3.0 em (5,2,-6) (contorno); HemisphereLight(branco, #222222, 0.6).
+=== CÓDIGO COMPLETO ===
+&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;title&gt;Drone 3D no Scroll&lt;/title&gt;
+&lt;style&gt;
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;overflow-x:clip}
+#obj{position:fixed;inset:0;width:100vw;height:100vh;z-index:10;pointer-events:none}
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw}
+section h2{font-size:clamp(44px,9vw,140px);letter-spacing:-.06em;line-height:.86;max-width:10ch}
+section small{font:600 12px ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;opacity:.7}
+.s0{background:#ff4a17;color:#fff}.s1{background:#0b0b0c;color:#fff}.s2{background:#eceae4;color:#0b0b0c}.s3{background:#0b0b0c;color:#fff;align-items:flex-end;text-align:right}.s4{background:#ff4a17;color:#fff}
+#pouso{width:min(60vw,520px);height:36vh;margin-top:4vh}
+.cores{position:fixed;right:16px;bottom:16px;z-index:20;display:flex;gap:8px}
+.cores button{width:34px;height:34px;border-radius:50%;border:2px solid #fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;canvas id="obj"&gt;&lt;/canvas&gt;
+&lt;section class="s0"&gt;&lt;small&gt;01&lt;/small&gt;&lt;h2&gt;o céu mudou de dono.&lt;/h2&gt;&lt;/section&gt;
+&lt;section class="s1"&gt;&lt;small&gt;02&lt;/small&gt;&lt;h2&gt;Ele segue o scroll.&lt;/h2&gt;&lt;/section&gt;
+&lt;section class="s2"&gt;&lt;small&gt;03&lt;/small&gt;&lt;h2&gt;Peça por peça.&lt;/h2&gt;&lt;/section&gt;
+&lt;section class="s3"&gt;&lt;small&gt;04&lt;/small&gt;&lt;h2&gt;Sempre estável.&lt;/h2&gt;&lt;/section&gt;
+&lt;section class="s4"&gt;&lt;small&gt;05&lt;/small&gt;&lt;h2&gt;Hora de pousar.&lt;/h2&gt;&lt;div id="pouso"&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;div class="cores"&gt;&lt;button style="background:#1b1c1f" data-c="#1b1c1f"&gt;&lt;/button&gt;&lt;button style="background:#e9e8e4" data-c="#e9e8e4"&gt;&lt;/button&gt;&lt;button style="background:#ff4a17" data-c="#ff4a17"&gt;&lt;/button&gt;&lt;/div&gt;
 
-## 3. SISTEMA DE COORDENADAS DO DRONE
-- Unidades do mundo. +Z = frente (onde fica a câmera do drone), +Y = cima, +X = direita.
-- Largura total ponta a ponta das hélices: SPAN = 2.7. Distância do centro até os pés: FOOT = 0.44.
+&lt;script type="importmap"&gt;{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}&lt;/script&gt;
+&lt;script type="module"&gt;
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
-## 4. HIERARQUIA (obrigatória)
-scene
- └ stage  (Group) → posição na tela, escala, rotation.x = inclinação de vista (tilt)
-    ├ shadow (sombra de contato)
-    └ craft (Group) → atitude de voo: rotation (pitch, yaw, roll) ordem 'YXZ' + flutuação em y
-       └ pivot (Group) → deslocamento para zoom na lente
-          └ peças: core, shell, battery, arm0..arm3, gimbal, camera
-Cada peça guarda userData.home (posição original), userData.dir (direção de explosão) e userData.rot.
+// 1. CENA
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('obj'), alpha: true, antialias: true });
+renderer.setClearColor(0, 0); renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
+const camera = new THREE.PerspectiveCamera(28, 1, .01, 100); camera.position.set(0, 0, 14);
+const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(-4, 6, 5);
+const rim = new THREE.DirectionalLight(0xff7a45, 3); rim.position.set(5, 2, -6);
+scene.add(key, rim, new THREE.HemisphereLight(0xffffff, 0x222222, .6));
+function tex(w, h, draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
+const radial = stops =&gt; tex(256, 256, (g, w) =&gt; { const gr = g.createRadialGradient(w/2, w/2, 0, w/2, w/2, w/2); stops.forEach(([o, c]) =&gt; gr.addColorStop(o, c)); g.fillStyle = gr; g.fillRect(0, 0, w, w); });
 
-## 5. MATERIAIS (MeshPhysicalMaterial salvo indicação)
-- shell: cor #1b1c1f, roughness .32, metalness .25, clearcoat .8, clearcoatRoughness .2
-- body: #111214, roughness .55, metalness .2
-- carbon: map = textura de carbono (seção 6), roughness .38, metalness .35, clearcoat .5
-- accent: #ff4a17, roughness .35, metalness .1, emissive #ff2a00, emissiveIntensity .08
-- metal: #2b2c30, roughness .28, metalness .9
-- glass: #050507, roughness .04, metalness 1
-- lens: #08080c, roughness .02, metalness .9, iridescence 1, iridescenceIOR 1.8, iridescenceThicknessRange [180,700], clearcoat 1
-- blade: #16171a, roughness .45, metalness .1, transparent true
-- rubber: MeshStandardMaterial #0d0d0e, roughness .9
+// 2. HIERARQUIA
+const stage = new THREE.Group(), craft = new THREE.Group(); stage.add(craft); scene.add(stage);
+const SPAN = 2.7;   // largura do drone (ponta a ponta das hélices)
+const FOOT = 0.44;  // distância do centro até os pés
 
-## 6. TEXTURAS PROCEDURAIS (canvas → CanvasTexture, colorSpace sRGB)
-- Carbono: canvas 128x128, fundo #1a1b1e, células 8x8 alternando gradiente horizontal/vertical (#16171a → #2c2e33 → #16171a). RepeatWrapping, repeat (2,6).
-- Gradiente radial genérico: função radialTex(stops) em canvas 256x256.
-- Logo: canvas 512x128, texto "AERIS" branco 90% bold 92px centralizado.
-- "H" da plataforma: canvas 256x256, "H" branco bold 190px.
+// 3. MATERIAIS
+const carbonTex = tex(128, 128, (g, w) =&gt; { g.fillStyle = '#1a1b1e'; g.fillRect(0, 0, w, w); for (let y = 0; y &lt; w; y += 8) for (let x = 0; x &lt; w; x += 8) { const on = (x/8 + y/8) % 2 === 0; const gr = on ? g.createLinearGradient(x, y, x+8, y) : g.createLinearGradient(x, y, x, y+8); gr.addColorStop(0, '#16171a'); gr.addColorStop(.5, '#2c2e33'); gr.addColorStop(1, '#16171a'); g.fillStyle = gr; g.fillRect(x, y, 8, 8); } });
+carbonTex.wrapS = carbonTex.wrapT = THREE.RepeatWrapping; carbonTex.repeat.set(2, 6);
+const M = {
+  shell: new THREE.MeshPhysicalMaterial({ color: '#1b1c1f', roughness: .32, metalness: .25, clearcoat: .8, clearcoatRoughness: .2 }),
+  body: new THREE.MeshPhysicalMaterial({ color: '#111214', roughness: .55, metalness: .2 }),
+  carbon: new THREE.MeshPhysicalMaterial({ map: carbonTex, roughness: .38, metalness: .35, clearcoat: .5 }),
+  accent: new THREE.MeshPhysicalMaterial({ color: '#ff4a17', roughness: .35, metalness: .1, emissive: '#ff2a00', emissiveIntensity: .08 }),
+  metal: new THREE.MeshPhysicalMaterial({ color: '#2b2c30', roughness: .28, metalness: .9 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: '#050507', roughness: .04, metalness: 1 }),
+  lens: new THREE.MeshPhysicalMaterial({ color: '#08080c', roughness: .02, metalness: .9, iridescence: 1, iridescenceIOR: 1.8, iridescenceThicknessRange: [180, 700], clearcoat: 1 }),
+  blade: new THREE.MeshPhysicalMaterial({ color: '#16171a', roughness: .45, metalness: .1, transparent: true }),
+  rubber: new THREE.MeshStandardMaterial({ color: '#0d0d0e', roughness: .9 })
+};
 
-## 7. GEOMETRIA DO CORPO
-Função pebble(W, L, taper, n, zOff) → THREE.Shape com 80 pontos:
-  para a em 0..2π: x = W·sign(cos a)·|cos a|^(2/n); z = L·sign(sin a)·|sin a|^(2/n); x *= 1 − taper·max(0, z/L); ponto = (x, −(z+zOff)).
-Função slab(shape, depth, bevel, y) → ExtrudeGeometry({depth, bevelEnabled: bevel>0, bevelThickness: bevel, bevelSize: bevel·0.9, bevelSegments 5, curveSegments 8}), rotateX(−π/2), translate(0, y+bevel, 0).
-- core: slab(pebble(.26,.58,.38), .12, .05, −.17) material body.
-- belt (faixa): slab(pebble(.312,.632,.36), .012, 0, −.075) material accent.
-- sensores: 6 esferas r .03 material glass em (±.075,−.05,.6), (±.1,−.05,−.62), (±.3,−.05,.02).
-- shell: slab(pebble(.2,.34,.45,2.6,.2), .03, .04, .03) material shell; visor slab(pebble(.1,.1,.5,2.4,.4), .004, .008, .14) glass; cúpula LiDAR = meia esfera r .07 em (0,.15,.1) glass + anel Torus(.072,.008) accent deitado; logo = plano .22×.055 em (0,.153,−.08) deitado.
-  userData.dir = (0,.9,.05), rot = (−.2,0,0).
-- battery: RoundedBox(.34,.12,.36, 4, .035) shell em (0,.09,−.35); faixa Box(.345,.018,.2) accent; 4 LEDs Box(.03,.01,.012) (3 ciano #2fd3ff, 1 #333) no topo; 3 frisos. dir = (0,.35,−1.05).
+// 4. PEÇAS
+// contorno "seixo" visto de cima, mais fino na frente (+z)
+function pebble(W, L, taper = .38, n = 2.7, zOff = 0) {
+  const s = new THREE.Shape();
+  for (let i = 0; i &lt;= 80; i++) { const a = i / 80 * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a); let x = W * Math.sign(c) * Math.pow(Math.abs(c), 2 / n); const z = L * Math.sign(sn) * Math.pow(Math.abs(sn), 2 / n); x *= 1 - taper * Math.max(0, z / L); i ? s.lineTo(x, -(z + zOff)) : s.moveTo(x, -(z + zOff)); }
+  return s;
+}
+// dá espessura ao contorno e deita no chão
+function slab(shape, depth, bevel, y) {
+  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: bevel &gt; 0, bevelThickness: bevel, bevelSize: bevel * .9, bevelSegments: 5, curveSegments: 8 });
+  g.rotateX(-Math.PI / 2); g.translate(0, y + bevel, 0); return g;
+}
+const parts = [];   // peças que se separam na vista explodida
+function part(obj, dir) { obj.userData.home = obj.position.clone(); obj.userData.dir = dir; craft.add(obj); parts.push(obj); return obj; }
 
-## 8. BRAÇOS, MOTORES, PERNAS, LEDS, HÉLICES
-Montagens [attachX, attachZ, motorX, motorZ, sentidoDeGiro]:
- [.2,.3,.86,.7,1], [−.2,.3,−.86,.7,−1], [.22,−.3,.86,−.64,−1], [−.22,−.3,−.86,−.64,1]
-Para cada uma, um Group com:
-- braço: Cylinder(.034, .055, comprimento, 20) → rotateX(π/2) → scale(1,.7,1); posição no meio entre A(ax,−.03,az) e M(mx,.03,mz); lookAt(M). material carbon.
-- perna: Cylinder(.014,.022,.42) body a 62% do braço, y −.22, levemente inclinada para fora; pé = esfera r .03 rubber em y −.42.
-- motor: base Cylinder(.075,.085,.05) carbon em y .03; sino LatheGeometry com perfil [(0,0),(.1,0),(.116,.02),(.116,.085),(.1,.11),(.045,.122),(0,.122)] e 40 segmentos, material metal, em y .055; tampa Cylinder(.045,.045,.02) accent em y .185.
-- LED: esfera r .022 MeshBasicMaterial toneMapped:false, 0.08 à frente/atrás do motor; Sprite com radialTex branco, AdditiveBlending, depthWrite false, escala .28.
-- hélice (Group em y .2): 2 pás; pá = Shape: moveTo(.035,−.016) quadraticCurveTo(.13,−.055,.31,−.032) quadraticCurveTo(.43,−.022,.43,0) quadraticCurveTo(.42,.02,.31,.018) quadraticCurveTo(.13,.045,.035,.016) closePath; Extrude depth .006 bevel .003; rotateX(−π/2); passo rotation.x = sentido·.16; segunda pá girada π em Y. Cubo Cylinder(.03) metal. Disco de desfoque: CircleGeometry(.45,64) deitado, MeshBasicMaterial com radialTex [0 transp, .16 transp, .2 branco .35, .72 branco .18, .9 branco .3, .97 branco .08, 1 transp], transparent, depthWrite false.
-- userData.dir = (mx,0,mz) normalizado × .75 com y .15; a hélice sobe +.55 em y ao explodir.
+// corpo + faixa laranja + sensores
+const core = new THREE.Group();
+core.add(new THREE.Mesh(slab(pebble(.26, .58, .38), .12, .05, -.17), M.body));
+core.add(new THREE.Mesh(slab(pebble(.312, .632, .36), .012, 0, -.075), M.accent));
+[[-.075, -.05, .6], [.075, -.05, .6], [-.1, -.05, -.62], [.1, -.05, -.62], [.3, -.05, .02], [-.3, -.05, .02]].forEach(p =&gt; { const m = new THREE.Mesh(new THREE.SphereGeometry(.03, 20, 16), M.glass); m.position.set(...p); core.add(m); });
+part(core, new THREE.Vector3());
 
-## 9. GIMBAL E CÂMERA
-- gimbal: garfo RoundedBox(.06,.09,.06) em (0,−.2,.42); motor de rolagem Cylinder(.045,.06) deitado em z (0,−.25,.46); barra RoundedBox(.34,.03,.05) em (0,−.25,.5); laterais RoundedBox(.03,.1,.05) em (±.155,−.3,.5) + motores Cylinder(.035,.025) em (±.14,−.31,.5). dir = (0,−.55,.45).
-- câmera (Group em (0,−.31,.5)): RoundedBox(.24,.17,.2,4,.045) shell; tubo Cylinder(.078,.082,.07, openEnded) metal em z .125; anel Torus(.078,.007) accent em z .16; vidro = calota de esfera r .2 (phiLength 2π, thetaLength .38) material lens virada para +Z. dir = (0,−.45,1.05).
-- "Furo" da lente: CircleGeometry(.074) em z .175 com MeshBasicMaterial transparent, depthWrite false, blending CustomBlending, blendSrc/blendDst/blendSrcAlpha/blendDstAlpha = ZeroFactor, renderOrder 999, escala inicial .001. Isso deixa o pixel transparente e revela o HTML atrás do canvas.
-- Posição local da lente: lensLocal = (0,−.31,.67).
-- Âncoras (Object3D vazios para projetar na tela): camera, lensEdge (borda da lente), gimbal, motor, arm, lidar, battery.
+// carenagem de cima + visor + cúpula LiDAR + logo
+const shell = new THREE.Group();
+shell.add(new THREE.Mesh(slab(pebble(.2, .34, .45, 2.6, .2), .03, .04, .03), M.shell));
+shell.add(new THREE.Mesh(slab(pebble(.1, .1, .5, 2.4, .4), .004, .008, .14), M.glass));
+const dome = new THREE.Mesh(new THREE.SphereGeometry(.07, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), M.glass); dome.position.set(0, .15, .1); shell.add(dome);
+const domeRing = new THREE.Mesh(new THREE.TorusGeometry(.072, .008, 8, 40), M.accent); domeRing.rotation.x = Math.PI / 2; domeRing.position.set(0, .152, .1); shell.add(domeRing);
+const logo = new THREE.Mesh(new THREE.PlaneGeometry(.22, .055), new THREE.MeshBasicMaterial({ transparent: true, map: tex(512, 128, g =&gt; { g.fillStyle = 'rgba(255,255,255,.9)'; g.font = '700 92px Arial, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('AERIS', 256, 68); }) }));
+logo.rotation.x = -Math.PI / 2; logo.position.set(0, .153, -.08); shell.add(logo);
+part(shell, new THREE.Vector3(0, .9, .05));
 
-## 10. SOMBRA E PLATAFORMA DE POUSO
-- sombra: Plane 3.4×3.4 deitado dentro do stage, radialTex preto (.55 → 0), opacidade controlada por state.shadow, y = −FOOT − lift.
-- plataforma (Group separado na cena): disco Circle(1.25) preto .16; anel Ring(1.18,1.25) branco; anel Ring(.86,.875) branco .5; anel pulsante Ring(1.25,1.29) que cresce e some em loop; plano com o "H"; 4 marcações diagonais em raio 1.42.
+// bateria
+const bat = new THREE.Group();
+bat.add(new THREE.Mesh(new RoundedBoxGeometry(.34, .12, .36, 4, .035), M.shell));
+const stripe = new THREE.Mesh(new THREE.BoxGeometry(.345, .018, .2), M.accent); stripe.position.z = -.04; bat.add(stripe);
+for (let i = 0; i &lt; 4; i++) { const l = new THREE.Mesh(new THREE.BoxGeometry(.03, .01, .012), new THREE.MeshBasicMaterial({ color: i &lt; 3 ? '#2fd3ff' : '#333' })); l.position.set(-.06 + i * .04, .062, -.14); bat.add(l); }
+bat.position.set(0, .09, -.35);
+part(bat, new THREE.Vector3(0, .35, -1.05));
 
-## 11. ESTADO E API
-state = { x, y (px a partir do centro da tela), s (largura em px), yaw, pitch, roll, tilt, explode (0..1), prop (0..1), shadow, lift, lens (0..1), vis, pad, padX, padY, padS, padTilt, padGlow }
-- unidades por pixel: wpp = 2·tan(fov/2)·14 / alturaDaTela
-- stage.position = (x·wpp, −y·wpp, 0); stage.scale = s·wpp/SPAN; stage.rotation.x = tilt
-- pivot.position = −lensLocal × lens
-- craft.position.y = sen(t·1.7)·.035·prop + lift; craft.rotation = (pitch + sen(t·1.3)·.02·prop, yaw, roll + sen(t·1.1+1)·.02·prop + pirueta)
-- peça.position = home + dir × explode × .6
-- hélices: ângulo += dt·(4 + 36·prop); disco opacidade = min(1, prop·1.1)·.55; pás opacidade = 1 − prop·.55
-- furo da lente: escala = clamp((lens − .6)/.25, 0, 1)
-Métodos: resize(), setColor(hex) (color.lerp suave), setLed(hex), doFlip() (360° em .9 s, easeOutCubic), project(obj) → {x,y} em px, anchorScreen(nome), lensScreen() → {x,y,r}, update(dt).
+// braços, motores, pernas, LEDs e hélices
+const bladeShape = new THREE.Shape();
+bladeShape.moveTo(.035, -.016); bladeShape.quadraticCurveTo(.13, -.055, .31, -.032); bladeShape.quadraticCurveTo(.43, -.022, .43, 0); bladeShape.quadraticCurveTo(.42, .02, .31, .018); bladeShape.quadraticCurveTo(.13, .045, .035, .016); bladeShape.closePath();
+const bladeGeo = new THREE.ExtrudeGeometry(bladeShape, { depth: .006, bevelEnabled: true, bevelThickness: .003, bevelSize: .003, bevelSegments: 2 }); bladeGeo.rotateX(-Math.PI / 2);
+const bell = new THREE.LatheGeometry([[0, 0], [.1, 0], [.116, .02], [.116, .085], [.1, .11], [.045, .122], [0, .122]].map(p =&gt; new THREE.Vector2(p[0], p[1])), 40);
+const glowTex = radial([[0, 'rgba(255,255,255,1)'], [.25, 'rgba(255,255,255,.45)'], [1, 'rgba(255,255,255,0)']]);
+const discTex = radial([[0, 'rgba(255,255,255,0)'], [.16, 'rgba(255,255,255,0)'], [.2, 'rgba(255,255,255,.35)'], [.72, 'rgba(255,255,255,.18)'], [.9, 'rgba(255,255,255,.3)'], [.97, 'rgba(255,255,255,.08)'], [1, 'rgba(255,255,255,0)']]);
+const props = [], leds = [];
+[[.2, .3, .86, .7, 1], [-.2, .3, -.86, .7, -1], [.22, -.3, .86, -.64, -1], [-.22, -.3, -.86, -.64, 1]].forEach(([ax, az, mx, mz, spin]) =&gt; {
+  const g = new THREE.Group();
+  const a = new THREE.Vector3(ax, -.03, az), m = new THREE.Vector3(mx, .03, mz);
+  const armGeo = new THREE.CylinderGeometry(.034, .055, a.distanceTo(m), 20); armGeo.rotateX(Math.PI / 2); armGeo.scale(1, .7, 1);
+  const arm = new THREE.Mesh(armGeo, M.carbon); arm.position.copy(a).lerp(m, .5); arm.lookAt(m); g.add(arm);
+  const lp = a.clone().lerp(m, .62);
+  const leg = new THREE.Mesh(new THREE.CylinderGeometry(.014, .022, .42, 12), M.body); leg.position.set(lp.x * 1.02, -.22, lp.z * 1.02); leg.rotation.z = Math.sign(lp.x) * .08; g.add(leg);
+  const foot = new THREE.Mesh(new THREE.SphereGeometry(.03, 16, 12), M.rubber); foot.position.set(lp.x * 1.04, -.42, lp.z * 1.04); g.add(foot);
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(.075, .085, .05, 32), M.carbon); base.position.set(mx, .03, mz); g.add(base);
+  const b = new THREE.Mesh(bell, M.metal); b.position.set(mx, .055, mz); g.add(b);
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(.045, .045, .02, 32), M.accent); cap.position.set(mx, .185, mz); g.add(cap);
+  const led = new THREE.Mesh(new THREE.SphereGeometry(.022, 12, 10), new THREE.MeshBasicMaterial({ color: '#ff4a17', toneMapped: false })); led.position.set(mx, 0, mz + (mz &gt; 0 ? .08 : -.08)); g.add(led);
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: mz &gt; 0 ? '#ff4a17' : '#2fd3ff', transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })); glow.scale.set(.28, .28, 1); glow.position.copy(led.position); g.add(glow);
+  if (mz &lt; 0) led.material.color.set('#2fd3ff');
+  leds.push({ glow, front: mz &gt; 0 });
+  const prop = new THREE.Group(); prop.position.set(mx, .2, mz);
+  const blades = new THREE.Group();
+  for (let k = 0; k &lt; 2; k++) { const bl = new THREE.Mesh(bladeGeo, M.blade); bl.rotation.set(spin * .16, k * Math.PI, 0); blades.add(bl); }
+  const disc = new THREE.Mesh(new THREE.CircleGeometry(.45, 64), new THREE.MeshBasicMaterial({ map: discTex, transparent: true, depthWrite: false, opacity: .5 })); disc.rotation.x = -Math.PI / 2; disc.position.y = .004;
+  prop.add(blades, new THREE.Mesh(new THREE.CylinderGeometry(.03, .03, .03, 20), M.metal), disc); g.add(prop);
+  props.push({ blades, disc, spin, prop });
+  const out = new THREE.Vector3(mx, 0, mz).normalize().multiplyScalar(.75); out.y = .15;
+  part(g, out);
+});
 
-## 12. DEMONSTRAÇÃO NO ARQUIVO
-- Página com 5 seções de 100vh (laranja #ff4a17, preto #0b0b0c, papel #eceae4, preto, laranja) e um título grande em cada. A última tem uma div #pad de 50vw×40vh.
-- Lista POSES editável no topo: { secao, p, x, y, s, yaw, tilt, explode, prop, shadow, lift, anchor }.
-  Seção 0: x .2, y −.1, s .36, yaw −.6, tilt .42 → Seção 1: centro, de frente (yaw 0, tilt .06) → Seção 2: explode 1, yaw 2.2, tilt .6, shadow .35 → Seção 3: x −.25, s .22, de lado (yaw 1.57) → Seção 4: anchor 'pad', lift 1.4 → lift 0, prop 0, shadow .55.
-- Cada pose herda os valores da anterior (inclusive anchor). Misture as duas poses em volta do scroll atual com easeInOutCubic; o tamanho s em escala logarítmica.
-- Mola: atual = lerp(atual, alvo, 1 − exp(−dt·7)). Roll = −velocidadeX·.5 (limite ±.5).
-- Mouse (só na seção 0): yaw += mouseX·.25, tilt += mouseY·.12, posição puxada ±3% da tela. Clique = doFlip().
-- Com anchor 'pad': x/y vêm do getBoundingClientRect() de #pad; y do drone = y da plataforma − (FOOT + lift)·(s/SPAN)·cos(tilt).
-- Botões fixos: cores (#1b1c1f, #e9e8e4, #ff4a17) e slider de explosão para teste.
+// gimbal + câmera com lente iridescente
+const gim = new THREE.Group();
+const yoke = new THREE.Mesh(new RoundedBoxGeometry(.06, .09, .06, 2, .015), M.body); yoke.position.set(0, -.2, .42); gim.add(yoke);
+const bar = new THREE.Mesh(new RoundedBoxGeometry(.34, .03, .05, 2, .012), M.body); bar.position.set(0, -.25, .5); gim.add(bar);
+[-1, 1].forEach(s =&gt; { const side = new THREE.Mesh(new RoundedBoxGeometry(.03, .1, .05, 2, .012), M.body); side.position.set(s * .155, -.3, .5); gim.add(side); });
+part(gim, new THREE.Vector3(0, -.55, .45));
+const cam = new THREE.Group();
+cam.add(new THREE.Mesh(new RoundedBoxGeometry(.24, .17, .2, 4, .045), M.shell));
+const barrel = new THREE.Mesh(new THREE.CylinderGeometry(.078, .082, .07, 40, 1, true), M.metal); barrel.rotation.x = Math.PI / 2; barrel.position.z = .125; cam.add(barrel);
+const ring = new THREE.Mesh(new THREE.TorusGeometry(.078, .007, 10, 48), M.accent); ring.position.z = .16; cam.add(ring);
+const glass = new THREE.Mesh(new THREE.SphereGeometry(.2, 40, 20, 0, Math.PI * 2, 0, .38), M.lens); glass.rotation.x = Math.PI / 2; glass.position.z = .16 - .2 * Math.cos(.38); cam.add(glass);
+cam.position.set(0, -.31, .5);
+part(cam, new THREE.Vector3(0, -.45, 1.05));
 
-## 13. CHECKLIST ANTES DE ENTREGAR
-- Nenhum erro no console. Canvas transparente mostrando as cores das seções por trás.
-- As 4 hélices giram em sentidos alternados, com disco de desfoque.
-- Explodir separa: carenagem sobe, bateria vai para trás, braços para fora, gimbal para baixo, câmera para frente.
-- O drone pousa exatamente sobre a plataforma, com os pés encostando.
-- Responsivo: abaixo de 900px use s maior e x mais ao centro.
-Entregue o arquivo completo, em um único bloco de código.</pre></details>
+// sombra de contato (dentro do stage, embaixo do drone)
+const shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 3.4), new THREE.MeshBasicMaterial({ map: radial([[0, 'rgba(0,0,0,.55)'], [.45, 'rgba(0,0,0,.2)'], [1, 'rgba(0,0,0,0)']]), transparent: true, depthWrite: false, opacity: 0 }));
+shadow.rotation.x = -Math.PI / 2; stage.add(shadow);
+
+// 5. MOVIMENTO PRÓPRIO: hélices, LEDs, explosão
+let propAngle = 0;
+function vida(t, voo, explode, dt) {
+  propAngle += dt * (4 + 36 * voo);
+  props.forEach((p, i) =&gt; { p.blades.rotation.y = propAngle * p.spin + i; p.disc.material.opacity = Math.min(1, voo * 1.1) * .55; p.blades.children.forEach(b =&gt; b.material.opacity = 1 - voo * .55); p.prop.position.y = .2 + .55 * explode; });
+  const blink = Math.sin(t * 6) &gt; .6 ? 1 : .25;
+  leds.forEach(l =&gt; l.glow.material.opacity = (l.front ? .9 : blink) * (voo &gt; .05 ? 1 : .35));
+  parts.forEach(p =&gt; p.position.copy(p.userData.home).addScaledVector(p.userData.dir, explode * .6));
+}
+
+// 6. POUSO: plataforma com H
+const base = new THREE.Group(); scene.add(base);
+const mk = (geo, color, op) =&gt; { const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color, transparent: true, opacity: op, depthWrite: false, side: THREE.DoubleSide })); m.rotation.x = -Math.PI / 2; base.add(m); return m; };
+mk(new THREE.CircleGeometry(1.25, 96), '#000000', .16);
+mk(new THREE.RingGeometry(1.18, 1.25, 96), '#ffffff', .95);
+mk(new THREE.RingGeometry(.86, .875, 96), '#ffffff', .5);
+const H = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.1), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, map: tex(256, 256, g =&gt; { g.fillStyle = 'rgba(255,255,255,.95)'; g.font = '700 190px Arial, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('H', 128, 140); }) }));
+H.rotation.x = -Math.PI / 2; H.position.y = .002; base.add(H);
+
+// troca de cor da carenagem
+const alvoCor = new THREE.Color('#1b1c1f');
+document.querySelectorAll('.cores button').forEach(b =&gt; b.addEventListener('click', e =&gt; { e.stopPropagation(); alvoCor.set(b.dataset.c); }));
+
+// 7. POSES POR SEÇÃO (edite aqui o caminho do drone)
+// x,y = fração da tela a partir do centro; s = tamanho; yaw = giro; tilt = inclinação da vista; explode = vista explodida; sombra
+const POSES = [
+  { secao:0, p:.5, x:.2, y:-.08, s:.4, yaw:-.6, tilt:.42, voo:1, explode:0, sombra:0 },
+  { secao:1, p:.5, x:0, y:0, s:.38, yaw:0, tilt:.08 },
+  { secao:2, p:.5, x:.15, y:.05, s:.5, yaw:2.2, tilt:.6, explode:1, sombra:.35 },
+  { secao:3, p:.5, x:-.22, y:.05, s:.24, yaw:1.57, tilt:.25, explode:0, sombra:0 },
+  { secao:4, p:0, anchor:true, lift:1.4, s:.34, yaw:.5, tilt:.5, sombra:.15 },
+  { secao:4, p:.5, anchor:true, lift:0, voo:0, sombra:.55 }
+];
+
+// 8. DIRETOR (scroll + mouse + mola)
+const sections=[...document.querySelectorAll('section')], pousoEl=document.getElementById('pouso');
+const DEF={x:0,y:0,s:.3,yaw:0,tilt:.3,voo:1,explode:0,sombra:0,lift:0,anchor:false}; let frames=[];
+function build(){ let prev={...DEF}; frames=POSES.map(k=&gt;{ const f={...prev,...k}; const el=sections[k.secao]; f.pos=el.offsetTop+k.p*el.offsetHeight-innerHeight/2; prev=f; return f; }); }
+function alvoPouso(){ const r=pousoEl.getBoundingClientRect(); return { x:r.left+r.width/2-innerWidth/2, y:r.top+r.height*.6-innerHeight/2, s:Math.min(r.width*.8,r.height*1.1) }; }
+function resolve(f,unit,b){ const o={...f}; if(f.anchor){ o.s=b.s/unit; const pxu=b.s/SPAN; o.x=b.x/innerWidth; o.y=(b.y-FOOT*pxu*Math.cos(f.tilt))/innerHeight; } return o; }
+const mouse={nx:0,ny:0}; addEventListener('pointermove',e=&gt;{ mouse.nx=e.clientX/innerWidth*2-1; mouse.ny=e.clientY/innerHeight*2-1; });
+let flip=0; addEventListener('click',()=&gt;{ if(scrollY&lt;innerHeight*.6) flip=.0001; });
+const ease=t=&gt;t&lt;.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, lerp=(a,b,t)=&gt;a+(b-a)*t, KEYS=['x','y','s','yaw','tilt','voo','explode','sombra','lift'];
+const cur={...DEF,x:.3,y:-.4,s:.2}; let last=performance.now(), prevX=0, t=0;
+function resize(){ renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); build(); }
+addEventListener('resize',resize); resize();
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt;
+  const unit=Math.min(innerWidth,innerHeight*1.5), b=alvoPouso(), y=scrollY; let tgt;
+  if(y&lt;=frames[0].pos) tgt=resolve(frames[0],unit,b);
+  else if(y&gt;=frames.at(-1).pos) tgt=resolve(frames.at(-1),unit,b);
+  else { let i=0; while(frames[i+1].pos&lt;y) i++; const A=resolve(frames[i],unit,b), B=resolve(frames[i+1],unit,b); const k=ease((y-A.pos)/(B.pos-A.pos)); tgt={}; KEYS.forEach(n=&gt;tgt[n]=lerp(A[n],B[n],k)); }
+  const topo=Math.max(0,1-y/(innerHeight*.6));
+  tgt.x+=mouse.nx*.03*topo; tgt.y+=mouse.ny*.02*topo;
+  const k=1-Math.exp(-dt*7); KEYS.forEach(n=&gt;cur[n]=lerp(cur[n],tgt[n],k));
+  const vx=(cur.x-prevX)/Math.max(dt,.001); prevX=cur.x;
+  const wpp=2*Math.tan(THREE.MathUtils.degToRad(14))*14/innerHeight;
+  stage.position.set(cur.x*innerWidth*wpp,-cur.y*innerHeight*wpp,0);
+  stage.scale.setScalar(cur.s*unit*wpp/SPAN);
+  stage.rotation.x=cur.tilt+mouse.ny*.12*topo;
+  if(flip){ flip=Math.min(1,flip+dt/.9); if(flip&gt;=1) flip=0; }
+  craft.rotation.set(Math.sin(t*1.3)*.02*cur.voo, cur.yaw+mouse.nx*.25*topo, Math.max(-.5,Math.min(.5,-vx*.5))+Math.sin(t*1.1)*.02*cur.voo+(flip?(1-Math.pow(1-flip,3))*Math.PI*2:0), 'YXZ');
+  craft.position.y=Math.sin(t*1.7)*.035*cur.voo+cur.lift;
+  shadow.position.y=-FOOT-cur.lift; shadow.material.opacity=cur.sombra;
+  M.shell.color.lerp(alvoCor, 1-Math.exp(-dt*6));
+  vida(t,cur.voo,cur.explode,dt);
+  base.position.set(b.x*wpp,-b.y*wpp,-.01); base.scale.setScalar(b.s*wpp/SPAN); base.rotation.x=cur.tilt;
+  renderer.render(scene,camera); requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+=== FIM ===</pre></details>
     </li>
   </ol>
 </section>
