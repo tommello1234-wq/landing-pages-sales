@@ -281,6 +281,35 @@ Cada nível cuida de uma coisa. Mexer num não bagunça o outro.
 
 ---
 
+## Módulo 8 — Formato do curso e o "prompt mestre"
+
+### Branches por módulo
+Um branch por módulo (`aula-01`, `aula-02`…), cada um com a página funcionando até aquele ponto. O aluno pode pular para qualquer etapa ou comparar com o próprio código.
+
+### Erros comuns (para citar em cada aula)
+| Módulo | Erro | Como resolver |
+|--------|------|---------------|
+| 1 | Vídeo gerado com cortes | Pedir "uma única tomada contínua, sem cortes" e gerar de novo |
+| 2 | Texto do hero sobrepondo tudo no celular | Reposicionar no `@media (max-width:900px)` |
+| 3 | `overflow-x:hidden` no body quebra o pin | Usar `overflow-x:clip` |
+| 3 | Pin com espaço em branco depois | Chamar `ScrollTrigger.refresh()` depois que imagens e fontes carregam |
+| 4 | Vídeo "engasga" no scrub | Re-encodar com `ffmpeg -g 1` |
+| 4 | Vídeo não carrega no preview do Claude | O preview bloqueia sites externos; teste no navegador ou baixe as mídias |
+| 5 | Drone todo preto | Faltou `scene.environment` (RoomEnvironment) ou luz |
+| 5 | Página abre em branco com `file://` | Usar o `app.js` gerado pelo esbuild (script normal, não módulo) |
+| 6 | Drone demora a encolher depois do zoom | Misturar o tamanho em escala logarítmica |
+| 6 | Drone não pousa na plataforma | O keyframe de pouso precisa manter `anchor: 'pad'` |
+| 7 | Cursor customizado aparece no celular | Esconder com `@media (hover:none)` |
+
+### O prompt mestre
+A página inteira foi criada com um pedido simples ao Claude, mais as referências visuais. Versão para mostrar na aula:
+
+> Quero uma página de vendas de um drone super tecnológico, com 6 dobras. Cada dobra tem uma interação diferente e surpreendente. Um elemento começa no topo e vai sendo levado até o final da página conforme o scroll. Use as imagens de referência como estilo (fundo laranja, sujeito em preto e branco, tipografia gigante, painéis de vidro com HUD). Gere imagens e vídeo com o Gravyx: um vídeo FPV para ser controlado pelo scroll. Design muito refinado, nível de site premiado.
+
+Depois, na aula, mostrar como pedir módulo a módulo (os prompts de cada módulo acima), que dá muito mais controle do que pedir tudo de uma vez.
+
+---
+
 ## Sugestão de gravação
 
 | Aula | Módulos | Duração |
