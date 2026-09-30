@@ -199,6 +199,136 @@ Entregue o arquivo completo, em um único bloco de código.</pre></details>
   </ol>
 </section>
 
+<!-- ================= AULA DO OBJETO 3D ================= -->
+<section class="phase">
+  <div class="ph-head"><span class="tag">Aula do objeto 3D</span><h2>A lógica: troque o drone por qualquer coisa</h2></div>
+  <p class="ph-goal">Drone, avião, abelha, tênis: a lógica é sempre a mesma, em 5 ideias.</p>
+  <ol class="steps">
+    <li class="step"><div class="st-top"><h3><small>1</small>Peças (Lego)</h3></div><p class="see">Nada vem pronto. O objeto é montado com peças simples: <b>esferas, cilindros, caixas e desenhos com espessura</b>. Antes de pedir à IA, desenhe o objeto no papel e divida em peças. Abelha: abdômen (esfera esticada e listrada) + tórax + cabeça + olhos + antenas + 2 asas finas de vidro.</p></li>
+    <li class="step"><div class="st-top"><h3><small>2</small>Materiais e luz</h3></div><p class="see">A mesma peça parece plástico, metal ou vidro dependendo do <b>material</b> (cor, brilho, metal, verniz). A <b>luz de estúdio</b> deixa com cara de foto de produto. Defina de 3 a 5 materiais.</p></li>
+    <li class="step"><div class="st-top"><h3><small>3</small>Caixas dentro de caixas</h3></div><p class="see"><b>stage</b> (onde está na tela e o tamanho) › <b>craft</b> (inclinação, giro, voo) › <b>peças</b>. Mexer em uma caixa não bagunça a outra. Isso é igual para qualquer objeto.</p></li>
+    <li class="step"><div class="st-top"><h3><small>4</small>O diretor</h3></div><p class="see">O objeto não decide nada, ele obedece a uma ficha de estado. O diretor preenche essa ficha a cada instante olhando o <b>scroll</b> (poses marcadas por seção), o <b>mouse</b> e a <b>mola</b>, que dá peso. Para outro objeto, só mudam as poses e o pouso final.</p></li>
+    <li class="step"><div class="st-top"><h3><small>5</small>Vida própria</h3></div><p class="see">Cada objeto tem sua "respiração": hélices girando, asas batendo, flutuação, zigue-zague. É isso que faz parecer vivo.</p></li>
+    <li class="step">
+      <div class="st-top"><h3><small>▶</small>Exemplo: a mesma lógica com uma abelha</h3></div>
+      <p class="see">Arquivo <b>drone/abelha.html</b> no repositório. A abelha acorda no topo, segue o mouse, cruza a página em zigue-zague e pousa numa flor. É o mesmo motor do drone, só com outras peças e outras poses.</p>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>★</small>Prompt modelo para QUALQUER objeto (à prova de modelo fraco)</h3><button class="copy" data-for="pobj">Copiar prompt</button></div>
+      <p class="see">Troque só o que está entre <b>[COLCHETES]</b>. O motor (cena, diretor, mola, pouso) já vai pronto dentro do prompt, então a IA só precisa modelar as peças.</p>
+      <details><summary>Ver prompt</summary><pre id="pobj">Você vai gerar UM arquivo HTML completo. Siga EXATAMENTE as instruções. Não mude o código-base fornecido; só complete as partes marcadas "PREENCHER". Não use arquivos 3D (.glb/.obj) nem imagens externas: tudo é feito com geometrias do Three.js.
+
+OBJETO: [ex.: uma abelha fofa estilo render de produto]
+PEÇAS (forma simples de cada uma, com tamanho aproximado; o objeto inteiro deve caber em ~2.4 unidades de largura, frente virada para +Z, cima +Y):
+[ex.:
+- abdômen: SphereGeometry(0.42) esticada 1.35x no comprimento, atrás (z -0.5), textura de listras amarelo/preto
+- tórax: SphereGeometry(0.3) em (0, 0.04, 0.05), material "pelo"
+- cabeça: SphereGeometry(0.24) em (0, 0.06, 0.42), preta
+- olhos: 2 esferas 0.11 achatadas, pretas brilhantes, em (±0.15, 0.1, 0.5)
+- antenas: TubeGeometry seguindo uma CatmullRomCurve3 curva, raio 0.012, com bolinha na ponta
+- 6 patas: CylinderGeometry fino (0.012) de 0.42 de altura, embaixo do tórax
+- 2 pares de asas: ShapeGeometry de uma gota alongada (1.1 de comprimento), material vidro]
+MATERIAIS: [ex.: listras = MeshPhysicalMaterial com textura; pelo = cor #e59a00 roughness .85; preto = #1a1510; olhos = #050505 roughness .05 clearcoat 1; asas = branco, transparent, opacity .35, iridescence 1, side DoubleSide, depthWrite false]
+MOVIMENTO PRÓPRIO: [ex.: asas giram no eixo z com seno rápido (velocidade 6 + 60×voo); um disco branco translúcido atrás de cada asa simula o borrão]
+CORES DA PÁGINA (5 seções): [ex.: #f5a300, #17130c, #fbf4e4, #1f3b2c, #f5a300]
+TEXTOS DAS SEÇÕES: [título curto de cada uma]
+POUSO FINAL: [ex.: numa flor feita de 10 pétalas (esferas achatadas) em círculo + miolo laranja]
+
+=== CÓDIGO-BASE (copie exatamente e complete os PREENCHER) ===
+&lt;!DOCTYPE html&gt;&lt;html lang="pt-BR"&gt;&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;style&gt;
+*{box-sizing:border-box;margin:0;padding:0} body{font-family:system-ui,sans-serif;overflow-x:clip}
+#obj{position:fixed;inset:0;width:100vw;height:100vh;z-index:10;pointer-events:none}
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw}
+section h2{font-size:clamp(44px,9vw,140px);letter-spacing:-.06em;line-height:.86;max-width:10ch}
+#pouso{width:min(60vw,520px);height:36vh;margin-top:4vh}
+/* PREENCHER: .s0 a .s4 com as cores das seções */
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;canvas id="obj"&gt;&lt;/canvas&gt;
+&lt;!-- PREENCHER: 5 &lt;section class="sN"&gt; com &lt;h2&gt;; a última contém &lt;div id="pouso"&gt;&lt;/div&gt; --&gt;
+&lt;script type="importmap"&gt;{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}&lt;/script&gt;
+&lt;script type="module"&gt;
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// 1. CENA
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('obj'), alpha: true, antialias: true });
+renderer.setClearColor(0, 0); renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
+const camera = new THREE.PerspectiveCamera(28, 1, .01, 100); camera.position.set(0, 0, 14);
+const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(-4, 6, 5);
+const rim = new THREE.DirectionalLight(0xffc36b, 3); rim.position.set(5, 2, -6);
+scene.add(key, rim, new THREE.HemisphereLight(0xffffff, 0x333322, .7));
+function tex(w, h, draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
+
+// 2. HIERARQUIA
+const stage = new THREE.Group(), craft = new THREE.Group(); stage.add(craft); scene.add(stage);
+const SPAN = 2.4;   // largura do objeto
+const FOOT = 0.42;  // distância do centro até a base (onde encosta no pouso)
+
+// 3. PEÇAS E MATERIAIS — PREENCHER: crie cada peça da lista e adicione com craft.add(...)
+
+// 4. MOVIMENTO PRÓPRIO — PREENCHER: function vida(t, voo) { ... }  (voo vai de 0 = parado a 1 = voando)
+
+// 5. POUSO — PREENCHER: crie um Group "base" (o lugar do pouso) e scene.add(base)
+
+// 6. POSES POR SEÇÃO (x,y = fração da tela a partir do centro; s = tamanho; yaw = giro; tilt = inclinação da vista)
+const POSES = [
+  { secao:0, p:.5, x:.22, y:-.05, s:.42, yaw:-.7, tilt:.3, voo:1, zig:0 },
+  { secao:1, p:.5, x:-.2, y:.08, s:.3, yaw:.9, tilt:.2 },
+  { secao:2, p:.5, x:.18, y:0, s:.55, yaw:-1.9, tilt:.5 },
+  { secao:3, p:.5, x:-.22, y:.1, s:.25, yaw:1.4, tilt:.25, zig:1 },
+  { secao:4, p:0, anchor:true, lift:1.6, s:.32, yaw:.5, tilt:.5, zig:.3 },
+  { secao:4, p:.5, anchor:true, lift:0, voo:.1, zig:0 }
+];
+
+// 7. DIRETOR (não alterar)
+const sections=[...document.querySelectorAll('section')], pousoEl=document.getElementById('pouso');
+const DEF={x:0,y:0,s:.3,yaw:0,tilt:.3,voo:1,zig:0,lift:0,anchor:false}; let frames=[];
+function build(){ let prev={...DEF}; frames=POSES.map(k=>{ const f={...prev,...k}; const el=sections[k.secao]; f.pos=el.offsetTop+k.p*el.offsetHeight-innerHeight/2; prev=f; return f; }); }
+function alvoPouso(){ const r=pousoEl.getBoundingClientRect(); return { x:r.left+r.width/2-innerWidth/2, y:r.top+r.height*.6-innerHeight/2, s:Math.min(r.width*.55,r.height) }; }
+function resolve(f,unit,b){ const o={...f}; if(f.anchor){ const pxu=f.s*unit/SPAN; o.x=b.x/innerWidth; o.y=(b.y-(FOOT+f.lift)*pxu*Math.cos(f.tilt))/innerHeight; } return o; }
+const mouse={nx:0,ny:0}; addEventListener('pointermove',e=>{ mouse.nx=e.clientX/innerWidth*2-1; mouse.ny=e.clientY/innerHeight*2-1; });
+let flip=0; addEventListener('click',()=>{ if(scrollY<innerHeight*.6) flip=.0001; });
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, lerp=(a,b,t)=>a+(b-a)*t, KEYS=['x','y','s','yaw','tilt','voo','zig'];
+const cur={...DEF,x:.3,y:-.4,s:.2}; let last=performance.now(), prevX=0, t=0;
+function resize(){ renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); build(); }
+addEventListener('resize',resize); resize();
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt;
+  const unit=Math.min(innerWidth,innerHeight*1.5), b=alvoPouso(), y=scrollY; let tgt;
+  if(y<=frames[0].pos) tgt=resolve(frames[0],unit,b);
+  else if(y>=frames.at(-1).pos) tgt=resolve(frames.at(-1),unit,b);
+  else { let i=0; while(frames[i+1].pos<y) i++; const A=resolve(frames[i],unit,b), B=resolve(frames[i+1],unit,b); const k=ease((y-A.pos)/(B.pos-A.pos)); tgt={}; KEYS.forEach(n=>tgt[n]=lerp(A[n],B[n],k)); }
+  const topo=Math.max(0,1-y/(innerHeight*.6));
+  tgt.x+=Math.sin(t*2.3)*.05*tgt.zig+mouse.nx*.04*topo; tgt.y+=Math.sin(t*3.7)*.04*tgt.zig+mouse.ny*.03*topo;
+  const k=1-Math.exp(-dt*6); KEYS.forEach(n=>cur[n]=lerp(cur[n],tgt[n],k));
+  const vx=(cur.x-prevX)/Math.max(dt,.001); prevX=cur.x;
+  const wpp=2*Math.tan(THREE.MathUtils.degToRad(14))*14/innerHeight;
+  stage.position.set(cur.x*innerWidth*wpp,-cur.y*innerHeight*wpp,0);
+  stage.scale.setScalar(cur.s*unit*wpp/SPAN);
+  stage.rotation.x=cur.tilt+mouse.ny*.15*topo;
+  if(flip){ flip=Math.min(1,flip+dt/.8); if(flip>=1) flip=0; }
+  craft.rotation.set(Math.sin(t*1.4)*.05, cur.yaw+mouse.nx*.3*topo, Math.max(-.6,Math.min(.6,-vx*.6))+(flip?(1-Math.pow(1-flip,3))*Math.PI*2:0), 'YXZ');
+  craft.position.y=Math.sin(t*5)*.03*cur.voo;
+  vida(t,cur.voo);
+  base.position.set(b.x*wpp,-b.y*wpp,0); base.scale.setScalar(b.s*wpp/2.4); base.rotation.x=cur.tilt;
+  renderer.render(scene,camera); requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+=== FIM DO CÓDIGO-BASE ===
+
+REGRAS FINAIS:
+1. Entregue o arquivo inteiro em um único bloco de código, pronto para salvar como .html e abrir no navegador.
+2. Todas as peças dentro de "craft". A base de pouso fora dele, direto na cena.
+3. A função vida(t, voo) e o objeto "base" precisam existir, senão o código quebra.
+4. Confira: nenhum erro no console, fundo das seções visível atrás do objeto, o objeto segue o mouse no topo, atravessa as seções e pousa na base no final.</pre></details>
+    </li>
+  </ol>
+</section>
+
 <!-- ================= AULA 1 ================= -->
 <section class="phase">
   <div class="ph-head"><span class="tag">Aula 1</span><h2>Estratégia: copy, cores e estrutura</h2></div>

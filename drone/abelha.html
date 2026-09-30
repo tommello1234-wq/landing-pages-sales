@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Abelha 3D no Scroll</title>
+<style>
+/* Mesma lógica do drone, outro objeto: página de 5 seções com uma abelha 3D que voa pelo scroll e pousa na flor */
+:root{--mel:#f5a300;--ink:#17130c;--cream:#fbf4e4;--leaf:#1f3b2c;--petal:#fff7ea}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink);overflow-x:clip}
+#bee{position:fixed;inset:0;width:100vw;height:100vh;z-index:10;pointer-events:none}
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 16px 10vh 6vw;position:relative}
+section h2{font-size:clamp(44px,9vw,140px);letter-spacing:-.06em;line-height:.86;font-weight:700;max-width:10ch;text-wrap:balance}
+section p{margin-top:18px;max-width:38ch;font-size:17px;line-height:1.5;opacity:.8}
+section small{font:600 12px ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;opacity:.7}
+.s0{background:var(--mel)} .s1{background:var(--ink);color:var(--cream)} .s2{background:var(--cream)} .s3{background:var(--leaf);color:var(--cream)} .s4{background:var(--mel)}
+.s3{align-items:flex-end;text-align:right;padding-right:6vw}
+.s3 p{margin-left:auto}
+#flower{position:relative;width:min(60vw,520px);height:36vh;margin-top:4vh}
+.status{position:fixed;left:16px;bottom:16px;z-index:20;font:600 12px ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--cream);padding:8px 12px}
+</style>
+</head>
+<body>
+<canvas id="bee" aria-hidden="true"></canvas>
+
+<section class="s0"><small>01 · Decola</small><h2>zzz… acordei.</h2><p>Mexa o mouse: ela olha e se inclina para você. Clique e ela dá uma pirueta.</p></section>
+<section class="s1"><small>02 · Cruza a página</small><h2>O scroll é o caminho.</h2><p>Cada seção tem uma "pose" marcada. A abelha só faz a transição entre elas, com uma mola que dá peso.</p></section>
+<section class="s2"><small>03 · Mostra os detalhes</small><h2>Peças simples.</h2><p>Corpo são esferas esticadas, listras são uma textura desenhada, asas são formas finas de vidro batendo rápido.</p></section>
+<section class="s3"><small>04 · Zigue-zague</small><h2>Movimento próprio.</h2><p>Abelha não voa em linha reta: um balanço extra por cima da pose faz ela parecer viva.</p></section>
+<section class="s4"><small>05 · Pousa</small><h2>Pouso na flor.</h2><div id="flower"></div></section>
+<div class="status" id="status">Voando</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// ============ 1. CENA (igual ao drone) ============
+const canvas = document.getElementById('bee');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setClearColor(0, 0);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
+const camera = new THREE.PerspectiveCamera(28, 1, .01, 100);
+camera.position.set(0, 0, 14);
+const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(-4, 6, 5);
+const rim = new THREE.DirectionalLight(0xffc36b, 3); rim.position.set(5, 2, -6);
+scene.add(key, rim, new THREE.HemisphereLight(0xffffff, 0x333322, .7));
+
+// textura desenhada no canvas
+function tex(w, h, draw) { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; }
+
+// ============ 2. MATERIAIS ============
+const stripes = tex(64, 256, (g, w, h) => { const n = 7; for (let i = 0; i < n; i++) { g.fillStyle = i % 2 ? '#1a1510' : '#f2a100'; g.fillRect(0, i * h / n, w, h / n + 1); } });
+const M = {
+  abdomen: new THREE.MeshPhysicalMaterial({ map: stripes, roughness: .55, sheen: .25, sheenColor: '#ffd27a' }),
+  fur: new THREE.MeshPhysicalMaterial({ color: '#e59a00', roughness: .85, sheen: .3, sheenColor: '#ffe0a0' }),
+  dark: new THREE.MeshPhysicalMaterial({ color: '#1a1510', roughness: .5 }),
+  eye: new THREE.MeshPhysicalMaterial({ color: '#050505', roughness: .05, metalness: .6, clearcoat: 1 }),
+  wing: new THREE.MeshPhysicalMaterial({ color: '#ffffff', transparent: true, opacity: .35, roughness: .05, iridescence: 1, iridescenceIOR: 1.6, side: THREE.DoubleSide, depthWrite: false })
+};
+
+// ============ 3. HIERARQUIA: stage > craft > peças ============
+const stage = new THREE.Group(), craft = new THREE.Group();
+stage.add(craft); scene.add(stage);
+const SPAN = 2.4, FOOT = .42;   // largura das asas abertas e altura até as patas
+
+// ============ 4. PEÇAS (Lego) ============
+// abdômen: esfera esticada para trás, com listras
+const abdomen = new THREE.Mesh(new THREE.SphereGeometry(.42, 48, 32), M.abdomen);
+abdomen.scale.set(1, 1.35, 1); abdomen.rotation.x = Math.PI / 2;   // eixo da esfera apontando para trás
+abdomen.position.set(0, -.02, -.5); craft.add(abdomen);
+// ferrão: cone
+const sting = new THREE.Mesh(new THREE.ConeGeometry(.05, .2, 16), M.dark);
+sting.rotation.x = -Math.PI / 2; sting.position.set(0, -.04, -1.12); craft.add(sting);
+// tórax peludo e cabeça
+const thorax = new THREE.Mesh(new THREE.SphereGeometry(.3, 40, 28), M.fur); thorax.position.set(0, .04, .05); craft.add(thorax);
+const head = new THREE.Mesh(new THREE.SphereGeometry(.24, 40, 28), M.dark); head.scale.set(1.05, .95, .9); head.position.set(0, .06, .42); craft.add(head);
+// olhos: elipsoides brilhantes
+[-1, 1].forEach(s => { const e = new THREE.Mesh(new THREE.SphereGeometry(.11, 24, 16), M.eye); e.scale.set(.7, 1.1, .8); e.position.set(s * .15, .1, .5); craft.add(e); });
+// antenas: curvas com TubeGeometry
+[-1, 1].forEach(s => {
+  const curve = new THREE.CatmullRomCurve3([new THREE.Vector3(s * .07, .2, .55), new THREE.Vector3(s * .14, .42, .66), new THREE.Vector3(s * .24, .5, .8)]);
+  craft.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 20, .012, 8), M.dark));
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(.025, 12, 8), M.dark); tip.position.set(s * .24, .5, .8); craft.add(tip);
+});
+// patas: 3 pares de cilindros finos dobrados
+for (let i = 0; i < 3; i++) [-1, 1].forEach(s => {
+  const leg = new THREE.Mesh(new THREE.CylinderGeometry(.012, .018, .42, 8), M.dark);
+  leg.position.set(s * .2, -.24, .2 - i * .18); leg.rotation.z = s * .5; leg.rotation.x = (i - 1) * .3; craft.add(leg);
+});
+// asas: forma desenhada (Shape) bem fina, com vidro iridescente
+const wingShape = new THREE.Shape();
+wingShape.moveTo(0, 0); wingShape.bezierCurveTo(.3, .35, 1.0, .35, 1.1, .1); wingShape.bezierCurveTo(1.1, -.12, .5, -.18, 0, 0);
+const wingGeo = new THREE.ShapeGeometry(wingShape, 24);
+const wings = [];
+[-1, 1].forEach(s => {
+  const pivot = new THREE.Group(); pivot.position.set(s * .12, .3, .08); craft.add(pivot);
+  [1, .7].forEach((size, k) => {           // asa grande + asa pequena atrás
+    const w = new THREE.Mesh(wingGeo, M.wing);
+    w.scale.set(s * size, size, size); w.rotation.x = Math.PI / 2; w.rotation.z = s * (-.15 - k * .35);
+    pivot.add(w);
+  });
+  // "borrão" das asas: um disco suave que aparece quando batem rápido (mesma ideia do disco das hélices)
+  const blur = new THREE.Mesh(new THREE.CircleGeometry(.62, 40), new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: .12, depthWrite: false, side: THREE.DoubleSide }));
+  blur.rotation.x = Math.PI / 2; blur.position.set(s * .55, 0, -.05); blur.scale.set(1, .55, 1); pivot.add(blur);
+  wings.push({ pivot, s, blur });
+});
+
+// flor de pouso (no mesmo canvas, presa a uma div do HTML)
+const flower = new THREE.Group(); scene.add(flower);
+const petalMat = new THREE.MeshPhysicalMaterial({ color: '#fff7ea', roughness: .6, sheen: 1, side: THREE.DoubleSide });
+for (let i = 0; i < 10; i++) { const p = new THREE.Mesh(new THREE.SphereGeometry(.5, 24, 12), petalMat); p.scale.set(.45, .06, 1); const a = i / 10 * Math.PI * 2; p.position.set(Math.cos(a) * .62, 0, Math.sin(a) * .62); p.rotation.y = -a + Math.PI / 2; flower.add(p); }
+const core = new THREE.Mesh(new THREE.SphereGeometry(.38, 32, 16), new THREE.MeshPhysicalMaterial({ color: '#e08a00', roughness: .9 })); core.scale.y = .35; flower.add(core);
+
+// ============ 5. POSES PRESAS AO SCROLL (o "diretor") ============
+// x, y = fração da tela a partir do centro · s = tamanho (fração da menor medida da tela) · yaw = giro · tilt = inclinação da vista
+const POSES = [
+  { secao: 0, p: .5, x: .22, y: -.05, s: .42, yaw: -.7, tilt: .3, wing: 1 },
+  { secao: 1, p: .5, x: -.2, y: .08, s: .3, yaw: .9, tilt: .2 },
+  { secao: 2, p: .5, x: .18, y: 0, s: .55, yaw: -1.9, tilt: .5 },
+  { secao: 3, p: .5, x: -.22, y: .1, s: .25, yaw: 1.4, tilt: .25, zigzag: 1 },
+  { secao: 4, p: 0, anchor: 'flower', lift: 1.6, s: .32, yaw: .5, tilt: .5, zigzag: .3 },
+  { secao: 4, p: .5, anchor: 'flower', lift: 0, wing: .1, zigzag: 0 }
+];
+
+const sections = [...document.querySelectorAll('section')];
+const flowerEl = document.getElementById('flower');
+const DEF = { x: 0, y: 0, s: .3, yaw: 0, tilt: .3, wing: 1, zigzag: 0, lift: 0, anchor: null };
+let frames = [];
+function build() {
+  let prev = { ...DEF };
+  frames = POSES.map(k => { const f = { ...prev, ...k }; const el = sections[k.secao]; f.pos = el.offsetTop + k.p * el.offsetHeight - innerHeight / 2; prev = f; return f; });
+}
+function flowerRect() { const r = flowerEl.getBoundingClientRect(); return { x: r.left + r.width / 2 - innerWidth / 2, y: r.top + r.height * .6 - innerHeight / 2, s: Math.min(r.width * .55, r.height) }; }
+function resolve(f, unit, fl) {
+  const o = { ...f };
+  if (f.anchor === 'flower') { const pxu = f.s * unit / SPAN; o.x = fl.x / innerWidth; o.y = (fl.y - (FOOT + f.lift) * pxu * Math.cos(f.tilt)) / innerHeight; }
+  return o;
+}
+
+// ============ 6. MOUSE, MOLA E VIDA ============
+const mouse = { nx: 0, ny: 0 };
+addEventListener('pointermove', e => { mouse.nx = e.clientX / innerWidth * 2 - 1; mouse.ny = e.clientY / innerHeight * 2 - 1; });
+let flip = 0; addEventListener('click', () => { if (scrollY < innerHeight * .6) flip = .0001; });
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const lerp = (a, b, t) => a + (b - a) * t;
+const KEYS = ['x', 'y', 's', 'yaw', 'tilt', 'wing', 'zigzag'];
+const cur = { ...DEF, x: .3, y: -.4, s: .2 };
+let last = performance.now(), prevX = 0, t = 0;
+
+function resize() { renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); build(); }
+addEventListener('resize', resize); resize();
+const status = document.getElementById('status');
+
+function loop(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now; t += dt;
+  const unit = Math.min(innerWidth, innerHeight * 1.5), fl = flowerRect(), y = scrollY;
+  // a) acha as duas poses em volta do scroll e mistura
+  let tgt;
+  if (y <= frames[0].pos) tgt = resolve(frames[0], unit, fl);
+  else if (y >= frames.at(-1).pos) tgt = resolve(frames.at(-1), unit, fl);
+  else { let i = 0; while (frames[i + 1].pos < y) i++; const a = resolve(frames[i], unit, fl), b = resolve(frames[i + 1], unit, fl); const k = ease((y - a.pos) / (b.pos - a.pos)); tgt = {}; KEYS.forEach(n => tgt[n] = lerp(a[n], b[n], k)); }
+  // b) vida própria: zigue-zague + mouse no topo
+  const top = Math.max(0, 1 - y / (innerHeight * .6));
+  tgt.x += Math.sin(t * 2.3) * .05 * tgt.zigzag + mouse.nx * .04 * top;
+  tgt.y += Math.sin(t * 3.7) * .04 * tgt.zigzag + mouse.ny * .03 * top;
+  // c) mola: persegue o alvo com peso
+  const k = 1 - Math.exp(-dt * 6);
+  KEYS.forEach(n => cur[n] = lerp(cur[n], tgt[n], k));
+  const vx = (cur.x - prevX) / Math.max(dt, .001); prevX = cur.x;
+
+  // d) aplica no 3D
+  const wpp = 2 * Math.tan(THREE.MathUtils.degToRad(14)) * 14 / innerHeight;   // unidades por pixel
+  stage.position.set(cur.x * innerWidth * wpp, -cur.y * innerHeight * wpp, 0);
+  stage.scale.setScalar(cur.s * unit * wpp / SPAN);
+  stage.rotation.x = cur.tilt + mouse.ny * .15 * top;
+  if (flip) { flip = Math.min(1, flip + dt / .8); if (flip >= 1) flip = 0; }
+  craft.rotation.set(Math.sin(t * 1.4) * .05, cur.yaw + mouse.nx * .3 * top, Math.max(-.6, Math.min(.6, -vx * .6)) + (flip ? (1 - Math.pow(1 - flip, 3)) * Math.PI * 2 : 0), 'YXZ');
+  craft.position.y = Math.sin(t * 5) * .03 * cur.wing + FOOT * 0;
+  // asas batendo: rápidas no voo, lentas quando pousada
+  wings.forEach(w => { w.pivot.rotation.z = w.s * Math.sin(t * (6 + 60 * cur.wing)) * (.2 + .5 * cur.wing); w.blur.material.opacity = .14 * cur.wing; });
+
+  // flor presa à div do HTML
+  const fs = fl.s * wpp / 2.4;
+  flower.position.set(fl.x * wpp, -fl.y * wpp, 0); flower.scale.setScalar(fs); flower.rotation.x = cur.tilt;
+  flower.visible = flowerEl.getBoundingClientRect().top < innerHeight;
+  status.textContent = cur.wing < .2 ? 'Pousada na flor ✓' : 'Voando';
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
