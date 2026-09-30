@@ -1,0 +1,304 @@
+<title>Mapa do Curso AERIS</title>
+<style>
+/* Layout: mapa mental no topo, depois uma coluna por fase com os prompts copiáveis */
+:root{
+  --bg:#f4f2ed; --fg:#141312; --muted:#6b6862; --card:#ffffff; --line:#dcd8cf;
+  --accent:#ff4a17; --accent-ink:#ffffff; --code:#f7f5f0;
+  --font:"Geist",ui-sans-serif,system-ui,sans-serif; --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111110;--fg:#f1efea;--muted:#a09c94;--card:#1b1a19;--line:#2f2d2a;--accent:#ff5a2a;--accent-ink:#ffffff;--code:#161514;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111110;--fg:#f1efea;--muted:#a09c94;--card:#1b1a19;--line:#2f2d2a;--accent:#ff5a2a;--accent-ink:#ffffff;--code:#161514;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--font)}
+.wrap{max-width:980px;margin:0 auto;padding:40px 16px 80px;display:grid;gap:40px}
+h1{font-size:clamp(34px,6vw,60px);letter-spacing:-.045em;line-height:1;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lead{color:var(--muted);max-width:62ch;margin-top:12px}
+.map{background:var(--card);border:1px solid var(--line);padding:16px;overflow-x:auto}
+.phase{display:grid;gap:16px}
+.ph-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;border-top:3px solid var(--accent);padding-top:14px}
+.ph-head .tag{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:4px 8px}
+.ph-head h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.035em;line-height:1.1}
+.ph-goal{color:var(--muted)}
+.steps{list-style:none;display:grid;gap:12px}
+.step{background:var(--card);border:1px solid var(--line);padding:16px;display:grid;gap:10px;min-width:0}
+.st-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.st-top h3{font-size:17px;letter-spacing:-.02em}
+.st-top h3 small{font:500 11px var(--mono);color:var(--accent);letter-spacing:.1em;margin-right:8px}
+.see{font-size:14px;color:var(--muted)}
+.see b{color:var(--fg);font-weight:600}
+details summary{cursor:pointer;font:500 13px var(--mono);letter-spacing:.04em;color:var(--fg)}
+pre{background:var(--code);border:1px solid var(--line);padding:14px;margin-top:10px;white-space:pre-wrap;font:13px/1.55 var(--mono);color:var(--fg);overflow-x:auto}
+.copy{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--fg);background:transparent;color:var(--fg);padding:7px 12px;cursor:pointer}
+.copy:hover{background:var(--fg);color:var(--bg)}
+.copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+
+<div class="wrap">
+<header>
+  <h1>Do zero ao pouso: <span>a página AERIS em 5 aulas</span></h1>
+  <p class="lead">Cada fase é uma aula. Em cada passo, copie o prompt, envie ao Claude e confira o resultado antes de seguir. Tudo acontece no mesmo projeto: cada prompt parte do que o anterior entregou.</p>
+</header>
+
+<div class="map">
+<pre class="mermaid">
+mindmap
+  root((Página AERIS X))
+    Aula 1 · Estratégia
+      Produto e oferta
+      Copy das 6 dobras
+      Cores e fontes
+      Referências visuais
+    Aula 2 · Assets
+      Drone 3D
+        Corpo
+        Braços e motores
+        Hélices girando
+        Câmera e detalhes
+        Reage ao mouse
+      Imagens e vídeo IA
+        Piloto recortado
+        6 fotos aéreas
+        Vídeo FPV
+    Aula 3 · Diagramação
+      Página estática 6 dobras
+      Drone por cima da página
+    Aula 4 · Animações por dobra
+      Hero · vento
+      Câmera · vídeo no scroll
+      Anatomia · vista explodida
+      Sensores · desvio do cursor
+      Galeria · horizontal
+      Compra · kits e cor
+    Aula 5 · Drone percorre a página
+      Poses no scroll
+      Entrada na lente
+      Pouso no checkout
+      Acabamento e deploy
+</pre>
+</div>
+
+<!-- ================= AULA 1 ================= -->
+<section class="phase">
+  <div class="ph-head"><span class="tag">Aula 1</span><h2>Estratégia: copy, cores e estrutura</h2></div>
+  <p class="ph-goal">Antes de qualquer código, decidir o que a página diz e como ela é.</p>
+  <ol class="steps">
+    <li class="step">
+      <div class="st-top"><h3><small>1.1</small>Copy e estrutura das 6 dobras</h3><button class="copy" data-for="p11">Copiar prompt</button></div>
+      <p class="see">Resultado: <b>um documento com a copy de cada dobra, a paleta e as fontes.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p11">Vou criar uma landing page de vendas de um drone profissional super tecnológico (marca fictícia AERIS X, drone de 249 g com câmera 1" 8K, 52 min de voo, LiDAR 360°, 20 km de alcance). Público: criadores de conteúdo e cinegrafistas. Oferta: pré-venda com 3 kits (Essencial R$ 6.990, Fly More R$ 8.490, Creator Pro R$ 10.990), 12x sem juros, 5% no Pix, frete grátis, 30 dias para devolver, 2 anos de garantia.
+
+Ainda NÃO escreva código. Me entregue:
+1. A estrutura de 6 dobras, cada uma com um objetivo de venda e uma ideia de interação:
+   01 Hero (estabilidade), 02 Câmera/vídeo FPV (qualidade de imagem), 03 Anatomia com vista explodida (engenharia), 04 Sensores (segurança, desvia de obstáculos), 05 Galeria + depoimentos (prova), 06 Compra (oferta, urgência, garantia).
+2. A copy completa de cada dobra em português: título curto e forte (headline em minúsculas no hero, ex. "o céu mudou de dono."), subtítulo, microtextos de HUD, CTAs.
+3. Paleta: laranja #ff4a17, preto #0b0b0c, papel #eceae4, branco e ciano #2fd3ff como destaque. Defina onde cada cor aparece e alterne seções claras e escuras.
+4. Tipografia: Geist (títulos e texto) e Geist Mono (números, rótulos, HUD).
+5. Um conceito central: o drone 3D decola no topo, atravessa a página com o scroll e pousa no checkout ("Toda landing page precisa de um pouso").</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>1.2</small>Traduzir a referência em regras visuais</h3><button class="copy" data-for="p12">Copiar prompt</button></div>
+      <p class="see">Anexe os prints de referência. Resultado: <b>uma lista de padrões visuais para reusar sem copiar o layout.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p12">Analise as imagens de referência anexadas. Não copie o layout nem a marca. Extraia só a linguagem visual em regras práticas que eu possa aplicar: uso da cor de fundo, tratamento das fotos (ex. sujeito em P&amp;B sobre cor vibrante), escala e peso da tipografia, painéis de vidro (backdrop-filter), HUDs com números, linhas finas conectando elementos, cantos, espaçamentos. Entregue como uma lista curta "faça / evite" para a página do drone AERIS X.</pre></details>
+    </li>
+  </ol>
+</section>
+
+<!-- ================= AULA 2 ================= -->
+<section class="phase">
+  <div class="ph-head"><span class="tag">Aula 2</span><h2>Assets: o drone 3D e as mídias</h2></div>
+  <p class="ph-goal">O drone é o asset mais importante: cria e testa ele sozinho, antes da página. Todos os prompts editam o mesmo arquivo <code>drone.html</code>.</p>
+  <ol class="steps">
+    <li class="step">
+      <div class="st-top"><h3><small>2.1</small>Drone: cena e corpo</h3><button class="copy" data-for="p21">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>o corpo liso do drone, girando com o mouse.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p21">Crie um arquivo único drone.html usando Three.js (import via importmap de https://cdn.jsdelivr.net/npm/three@0.170.0/, com addons OrbitControls, RoomEnvironment e RoundedBoxGeometry).
+
+Cena: fundo laranja #ff4a17, PerspectiveCamera fov 28, WebGLRenderer com antialias, toneMapping ACESFilmic, outputColorSpace sRGB. Iluminação de estúdio: scene.environment = PMREMGenerator(RoomEnvironment), DirectionalLight branca principal e uma DirectionalLight laranja de contorno por trás. OrbitControls para girar.
+
+Modele só o CORPO do drone, sem arquivo 3D externo:
+- Desenhe o contorno visto de cima com THREE.Shape: uma superelipse (expoente ~2.7) mais fina na frente (+z), tipo um seixo.
+- ExtrudeGeometry com bevel arredondado (bevelSegments 5), girada para ficar deitada.
+- Material MeshPhysicalMaterial grafite #1b1c1f, roughness .32, clearcoat .8.
+- Em cima, uma carenagem menor feita do mesmo jeito, mais brilhante. Em volta do corpo, uma faixa fina laranja (mesmo contorno, um pouco maior, bem fino).
+Coloque tudo num Group "drone". Comente o código em português.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>2.2</small>Drone: braços, motores e pernas</h3><button class="copy" data-for="p22">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>a forma de quadricóptero completa.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p22">No drone.html, adicione ao Group "drone":
+- 4 braços em X saindo do corpo até 4 motores (posições aprox. (±0.86, 0.03, 0.7) na frente e (±0.86, 0.03, -0.64) atrás). Cada braço é um CylinderGeometry afunilado (raio 0.055 no corpo, 0.034 no motor), achatado verticalmente (scale y 0.7), posicionado no ponto médio e apontado com lookAt para o motor.
+- Textura de fibra de carbono gerada num canvas 128x128 (padrão xadrez com gradientes), CanvasTexture repetida ao longo do braço.
+- Motores com LatheGeometry (perfil de sino, raio ~0.116, altura ~0.12) em metal escuro (metalness .9), tampa laranja em cima e base de carbono embaixo.
+- Uma perna fina (cilindro) sob cada braço descendo até y≈-0.42, com um pé de borracha (esfera).
+Não mude o corpo que já existe.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>2.3</small>Drone: hélices girando</h3><button class="copy" data-for="p23">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>as hélices ligando e desligando num slider.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p23">No drone.html, adicione uma hélice de 2 pás sobre cada motor:
+- Cada pá é um THREE.Shape (raiz fina, meio largo, ponta arredondada, comprimento ~0.43) com ExtrudeGeometry bem fino (depth 0.006, bevel pequeno), deitada e com leve inclinação de passo (~0.16 rad).
+- As hélices giram alternando o sentido (2 horárias, 2 anti-horárias).
+- Efeito de desfoque: sobre cada hélice, um CircleGeometry com textura de gradiente radial desenhada num canvas (transparente no centro, anéis claros), transparent e depthWrite false.
+- Crie uma variável velocidadeHelice (0 a 1): a velocidade de rotação acompanha esse valor, a opacidade do disco sobe até ~0.55 e as pás ficam mais transparentes quando giram rápido.
+- Adicione um slider HTML fixo no canto para controlar velocidadeHelice.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>2.4</small>Drone: câmera, sensores e luzes</h3><button class="copy" data-for="p24">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>o drone completo, flutuando de leve.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p24">No drone.html, complete o drone:
+- Gimbal embaixo da frente: suporte em U (RoundedBoxGeometry) segurando uma câmera (RoundedBoxGeometry 0.24x0.17x0.2). Na frente dela: tubo da lente (cilindro metálico aberto), anel laranja (TorusGeometry) e vidro da lente com MeshPhysicalMaterial iridescence 1, iridescenceIOR 1.8, roughness .02.
+- Sensores: pequenas esferas pretas brilhantes (metalness 1) na frente, atrás e nas laterais; uma cúpula de vidro em cima (LiDAR) com anel laranja.
+- Bateria encaixada atrás (RoundedBoxGeometry) com 4 LEDs ciano pequenos.
+- Texto "AERIS" em cima, desenhado num canvas e aplicado num plano.
+- Na ponta de cada braço um LED (esfera MeshBasicMaterial toneMapped false) + Sprite de brilho com AdditiveBlending: laranja na frente, ciano piscando atrás.
+- Animação de flutuar: seno do tempo na altura (amplitude ~0.035) e pequenas oscilações de inclinação.
+Organize as peças em grupos separados (corpo, carenagem, bateria, braços, gimbal, câmera) para animar depois.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>2.5</small>Drone: reage ao mouse</h3><button class="copy" data-for="p25">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>o drone vivo por cima de uma página HTML, seguindo o cursor.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p25">Transforme o drone.html num componente que flutua sobre a página:
+- Renderer com alpha: true e clearColor transparente. Canvas position: fixed, inset 0, z-index alto, pointer-events: none. Remova o OrbitControls e o fundo laranja da cena (coloque o laranja no body).
+- Hierarquia: stage (posição na tela, escala, inclinação da vista) &gt; craft (atitude de voo: yaw, pitch, roll, flutuação, pirueta) &gt; peças.
+- Função que converte pixels da viewport em coordenadas 3D no plano z=0 (unidades por pixel = 2*tan(fov/2)*distânciaDaCâmera/alturaDaTela), para posicionar o drone com x/y em pixels e tamanho em pixels.
+- Exponha uma API: drone.state = {x, y, s, yaw, tilt, pitch, roll, prop, explode} e uma função update(dt).
+- Mouse: o drone inclina na direção do cursor e é puxado levemente para ele, suavizado com mola: atual = lerp(atual, alvo, 1 - exp(-dt*7)).
+- Clique: pirueta de 360° no eixo de rolagem com easing.
+- 3 botões de cor (grafite, ártico #e9e8e4, sinal #ff4a17) que mudam a cor da carenagem com color.lerp suave.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>2.6</small>Imagens e vídeo com IA (Gravyx)</h3><button class="copy" data-for="p26">Copiar prompts</button></div>
+      <p class="see">Resultado: <b>piloto recortado, 6 fotos aéreas e um vídeo FPV contínuo.</b></p>
+      <details><summary>Ver prompts</summary><pre id="p26">PILOTO (Nano Banana Pro, 3:4, 2K) → depois "remover fundo":
+Editorial fashion-tech studio photograph, chest-up, of a drone pilot wearing sleek black FPV goggles and a black techwear hooded jacket, hood up, face mask covering the lower face. Three-quarter view, head tilted up as if watching something fly. High-contrast black and white subject isolated on a flat uniform solid orange background (#FF4A1C). Crisp edges, strong rim light. No logos, no text.
+
+FOTOS DA GALERIA (Nano Banana 2, 4:5, 2K), uma por prompt:
+Top-down aerial drone photograph of [black sand beach with white wave lines / winding road through orange autumn forest / lone surfer on turquoise water / city at night with light trails / orange desert dunes with camels / blue glacier with a rope team], minimal composition, razor-sharp detail, premium aerial photography. No text, no watermark.
+
+VÍDEO FPV (Seedance 2.5, 7s, 720p, 16:9):
+Smooth cinematic FPV drone flight in one continuous unbroken take. Starts just above dark ocean waves crashing on black volcanic rocks, flies toward a massive sea cliff, climbs up the cliff face, crests the edge revealing green ridges and a waterfall at golden hour, then rises above the clouds. No cuts, no text, no people, no drone visible, photorealistic.</pre></details>
+    </li>
+  </ol>
+</section>
+
+<!-- ================= AULA 3 ================= -->
+<section class="phase">
+  <div class="ph-head"><span class="tag">Aula 3</span><h2>Diagramação da página inteira</h2></div>
+  <p class="ph-goal">A página completa, estática e bonita. Só layout, sem animação.</p>
+  <ol class="steps">
+    <li class="step">
+      <div class="st-top"><h3><small>3.1</small>Montar as 6 dobras</h3><button class="copy" data-for="p31">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>a página inteira rolando normalmente, sem animações.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p31">Monte o index.html + styles.css da landing page AERIS X usando a copy e a paleta da Aula 1. Ainda SEM JavaScript de animação.
+
+Tokens CSS em :root (--orange #ff4a17, --ink #0b0b0c, --paper #eceae4, --cyan #2fd3ff, fontes Geist e Geist Mono). Todas as mídias vêm de um arquivo media.js (window.AERIS_MEDIA = {pilot, fpv, beach, road, surf, city, dunes, glacier}) e são aplicadas via atributo data-media.
+
+Seções (cada dobra de 2 a 5 tem uma div interna "stage" com height 100vh, que será presa depois):
+01 HERO (fundo laranja, 100vh, tudo em position absolute): nav com pílulas retangulares; painel de vidro "Teste o voo" com 3 sliders (vento, rajadas, altitude) e modos Cine/Normal/Sport; título gigante minúsculo "o céu / mudou / de dono." com gradiente metálico e o "o." em ciano; piloto recortado ancorado embaixo atrás do título; pill "99,7%" com rótulo "estabilidade em rajadas"; logo + frase "VOE ONDE NINGUÉM FILMOU AINDA" embaixo à esquerda; card com foto, código de barras e descrição embaixo à direita; canvas vazio para partículas.
+02 CÂMERA (fundo laranja com texto "entre na lente." + camada de vídeo em tela cheia com HUD de voo: modo, bússola, REC com timecode, ALT e VEL nas laterais, mira central, horizonte, barra inferior com distância, bateria, GPS; 4 capítulos de texto).
+03 ANATOMIA (fundo papel com grid): título central, 6 callouts (câmera, gimbal, propulsão, percepção, energia, chassi) em duas colunas, SVG vazio para linhas, peso "249 g" e medidor "vista explodida".
+04 SENSORES (fundo preto): canvas em tela cheia, título "Tente acertá-lo.", painel de leitura (distância, status, desvios) e 4 números (360°, 40 m, 20 ms, 12 TOPS).
+05 GALERIA (fundo claro): trilha horizontal com intro, 6 cards de foto com metadados (local, ALT, ISO, velocidade) e painel de depoimentos com nota 4,9; linha de progresso embaixo.
+06 COMPRA: faixa de marquee preta; grid de 2 colunas: esquerda laranja com título "Toda landing page precisa de um pouso.", uma div #pad vazia (zona de pouso) e botões de cor; direita branca com 3 kits, preço, parcelas, Pix, contagem regressiva, barra de estoque, CTA grande, selos de confiança e FAQ.
+Rodapé preto com a palavra AERIS gigante.
+Responsivo abaixo de 900px.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>3.2</small>Colocar o drone sobre a página</h3><button class="copy" data-for="p32">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>o drone da Aula 2 flutuando sobre o hero.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p32">Integre o drone da Aula 2 nesta página: mova o código do drone para src/drone3d.js (classe Drone3D com state e update(dt)) e crie src/main.js. Use npm (three, gsap, lenis, esbuild) e um script "build" que gera um único app.js em formato IIFE, carregado no fim do index.html (assim funciona até abrindo o arquivo direto).
+O canvas do drone fica fixo por cima da página inteira (z-index acima das seções, abaixo da nav), com pointer-events none. Por enquanto, deixe o drone parado no hero, à direita do título, seguindo o mouse como antes.</pre></details>
+    </li>
+  </ol>
+</section>
+
+<!-- ================= AULA 4 ================= -->
+<section class="phase">
+  <div class="ph-head"><span class="tag">Aula 4</span><h2>Animações e interações por dobra</h2></div>
+  <p class="ph-goal">Um prompt por dobra. Teste cada uma antes de passar para a próxima.</p>
+  <ol class="steps">
+    <li class="step">
+      <div class="st-top"><h3><small>4.0</small>Base: scroll suave e seções presas</h3><button class="copy" data-for="p40">Copiar prompt</button></div>
+      <p class="see">Faça este primeiro. Você vê: <b>scroll macio e seções que ficam presas.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p40">No main.js, adicione Lenis (lerp .09) integrado ao GSAP ScrollTrigger (lenis.on('scroll', ScrollTrigger.update) e gsap.ticker chamando lenis.raf). Crie ScrollTriggers com pin nos "stage" de: Câmera (end +=520%), Anatomia (+=380%), Sensores (+=120%) e Galeria (end = largura da trilha - largura da tela). Cada um guarda seu progress (0 a 1) numa variável. Títulos com a classe split-words aparecem palavra por palavra (yPercent 110 → 0, stagger .05) ao entrar na tela. A nav troca para tema escuro/claro conforme a seção embaixo dela e marca a pílula ativa.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>4.1</small>Hero: simulador de vento</h3><button class="copy" data-for="p41">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p41">No hero: os sliders atualizam o valor exibido e o preenchimento da trilha (variável CSS --p). Um canvas desenha ~140 riscos de chuva/vento na diagonal; velocidade e inclinação dependem de vento e rajadas (rajada oscila com seno). O drone balança proporcionalmente ao vento, mas a pill "99,7%" quase não muda (99,9 − vento×0,35), provando a estabilidade. Botão de pausa congela o vento. Modos Cine/Normal/Sport mudam a cor dos LEDs (laranja, ciano, vermelho) e a agilidade da mola. Clique fora do painel = pirueta. Uma linha SVG liga a pill ao motor do drone (projete a posição 3D do motor para a tela).</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>4.2</small>Câmera: vídeo guiado pelo scroll</h3><button class="copy" data-for="p42">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p42">Na dobra Câmera, o vídeo (muted, playsinline, preload auto, nunca dá play) é controlado pelo progresso da seção presa: vp = clamp((p − 0.12)/0.76, 0, 1); video.currentTime = vp × duração. Tente baixar o vídeo inteiro com fetch → blob para o scrub ficar liso; se falhar, use o src direto. O HUD usa o mesmo vp: altitude 2 → 480 m, velocidade com seno, distância, bateria 98 → 92%, timecode, fita da bússola deslizando, horizonte inclinando levemente, barra de progresso. Os 4 capítulos aparecem e somem nas janelas data-from / data-to. Por enquanto a camada de vídeo aparece com um clip-path circle crescendo do centro no início e fechando no fim.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>4.3</small>Anatomia: vista explodida</h3><button class="copy" data-for="p43">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p43">Na Anatomia, cada peça do drone guarda sua posição "casa" e uma direção de explosão (carenagem para cima, bateria para trás, braços para fora com as hélices subindo, gimbal para baixo, câmera para frente). posição = casa + direção × explode × 0.6. Com o progresso da seção: drone centralizado, girando de 0.5 a 3.4 rad, explode 0 → 1 (até 60%) → segura → volta a 0. Cada callout aparece quando explode passa de um limite (escalonado) e uma linha SVG em cotovelo liga o callout à peça correspondente: crie Object3D âncoras dentro de cada peça e projete a posição para a tela a cada quadro. O peso "249" conta subindo e o medidor mostra a % da explosão. Sombra suave sob o drone.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>4.4</small>Sensores: tente acertá-lo</h3><button class="copy" data-for="p44">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p44">Em Sensores, o canvas desenha um terreno de LiDAR (linhas de pontos em perspectiva com altura por ruído senoidal; pontos ciano e uma faixa laranja de varredura passando), 4 anéis de proximidade em volta do drone e uma varredura de radar (createConicGradient). Se o cursor chega a menos de 260 px do drone: linha tracejada laranja até o cursor, quadrado no cursor, arco de alerta, distância em metros, status "DESVIANDO", e o drone é empurrado para o lado oposto com física (velocidade + atrito + mola de volta ao centro, limitada). Conte os desvios. No celular, um toque lança um obstáculo. Os 4 números contam de 0 ao valor ao entrar na tela.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>4.5</small>Galeria horizontal</h3><button class="copy" data-for="p45">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p45">Na Galeria, a trilha se move com translateX = −progress × (largura da trilha − largura da tela). Cada foto tem parallax interno (a imagem tem 120% da largura e desloca em sentido oposto conforme a posição do card na tela). A linha de progresso embaixo preenche junto. Cursor vira um círculo com "VER" sobre os cards.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>4.6</small>Compra: kits, preço e cor ao vivo</h3><button class="copy" data-for="p46">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p46">Na Compra: selecionar um kit anima o valor da parcela (preço/12, tween de 0.8 s), atualiza o Pix (−5%) e o texto do CTA. Os botões de cor mudam a cor da carenagem do drone 3D ao vivo e o texto do CTA. Contagem regressiva real até o próximo domingo 23:59. Barra de estoque anima até 83% ao aparecer. Marquee infinito que acelera e inclina (skewX) com a velocidade do scroll. CTA e botões com efeito magnético (seguem o cursor e voltam com elastic). Rodapé: letras de AERIS sobem ao entrar.</pre></details>
+    </li>
+  </ol>
+</section>
+
+<!-- ================= AULA 5 ================= -->
+<section class="phase">
+  <div class="ph-head"><span class="tag">Aula 5</span><h2>O drone percorre a página e finalização</h2></div>
+  <p class="ph-goal">O momento em que tudo se conecta: o drone decola no topo e pousa no checkout.</p>
+  <ol class="steps">
+    <li class="step">
+      <div class="st-top"><h3><small>5.1</small>O diretor: poses presas ao scroll</h3><button class="copy" data-for="p51">Copiar prompt</button></div>
+      <p class="see">Você vê: <b>o drone viajando de dobra em dobra.</b></p>
+      <details><summary>Ver prompt</summary><pre id="p51">Crie um "diretor" no main.js: uma lista de keyframes { at: [nomeDoScrollTrigger, progresso], x, y, s, yaw, tilt, pitch, explode, prop, shadow, lens, vis }. x e y são frações da tela a partir do centro; s é o tamanho em fração de min(largura, altura×1.5). Cada keyframe herda os valores do anterior. No refresh do ScrollTrigger, converta "at" em posição de scroll (start + p×(end − start)).
+A cada quadro: ache os dois keyframes em volta do scroll atual, misture com easeInOutCubic (o tamanho s em escala logarítmica), some as influências (mouse no hero, vento, desvio em Sensores), aplique mola exponencial e incline o drone pela velocidade horizontal (roll) e pelo deslocamento (pitch).
+Caminho: hero grande à direita → centro de frente no início da Câmera → Anatomia (explosão) → Sensores centro → Galeria pequeno andando sobre a linha de progresso, de lado → Compra. Keyframes com versão mobile.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>5.2</small>Entrar na lente</h3><button class="copy" data-for="p52">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p52">Transição Hero → Câmera: o drone vira de frente e dá zoom na lente. Adicione um "pivot" que desloca o modelo para que a lente fique na origem quando state.lens = 1. Sobre o vidro da lente, coloque um círculo com MeshBasicMaterial CustomBlending (blendSrc/blendDst ZeroFactor, também no alpha), transparent, renderOrder 999: ele "fura" o canvas e mostra o HTML por trás. Esse furo abre como um diafragma quando lens &gt; 0.6. O clip-path circle do vídeo passa a seguir a posição e o raio da lente projetados na tela (raio × 1.25). Quando o drone some (vis 0), o vídeo ocupa a tela toda; no fim da seção a transição acontece ao contrário e o drone sai da lente.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>5.3</small>O pouso no checkout</h3><button class="copy" data-for="p53">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p53">Pouso: crie a plataforma no mesmo canvas 3D (disco escuro translúcido, anel branco, anel interno, "H" desenhado num canvas, 4 marcações, anel pulsando). A cada quadro leia getBoundingClientRect() da div #pad e posicione a plataforma ali, com a mesma inclinação de vista do drone. Crie um ScrollTrigger "land" (trigger #pad, start 'center bottom', end 'center 58%'). Keyframes com anchor 'pad': drone acima da plataforma (lift 1.4) → quase encostando (lift .12) → pousado (lift 0, prop 0, sombra .55). A posição y do drone = y da plataforma − (altura dos pés + lift) × pixels por unidade × cos(inclinação). Os keyframes seguintes precisam herdar o anchor. O rótulo da zona muda: AGUARDANDO → APROXIMANDO → POUSO CONFIRMADO ✓.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>5.4</small>Acabamento</h3><button class="copy" data-for="p54">Copiar prompt</button></div>
+      <details><summary>Ver prompt</summary><pre id="p54">Finalize: preloader "checagem pré-voo" (contador 000→100, lista IMU/Bússola/GPS/Link/LiDAR/Bateria ficando OK, barra laranja; ao terminar sobe com expo.inOut e o título do hero entra por máscara). Cursor customizado (ponto + anel com lerp; vira círculo com rótulo sobre elementos com data-cursor; escondido em telas de toque). Grão de filme animado por cima. Trilho de altitude fixo à direita (ALT 480 → 000 m conforme o scroll). Revise o mobile abaixo de 900px e respeite prefers-reduced-motion. Rode o build e verifique o console sem erros.</pre></details>
+    </li>
+    <li class="step">
+      <div class="st-top"><h3><small>5.5</small>Publicar</h3></div>
+      <p class="note">Rodar <code>tools/localize-media.sh</code> para baixar as mídias e re-encodar o vídeo com <code>ffmpeg -g 1</code>. Depois, no terminal, dentro da pasta da página: <code>npx vercel --prod</code>. Antes de ir ao ar, troque depoimentos e números de exemplo pelos reais.</p>
+    </li>
+  </ol>
+</section>
+
+<p class="note">Se algo sair diferente em qualquer passo, use sempre o mesmo prompt de correção: "Aconteceu isto: [descrição ou print]. Corrija sem mudar o que já funciona."</p>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var el = document.getElementById(b.dataset.for);
+    var txt = el.textContent;
+    var done = function () { b.textContent = 'Copiado'; setTimeout(function () { b.textContent = 'Copiar prompt'; }, 1600); };
+    var fallback = function () {
+      el.closest('details').open = true;
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      b.textContent = 'Selecionado · Ctrl+C';
+    };
+    try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+</script>
